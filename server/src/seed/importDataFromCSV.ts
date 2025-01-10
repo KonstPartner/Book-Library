@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import sequelize from '../config/database.ts';
 import Book from '../models/Book.ts';
+import Category from '../models/Category.ts';
+import '../models/associations.ts';
 
 dotenv.config();
 
@@ -27,6 +29,19 @@ export default async () => {
           return;
         }
 
+        let category = null;
+
+        if (row.categories.trim()) {
+          const [createdCategory] = await Category.findOrCreate({
+            where: {
+              name: row.categories
+                .replace(/^\['|'\]$/g, '')
+                .replace(/'\s*,\s*'/g, ', '),
+            },
+          });
+          category = createdCategory;
+        }
+
         await Book.create({
           title: row.title,
           description: row.description,
@@ -37,6 +52,7 @@ export default async () => {
           publisher: row.publisher,
           publishedDate: row.publishedDate,
           infoLink: row.infoLink,
+          categoryId: category ? category.id : null,
         });
       })
       .on('end', () => {

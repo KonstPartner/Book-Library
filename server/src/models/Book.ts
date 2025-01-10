@@ -10,6 +10,7 @@ interface BookAttributes {
   publisher: string | null;
   publishedDate: string | null;
   infoLink: string | null;
+  categoryId: number | null;
 }
 
 interface BookCreationAttributes extends Optional<BookAttributes, 'id'> {}
@@ -26,6 +27,7 @@ class Book
   public publisher!: string | null;
   public publishedDate!: string | null;
   public infoLink!: string | null;
+  public categoryId!: number | null;
 }
 
 Book.init(
@@ -62,6 +64,15 @@ Book.init(
     infoLink: {
       type: DataTypes.STRING(255),
       allowNull: true,
+    },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'categories',
+        key: 'id',
+      },
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
     },
   },
   {
