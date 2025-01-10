@@ -1,21 +1,51 @@
+import fs from 'fs';
+import csvParser from 'csv-parser';
+import path from 'path';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
 import sequelize from '../config/database.ts';
-import Book from '../models/Books.ts';
+import Book from '../models/Book.ts';
+
+dotenv.config();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const BOOKS_CSV_PATH = path.resolve(
+  __dirname,
+  process.env.CSV_BOOKS_PATH_RELATIVELY_SEED_DIRECTORY as string
+);
 
 export default async () => {
   try {
-    await sequelize.sync({force: true});
+    await sequelize.sync({ force: true });
 
-    await Book.create({
-      title: 'Book 1',
-      description: 'Description for book 1',
-      author: 'Author 1',
-      image: 'image-url-1',
-      publisher: 'Publisher 1',
-      publishedDate: '2025-01-01',
-      infoLink: 'http://example.com/book1',
-    });
-    console.log('Books have been added to the database!');
+    fs.createReadStream(BOOKS_CSV_PATH)
+      .pipe(csvParser())
+      .on('data', async (row) => {
+        if (!row.title) {
+          console.error('Error: Missing title!');
+          return;
+        }
+
+        await Book.create({
+          title: row.title,
+          description: row.description,
+          author: row.author
+            .replace(/^\['|'\]$/g, '')
+            .replace(/'\s*,\s*'/g, ', '),
+          image: row.image,
+          publisher: row.publisher,
+          publishedDate: row.publishedDate,
+          infoLink: row.infoLink,
+        });
+      })
+      .on('end', () => {
+        console.log('Books have been added to the database!');
+      })
+      .on('error', (error) => {
+        console.error('Error during CSV file parsing', error);
+      });
   } catch (error) {
-    console.error('Unable to connect to the database or insert data:', error);
+    console.error('Unable to connect to the database: ', error);
   }
 };
