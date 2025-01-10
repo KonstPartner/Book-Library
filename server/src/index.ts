@@ -1,1 +1,3 @@
-console.log("hello world")
+import importDataFromCSV from './seed/importDataFromCSV.ts';
+
+importDataFromCSV();
