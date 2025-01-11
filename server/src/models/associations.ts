@@ -1,5 +1,6 @@
 import Category from './Category.ts';
 import Book from './Book.ts';
+import Rating from './Rating.ts';
 
 Category.hasMany(Book, {
   foreignKey: 'categoryId',
@@ -11,4 +12,14 @@ Book.belongsTo(Category, {
   as: 'category',
 });
 
-export default () => {}
+Book.hasMany(Rating, {
+  foreignKey: 'bookId',
+  as: 'ratings',
+});
+
+Rating.belongsTo(Book, {
+  foreignKey: 'bookId',
+  as: 'book',
+});
+
+export default () => {};

@@ -80,6 +80,12 @@ Book.init(
     modelName: 'Book',
     tableName: 'books',
     timestamps: false,
+    indexes: [
+      {
+        unique: false,
+        fields: ['title'],
+      },
+    ],
   }
 );
 
