@@ -1,11 +1,11 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database.ts';
+import User from './User.ts';
 
 interface RatingAttributes {
   id: number;
   bookId: number;
   userId: string;
-  userName: string;
   reviewHelpfulness: string | null;
   reviewScore: string | null;
   reviewSummary: string | null;
@@ -21,7 +21,6 @@ class Rating
   public id!: number;
   public bookId!: number;
   public userId!: string;
-  public userName!: string;
   public reviewHelpfulness!: string;
   public reviewScore!: string;
   public reviewSummary!: string;
@@ -48,10 +47,12 @@ Rating.init(
     userId: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    },
-    userName: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
+      references: {
+        model: User,
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
     reviewHelpfulness: {
       type: DataTypes.STRING(255),

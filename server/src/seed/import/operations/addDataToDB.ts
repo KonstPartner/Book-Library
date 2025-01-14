@@ -1,7 +1,11 @@
 import Book from '../../../models/Book.ts';
 import Category from '../../../models/Category.ts';
 import Rating from '../../../models/Rating.ts';
-import { checkBooksAndCategiries, checkRatingRow } from '../utils/checkRow.ts';
+import User from '../../../models/User.ts';
+import {
+  checkBooksAndCategiries,
+  checkRatingRow,
+} from '../utils/checkRow.ts';
 import cutBracketsAndQuotes from '../utils/cutBracketsAndQuotes.ts';
 import validateRow from '../utils/validateRow.ts';
 
@@ -34,10 +38,26 @@ export const addBookAndCategory = async (row: any) => {
   });
 };
 
-export const addRating = async (row: any) => {
+export const addUser = async (row: any) => {
   if (!row['User_id']) row['User_id'] = '0000000000';
   if (!row['profileName']) row['profileName'] = 'Unknown User';
   if (!checkRatingRow(row)) return;
+
+  return await User.findOrCreate({
+    where: {
+      id: row['User_id'],
+    },
+    defaults: {
+      name: row['profileName'],
+    },
+  });
+};
+
+export const addRating = async (row: any) => {
+  if (!row['User_id']) row['User_id'] = '0000000000';
+  if (!checkRatingRow(row)) return;
+
+  validateRow(row);
 
   const book = await Book.findOne({ where: { title: row.Title } });
 
@@ -46,10 +66,9 @@ export const addRating = async (row: any) => {
     return;
   }
 
-  await Rating.create({
+  return await Rating.create({
     bookId: book.id,
     userId: row['User_id'],
-    userName: row['profileName'],
     reviewHelpfulness: row['review/helpfulness'],
     reviewScore: row['review/score'],
     reviewSummary: row['review/summary'],
