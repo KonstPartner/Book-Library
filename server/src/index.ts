@@ -1,3 +1,3 @@
-import importDataFromCSV from './seed/importDataFromCSV.ts';
+import startImport from './seed/import/startImport.ts';
 
-importDataFromCSV();
+startImport('ratings');

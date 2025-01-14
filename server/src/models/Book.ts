@@ -58,7 +58,7 @@ Book.init(
       allowNull: true,
     },
     publishedDate: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(50),
       allowNull: true,
     },
     infoLink: {
