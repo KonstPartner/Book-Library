@@ -12,6 +12,12 @@ const sequelize = new Sequelize(
     host: 'localhost',
     port: 5432,
     logging: false,
+    pool: {           //for seed import:
+      max: 5,         //Used 50
+      min: 0,         //Used 2
+      acquire: 30000, //Used 60000
+      idle: 10000,    //Used 15000
+    },
   }
 );
 
