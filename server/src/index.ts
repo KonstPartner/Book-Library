@@ -1,1 +1,3 @@
-console.log("hello world")
+import startImport from './seed/import/startImport.ts';
+
+startImport('ratings');
