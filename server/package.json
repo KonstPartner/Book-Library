@@ -4,7 +4,10 @@
   "main": "index.ts",
   "scripts": {
     "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./src/server.ts",
-    "dev": "nodemon ./src/server.ts"
+    "dev": "nodemon ./src/server.ts",
+    "lint": "eslint . --ext .js,.ts",
+    "lint-fix": "eslint --fix",
+    "lint:errors-only": "eslint . --ext .js,.ts --quiet"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +23,9 @@
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.5",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "eslint": "^8.57.0",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"

@@ -1,15 +1,13 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../config/database.ts';
+import { DataTypes, Model } from 'sequelize';
+import sequelize from '@/config/database.ts';
 
 interface UserAttributes {
   id: string;
   name: string;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
-
 class User
-  extends Model<UserAttributes, UserCreationAttributes>
+  extends Model<UserAttributes, 'id'>
   implements UserAttributes
 {
   public id!: string;

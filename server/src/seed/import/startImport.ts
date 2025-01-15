@@ -1,4 +1,4 @@
-import sequelize from '../../config/database.ts';
+import sequelize from '@/config/database.ts';
 import {
   importBookAndCategories,
   importRatings,
