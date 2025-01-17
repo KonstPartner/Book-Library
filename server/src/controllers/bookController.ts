@@ -1,11 +1,34 @@
-import Book from '../models/Book.ts';
 import { Request, Response } from 'express';
+import Book from '../models/Book.ts';
+import Category from '../models/Category.ts';
+
+type BookWithCategoryType = Book & { category?: { name: string } };
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
-    const books = await Book.findAll({ limit: 50 });
+    const limit = Number(req.query.limit) || 5;
+    const offset = Number(req.query.offset) || 0;
 
-    res.status(200).json({ success: true, data: books });
+    const books = await Book.findAll({
+      limit,
+      offset,
+      order: [['id', 'ASC']],
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['name'],
+        },
+      ],
+      attributes: { exclude: ['categoryId'] },
+    });
+
+    const modifiedBooks = books.map((book: BookWithCategoryType) => ({
+      ...book.toJSON(),
+      category: book.category ? book.category.name : null,
+    }));
+
+    res.status(200).json({ success: true, data: modifiedBooks });
   } catch (error) {
     console.error('Error fetching books:', error);
 
