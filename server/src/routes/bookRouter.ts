@@ -1,6 +1,6 @@
 import express from 'express';
-import { query } from 'express-validator';
-import { getAllBooks } from '../controllers/bookController.ts';
+import { param, query } from 'express-validator';
+import { getAllBooks, getBookById } from '../controllers/bookController.ts';
 import validationErrorHandler from '../middleware/validationErrorHandler.ts';
 
 const router = express.Router();
@@ -13,6 +13,13 @@ router.get(
   ],
   validationErrorHandler,
   getAllBooks
+);
+
+router.get(
+  '/:id',
+  [param('id').trim().isInt({ min: 1 })],
+  validationErrorHandler,
+  getBookById
 );
 
 export default router;

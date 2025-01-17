@@ -77,6 +77,16 @@ Rating.init(
     modelName: 'Rating',
     tableName: 'ratings',
     timestamps: true,
+    indexes: [
+      {
+        unique: false,
+        fields: ['bookId'],
+      },
+      {
+        unique: false,
+        fields: ['userId'],
+      },
+    ],
   }
 );
 
