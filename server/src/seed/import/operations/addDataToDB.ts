@@ -1,7 +1,7 @@
-import Book from '@/models/Book.ts';
-import Category from '@/models/Category.ts';
-import Rating from '@/models/Rating.ts';
-import User from '@/models/User.ts';
+import Book from '../../../models/Book.ts';
+import Category from '../../../models/Category.ts';
+import Rating from '../../../models/Rating.ts';
+import User from '../../../models/User.ts';
 import {
   checkBooksAndCategiries,
   checkRatingRow,

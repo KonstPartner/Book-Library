@@ -1,13 +1,16 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '@/config/database.ts';
+import { DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '../config/database.ts';
 
 interface UserAttributes {
   id: string;
   name: string;
 }
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+
 class User
-  extends Model<UserAttributes, 'id'>
+  extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
   public id!: string;

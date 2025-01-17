@@ -1,5 +1,5 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '@/config/database.ts';
+import { DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '../config/database.ts';
 import User from './User.ts';
 
 interface RatingAttributes {
@@ -12,8 +12,11 @@ interface RatingAttributes {
   reviewText: string | null;
 }
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+interface RatingCreationAttributes extends Optional<RatingAttributes, 'id'> {}
+
 class Rating
-  extends Model<RatingAttributes, 'id'>
+  extends Model<RatingAttributes, RatingCreationAttributes>
   implements RatingAttributes
 {
   public id!: number;

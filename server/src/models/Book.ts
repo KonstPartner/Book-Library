@@ -1,5 +1,5 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from '@/config/database.ts';
+import { Model, DataTypes, Optional } from 'sequelize';
+import sequelize from '../config/database.ts';
 
 interface BookAttributes {
   id: number;
@@ -13,8 +13,10 @@ interface BookAttributes {
   categoryId: number | null;
 }
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+interface BookCreationAttributes extends Optional<BookAttributes, 'id'> {}
 class Book
-  extends Model<BookAttributes, 'id'>
+  extends Model<BookAttributes, BookCreationAttributes>
   implements BookAttributes
 {
   public id!: number;

@@ -1,13 +1,16 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '@/config/database.ts';
+import { DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '../config/database.ts';
 
 interface CategoryAttributes {
   id: number;
   name: string;
 }
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+interface CategoryCreationAttributes extends Optional<CategoryAttributes, 'id'> {}
+
 class Category
-  extends Model<CategoryAttributes, 'id'>
+  extends Model<CategoryAttributes, CategoryCreationAttributes>
   implements CategoryAttributes
 {
   public id!: number;
