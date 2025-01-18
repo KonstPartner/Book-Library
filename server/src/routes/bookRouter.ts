@@ -2,7 +2,7 @@ import express from 'express';
 import { param, query } from 'express-validator';
 import {
   getAllBooks,
-  getBookAllRatings,
+  getAllBookRatings,
   getBookById,
   getBookRatingById,
 } from '../controllers/bookController.ts';
@@ -34,7 +34,7 @@ router.get(
     query('offset').optional().trim().isInt({ min: 0 }),
   ],
   validationErrorHandler,
-  getBookAllRatings
+  getAllBookRatings
 );
 
 router.get(

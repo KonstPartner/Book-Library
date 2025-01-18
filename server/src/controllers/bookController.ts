@@ -1,156 +1,83 @@
 import { Request, Response } from 'express';
-import Book from '../models/Book.ts';
-import Category from '../models/Category.ts';
-import Rating from '../models/Rating.ts';
-import User from '../models/User.ts';
-import sequelize from '../config/database.ts';
-
-type RatingsType = Array<Rating & RatingType>;
-
-type RatingType = Rating & {
-  reviewHelpfulness: string | null;
-  reviewScore: string | null;
-  reviewSummary: string | null;
-  reviewText: string | null;
-  user?: { name: string } | null;
-};
-
-type BookWithOptionalCategoryAndRatingsType = Book & {
-  category?: { name: string };
-  ratings?: RatingsType;
-};
+import { BookType, RatingsType, RatingType } from '../types.ts';
+import {
+  findAllBookRatingsRequest,
+  findAllBooksRequest,
+  findByPkBookRatingRequest,
+  findByPkBookRequest,
+} from '../requests/booksTable.ts';
+import {
+  handleErrorResponse,
+  handleSuccessResponse,
+} from '../utils/handleResponse.ts';
+import { transformBook, transformRating } from '../utils/transformModel.ts';
+import getRequestQueries from '../utils/getRequestQueries.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
-    const limit = Number(req.query.limit) || 5;
-    const offset = Number(req.query.offset) || 0;
-
-    const books = await Book.findAll({
-      limit,
-      offset,
-      order: [['id', 'ASC']],
-      include: [
-        {
-          model: Category,
-          as: 'category',
-          attributes: ['name'],
-        },
-      ],
-      attributes: { exclude: ['categoryId'] },
-    });
-
-    const modifiedBooks = books.map(
-      (book: BookWithOptionalCategoryAndRatingsType) => ({
-        ...book.toJSON(),
-        category: book.category ? book.category.name : null,
-      })
-    );
-
-    res.status(200).json({ success: true, data: modifiedBooks });
+    const { limit, offset } = getRequestQueries(req);
+    const books = await findAllBooksRequest(limit, offset);
+    const modifiedBooks = books.map((book: BookType) => transformBook(book));
+    handleSuccessResponse(res, modifiedBooks);
   } catch (error) {
-    console.error('Error fetching books:', error);
-
-    res.status(500).json({
-      success: false,
+    handleErrorResponse({
+      res,
+      error,
       message: 'Failed to fetch books.',
-      error: error instanceof Error ? error.message : error,
     });
   }
 };
 
 const getBookById = async (req: Request, res: Response) => {
   const BookId = req.params.id;
-
   try {
-    const book: BookWithOptionalCategoryAndRatingsType | null =
-      await Book.findByPk(BookId, {
-        include: [
-          {
-            model: Category,
-            as: 'category',
-            attributes: ['name'],
-          },
-        ],
-        attributes: {
-          exclude: ['categoryId'],
-          include: [
-            [
-              sequelize.literal(`(
-                SELECT COUNT(*)
-                FROM ratings AS rating
-                WHERE rating."bookId" = "Book"."id"
-              )`),
-              'ratingsCount',
-            ],
-          ],
-        },
-      });
-
+    const book: BookType | null = await findByPkBookRequest(BookId);
     if (!book) {
-      res.status(400).json({
-        success: false,
+      handleErrorResponse({
+        res,
         message: `Invalid book ID ${BookId}: no such book`,
+        code: 404,
       });
       return;
     }
-
-    const modifiedBook = {
-      ...book.toJSON(),
-      category: book.category ? book.category.name : null,
-    };
-
-    res.status(200).json({ success: true, data: modifiedBook });
+    const modifiedBook = transformBook(book);
+    handleSuccessResponse(res, modifiedBook);
   } catch (error) {
-    console.error(`Error fetching book ${BookId}:`, error);
-
-    res.status(500).json({
-      success: false,
+    handleErrorResponse({
+      res,
+      error,
       message: `Failed to fetch book ${BookId}.`,
-      error: error instanceof Error ? error.message : error,
     });
   }
 };
 
-const getBookAllRatings = async (req: Request, res: Response) => {
+const getAllBookRatings = async (req: Request, res: Response) => {
   const BookId = req.params.id;
-  const limit = Number(req.query.limit) || 5;
-  const offset = Number(req.query.offset) || 0;
+  const { limit, offset } = getRequestQueries(req);
   try {
-    const ratings: RatingsType = await Rating.findAll({
-      where: { bookId: BookId },
+    const ratings: RatingsType = await findAllBookRatingsRequest(
+      BookId,
       limit,
-      offset,
-      attributes: { exclude: ['bookId', 'userId'] },
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: ['name'],
-        },
-      ],
-    });
+      offset
+    );
 
     if (!ratings.length) {
-      res.status(404).json({
-        success: false,
+      handleErrorResponse({
+        res,
         message: `No ratings found for book ID ${BookId}`,
+        code: 404,
       });
       return;
     }
 
-    const modifiedRatings = ratings.map((rating) => ({
-      ...rating.toJSON(),
-      user: rating.user ? rating.user.name : null,
-    }));
+    const modifiedRatings = ratings.map((rating) => transformRating(rating));
 
-    res.status(200).json({ success: true, data: modifiedRatings });
+    handleSuccessResponse(res, modifiedRatings);
   } catch (error) {
-    console.error(`Error fetching book ${BookId}:`, error);
-
-    res.status(500).json({
-      success: false,
+    handleErrorResponse({
+      res,
       message: `Failed to fetch book ${BookId}.`,
-      error: error instanceof Error ? error.message : error,
+      error,
     });
   }
 };
@@ -158,40 +85,27 @@ const getBookAllRatings = async (req: Request, res: Response) => {
 const getBookRatingById = async (req: Request, res: Response) => {
   const RatingId = req.params.ratingId;
   try {
-    const rating: RatingType | null = await Rating.findByPk(RatingId, {
-      attributes: { exclude: ['bookId', 'userId'] },
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: ['name'],
-        },
-      ],
-    });
+    const rating: RatingType | null = await findByPkBookRatingRequest(RatingId);
 
     if (!rating) {
-      res.status(400).json({
-        success: false,
+      handleErrorResponse({
+        res,
         message: `Invalid rating ID ${RatingId}: no such rating`,
+        code: 404,
       });
       return;
     }
 
-    const modifiedRating = {
-      ...rating.toJSON(),
-      user: rating.user ? rating.user.name : null,
-    };
+    const modifiedRating = transformRating(rating);
 
-    res.status(200).json({ success: true, data: modifiedRating });
+    handleSuccessResponse(res, modifiedRating);
   } catch (error) {
-    console.error(`Error fetching rating ${RatingId}:`, error);
-
-    res.status(500).json({
-      success: false,
+    handleErrorResponse({
+      res,
       message: `Failed to fetch rating ${RatingId}.`,
-      error: error instanceof Error ? error.message : error,
+      error,
     });
   }
 };
 
-export { getAllBooks, getBookById, getBookAllRatings, getBookRatingById };
+export { getAllBooks, getBookById, getAllBookRatings, getBookRatingById };
