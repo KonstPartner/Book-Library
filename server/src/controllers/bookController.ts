@@ -3,8 +3,11 @@ import Book from '../models/Book.ts';
 import Category from '../models/Category.ts';
 import Rating from '../models/Rating.ts';
 import User from '../models/User.ts';
+import sequelize from '../config/database.ts';
 
-type RatingType = {
+type RatingsType = Array<Rating & RatingType>;
+
+type RatingType = Rating & {
   reviewHelpfulness: string | null;
   reviewScore: string | null;
   reviewSummary: string | null;
@@ -14,7 +17,7 @@ type RatingType = {
 
 type BookWithOptionalCategoryAndRatingsType = Book & {
   category?: { name: string };
-  ratings?: Array<Rating & RatingType>;
+  ratings?: RatingsType;
 };
 
 const getAllBooks = async (req: Request, res: Response) => {
@@ -67,26 +70,20 @@ const getBookById = async (req: Request, res: Response) => {
             as: 'category',
             attributes: ['name'],
           },
-          {
-            model: Rating,
-            as: 'ratings',
-            limit: 5,
-            attributes: [
-              'reviewHelpfulness',
-              'reviewScore',
-              'reviewSummary',
-              'reviewText',
-            ],
-            include: [
-              {
-                model: User,
-                as: 'user',
-                attributes: ['name'],
-              },
-            ],
-          },
         ],
-        attributes: { exclude: ['categoryId'] },
+        attributes: {
+          exclude: ['categoryId'],
+          include: [
+            [
+              sequelize.literal(`(
+                SELECT COUNT(*)
+                FROM ratings AS rating
+                WHERE rating."bookId" = "Book"."id"
+              )`),
+              'ratingsCount',
+            ],
+          ],
+        },
       });
 
     if (!book) {
@@ -100,12 +97,6 @@ const getBookById = async (req: Request, res: Response) => {
     const modifiedBook = {
       ...book.toJSON(),
       category: book.category ? book.category.name : null,
-      ratings: book.ratings
-        ? book.ratings.map((rating) => ({
-            ...rating.toJSON(),
-            user: rating.user ? rating.user.name : null,
-          }))
-        : [],
     };
 
     res.status(200).json({ success: true, data: modifiedBook });
@@ -120,4 +111,87 @@ const getBookById = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllBooks, getBookById };
+const getBookAllRatings = async (req: Request, res: Response) => {
+  const BookId = req.params.id;
+  const limit = Number(req.query.limit) || 5;
+  const offset = Number(req.query.offset) || 0;
+  try {
+    const ratings: RatingsType = await Rating.findAll({
+      where: { bookId: BookId },
+      limit,
+      offset,
+      attributes: { exclude: ['bookId', 'userId'] },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    if (!ratings.length) {
+      res.status(404).json({
+        success: false,
+        message: `No ratings found for book ID ${BookId}`,
+      });
+      return;
+    }
+
+    const modifiedRatings = ratings.map((rating) => ({
+      ...rating.toJSON(),
+      user: rating.user ? rating.user.name : null,
+    }));
+
+    res.status(200).json({ success: true, data: modifiedRatings });
+  } catch (error) {
+    console.error(`Error fetching book ${BookId}:`, error);
+
+    res.status(500).json({
+      success: false,
+      message: `Failed to fetch book ${BookId}.`,
+      error: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
+const getBookRatingById = async (req: Request, res: Response) => {
+  const RatingId = req.params.ratingId;
+  try {
+    const rating: RatingType | null = await Rating.findByPk(RatingId, {
+      attributes: { exclude: ['bookId', 'userId'] },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    if (!rating) {
+      res.status(400).json({
+        success: false,
+        message: `Invalid rating ID ${RatingId}: no such rating`,
+      });
+      return;
+    }
+
+    const modifiedRating = {
+      ...rating.toJSON(),
+      user: rating.user ? rating.user.name : null,
+    };
+
+    res.status(200).json({ success: true, data: modifiedRating });
+  } catch (error) {
+    console.error(`Error fetching rating ${RatingId}:`, error);
+
+    res.status(500).json({
+      success: false,
+      message: `Failed to fetch rating ${RatingId}.`,
+      error: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
+export { getAllBooks, getBookById, getBookAllRatings, getBookRatingById };
