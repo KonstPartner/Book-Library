@@ -44,4 +44,21 @@ const findAllUserRatingsRequest = async (
     ],
   });
 
-export { findAllUsersRequest, findByPkUserRequest, findAllUserRatingsRequest };
+const findByPkUserRatingRequest = async (RatingId: string) =>
+  await Rating.findByPk(RatingId, {
+    attributes: { exclude: ['bookId', 'userId'] },
+    include: [
+      {
+        model: Book,
+        as: 'book',
+        attributes: ['title'],
+      },
+    ],
+  });
+
+export {
+  findAllUsersRequest,
+  findByPkUserRequest,
+  findAllUserRatingsRequest,
+  findByPkUserRatingRequest,
+};

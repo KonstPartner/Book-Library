@@ -7,9 +7,10 @@ import {
 import {
   findAllUserRatingsRequest,
   findAllUsersRequest,
+  findByPkUserRatingRequest,
   findByPkUserRequest,
 } from '../requests/usersTable.ts';
-import { RatingsWithBookType } from '../types.ts';
+import { RatingsWithBookType, RatingWithBookType } from '../types.ts';
 import { transformRatingWithBook } from '../utils/transformModel.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
@@ -67,7 +68,9 @@ const getAllUserRatings = async (req: Request, res: Response) => {
       return;
     }
 
-    const modifiedRatings = ratings.map((rating) => transformRatingWithBook(rating));
+    const modifiedRatings = ratings.map((rating) =>
+      transformRatingWithBook(rating)
+    );
 
     handleSuccessResponse(res, modifiedRatings);
   } catch (error) {
@@ -79,4 +82,32 @@ const getAllUserRatings = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllUsers, getUserById, getAllUserRatings };
+const getUserRatingById = async (req: Request, res: Response) => {
+  const RatingId = req.params.ratingId;
+  try {
+    const rating: RatingWithBookType | null = await findByPkUserRatingRequest(
+      RatingId
+    );
+
+    if (!rating) {
+      handleErrorResponse({
+        res,
+        message: `Invalid rating ID ${RatingId}: no such rating`,
+        code: 404,
+      });
+      return;
+    }
+
+    const modifiedRating = transformRatingWithBook(rating);
+
+    handleSuccessResponse(res, modifiedRating);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      message: `Failed to fetch rating ${RatingId}.`,
+      error,
+    });
+  }
+};
+
+export { getAllUsers, getUserById, getAllUserRatings, getUserRatingById };

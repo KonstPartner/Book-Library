@@ -5,6 +5,7 @@ import {
   getAllUserRatings,
   getAllUsers,
   getUserById,
+  getUserRatingById,
 } from '../controllers/userController.ts';
 
 const router = express.Router();
@@ -34,6 +35,16 @@ router.get(
   ],
   validationErrorHandler,
   getAllUserRatings
+);
+
+router.get(
+  '/:id/ratings/:ratingId',
+  [
+    param('id').trim().isString(),
+    param('ratingId').trim().isInt({ min: 1 }),
+  ],
+  validationErrorHandler,
+  getUserRatingById
 );
 
 export default router;
