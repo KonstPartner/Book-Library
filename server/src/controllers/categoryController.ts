@@ -7,7 +7,7 @@ import {
 import {
   findAllCategoriesRequest,
   findByPkCategoryRequest,
-} from '../requests/categoryTable.ts';
+} from '../requests/categoriesTable.ts';
 
 const getAllCategories = async (req: Request, res: Response) => {
   try {
