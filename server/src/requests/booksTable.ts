@@ -52,6 +52,7 @@ const findAllBookRatingsRequest = async (
     where: { bookId: BookId },
     limit,
     offset,
+    order: [['id', 'ASC']],
     attributes: { exclude: ['bookId', 'userId'] },
     include: [
       {
