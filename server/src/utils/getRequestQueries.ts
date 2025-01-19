@@ -1,11 +1,11 @@
 import { Request } from 'express';
 
-type defaultQueriesType = {
+type DefaultQueriesType = {
   defaultLimit?: number;
   defaultOffset?: number;
 };
 
-export default (req: Request, defaultQueries: defaultQueriesType = {}) => {
+export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
   const { defaultLimit = 5, defaultOffset = 0 } = defaultQueries;
   const limit = Number(req.query.limit) || defaultLimit;
   const offset = Number(req.query.offset) || defaultOffset;

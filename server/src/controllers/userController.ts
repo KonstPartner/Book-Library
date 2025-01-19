@@ -5,9 +5,12 @@ import {
   handleSuccessResponse,
 } from '../utils/handleResponse.ts';
 import {
+  findAllUserRatingsRequest,
   findAllUsersRequest,
   findByPkUserRequest,
 } from '../requests/usersTable.ts';
+import { RatingsWithBookType } from '../types.ts';
+import { transformRatingWithBook } from '../utils/transformModel.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -45,4 +48,35 @@ const getUserById = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllUsers, getUserById };
+const getAllUserRatings = async (req: Request, res: Response) => {
+  const UserId = req.params.id;
+  const { limit, offset } = getRequestQueries(req);
+  try {
+    const ratings: RatingsWithBookType = await findAllUserRatingsRequest(
+      UserId,
+      limit,
+      offset
+    );
+
+    if (!ratings.length) {
+      handleErrorResponse({
+        res,
+        message: `No ratings found for user ID ${UserId}`,
+        code: 404,
+      });
+      return;
+    }
+
+    const modifiedRatings = ratings.map((rating) => transformRatingWithBook(rating));
+
+    handleSuccessResponse(res, modifiedRatings);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      message: `Failed to fetch user ${UserId}.`,
+      error,
+    });
+  }
+};
+
+export { getAllUsers, getUserById, getAllUserRatings };

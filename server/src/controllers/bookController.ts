@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BookType, RatingsType, RatingType } from '../types.ts';
+import { BookType, RatingsWithUserType, RatingWithUserType } from '../types.ts';
 import {
   findAllBookRatingsRequest,
   findAllBooksRequest,
@@ -10,7 +10,7 @@ import {
   handleErrorResponse,
   handleSuccessResponse,
 } from '../utils/handleResponse.ts';
-import { transformBook, transformRating } from '../utils/transformModel.ts';
+import { transformBook, transformRatingWithUser } from '../utils/transformModel.ts';
 import getRequestQueries from '../utils/getRequestQueries.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
@@ -55,7 +55,7 @@ const getAllBookRatings = async (req: Request, res: Response) => {
   const BookId = req.params.id;
   const { limit, offset } = getRequestQueries(req);
   try {
-    const ratings: RatingsType = await findAllBookRatingsRequest(
+    const ratings: RatingsWithUserType = await findAllBookRatingsRequest(
       BookId,
       limit,
       offset
@@ -70,7 +70,7 @@ const getAllBookRatings = async (req: Request, res: Response) => {
       return;
     }
 
-    const modifiedRatings = ratings.map((rating) => transformRating(rating));
+    const modifiedRatings = ratings.map((rating) => transformRatingWithUser(rating));
 
     handleSuccessResponse(res, modifiedRatings);
   } catch (error) {
@@ -85,7 +85,7 @@ const getAllBookRatings = async (req: Request, res: Response) => {
 const getBookRatingById = async (req: Request, res: Response) => {
   const RatingId = req.params.ratingId;
   try {
-    const rating: RatingType | null = await findByPkBookRatingRequest(RatingId);
+    const rating: RatingWithUserType | null = await findByPkBookRatingRequest(RatingId);
 
     if (!rating) {
       handleErrorResponse({
@@ -96,7 +96,7 @@ const getBookRatingById = async (req: Request, res: Response) => {
       return;
     }
 
-    const modifiedRating = transformRating(rating);
+    const modifiedRating = transformRatingWithUser(rating);
 
     handleSuccessResponse(res, modifiedRating);
   } catch (error) {
