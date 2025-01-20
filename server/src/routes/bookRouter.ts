@@ -1,5 +1,4 @@
 import express from 'express';
-import { param, query } from 'express-validator';
 import {
   getAllBooks,
   getAllBookRatings,
@@ -7,42 +6,29 @@ import {
   getBookRatingById,
 } from '../controllers/bookController.ts';
 import validationErrorHandler from '../middleware/validationErrorHandler.ts';
+import {
+  validateGetAllBooks,
+  validateIdInt,
+  validateIdIntAndRatingId,
+  validateLimitAndOffset,
+} from '../middleware/validators/validators.ts';
 
 const router = express.Router();
 
-router.get(
-  '/',
-  [
-    query('limit').optional().trim().isInt({ min: 1, max: 50 }),
-    query('offset').optional().trim().isInt({ min: 0 }),
-  ],
-  validationErrorHandler,
-  getAllBooks
-);
+router.get('/', validateGetAllBooks, validationErrorHandler, getAllBooks);
 
-router.get(
-  '/:id',
-  [param('id').trim().isInt({ min: 1 })],
-  validationErrorHandler,
-  getBookById
-);
+router.get('/:id', validateIdInt, validationErrorHandler, getBookById);
 
 router.get(
   '/:id/ratings',
-  [
-    query('limit').optional().trim().isInt({ min: 1, max: 50 }),
-    query('offset').optional().trim().isInt({ min: 0 }),
-  ],
+  validateLimitAndOffset,
   validationErrorHandler,
   getAllBookRatings
 );
 
 router.get(
   '/:id/ratings/:ratingId',
-  [
-    param('id').trim().isInt({ min: 1 }),
-    param('ratingId').trim().isInt({ min: 1 }),
-  ],
+  validateIdIntAndRatingId,
   validationErrorHandler,
   getBookRatingById
 );

@@ -1,5 +1,4 @@
 import express from 'express';
-import { param, query } from 'express-validator';
 import validationErrorHandler from '../middleware/validationErrorHandler.ts';
 import {
   getAllUserRatings,
@@ -7,42 +6,28 @@ import {
   getUserById,
   getUserRatingById,
 } from '../controllers/userController.ts';
+import {
+  validateIdString,
+  validateIdStringAndRatingId,
+  validateLimitAndOffset,
+} from '../middleware/validators/validators.ts';
 
 const router = express.Router();
 
-router.get(
-  '/',
-  [
-    query('limit').optional().trim().isInt({ min: 1, max: 50 }),
-    query('offset').optional().trim().isInt({ min: 0 }),
-  ],
-  validationErrorHandler,
-  getAllUsers
-);
+router.get('/', validateLimitAndOffset, validationErrorHandler, getAllUsers);
 
-router.get(
-  '/:id',
-  [param('id').trim().isString()],
-  validationErrorHandler,
-  getUserById
-);
+router.get('/:id', validateIdString, validationErrorHandler, getUserById);
 
 router.get(
   '/:id/ratings',
-  [
-    query('limit').optional().trim().isInt({ min: 1, max: 50 }),
-    query('offset').optional().trim().isInt({ min: 0 }),
-  ],
+  validateLimitAndOffset,
   validationErrorHandler,
   getAllUserRatings
 );
 
 router.get(
   '/:id/ratings/:ratingId',
-  [
-    param('id').trim().isString(),
-    param('ratingId').trim().isInt({ min: 1 }),
-  ],
+  validateIdStringAndRatingId,
   validationErrorHandler,
   getUserRatingById
 );

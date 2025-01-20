@@ -1,6 +1,6 @@
 import app from './app.ts';
 import { PORT } from './config/config.ts';
-import setupAssociations from './models/associations.ts';
+import setupAssociations from './models/modelsAssociations.ts';
 
 setupAssociations();
 

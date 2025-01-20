@@ -10,13 +10,22 @@ import {
   handleErrorResponse,
   handleSuccessResponse,
 } from '../utils/handleResponse.ts';
-import { transformBook, transformRatingWithUser } from '../utils/transformModel.ts';
+import {
+  transformBook,
+  transformRatingWithUser,
+} from '../utils/transformModel.ts';
 import getRequestQueries from '../utils/getRequestQueries.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
-    const { limit, offset } = getRequestQueries(req);
-    const books = await findAllBooksRequest(limit, offset);
+    const { limit, offset, searchQueries, searchCategoryQuery } =
+      getRequestQueries(req);
+    const books = await findAllBooksRequest(
+      limit,
+      offset,
+      searchQueries,
+      searchCategoryQuery
+    );
     const modifiedBooks = books.map((book: BookType) => transformBook(book));
     handleSuccessResponse(res, modifiedBooks);
   } catch (error) {
@@ -70,7 +79,9 @@ const getAllBookRatings = async (req: Request, res: Response) => {
       return;
     }
 
-    const modifiedRatings = ratings.map((rating) => transformRatingWithUser(rating));
+    const modifiedRatings = ratings.map((rating) =>
+      transformRatingWithUser(rating)
+    );
 
     handleSuccessResponse(res, modifiedRatings);
   } catch (error) {
@@ -85,7 +96,9 @@ const getAllBookRatings = async (req: Request, res: Response) => {
 const getBookRatingById = async (req: Request, res: Response) => {
   const RatingId = req.params.ratingId;
   try {
-    const rating: RatingWithUserType | null = await findByPkBookRatingRequest(RatingId);
+    const rating: RatingWithUserType | null = await findByPkBookRatingRequest(
+      RatingId
+    );
 
     if (!rating) {
       handleErrorResponse({

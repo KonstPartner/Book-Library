@@ -1,19 +1,31 @@
+import { WhereOptions } from 'sequelize';
 import sequelize from '../config/database.ts';
 import Book from '../models/Book.ts';
 import Category from '../models/Category.ts';
 import Rating from '../models/Rating.ts';
 import User from '../models/User.ts';
+import {
+  BookAttributes,
+  CategoryAttributes,
+} from '../models/modelsInterfaces.ts';
 
-const findAllBooksRequest = async (limit: number, offset: number) =>
+const findAllBooksRequest = async (
+  limit: number,
+  offset: number,
+  searchQueries: WhereOptions<BookAttributes> | undefined,
+  searchCategoryQuery: WhereOptions<CategoryAttributes> | undefined
+) =>
   await Book.findAll({
     limit,
     offset,
     order: [['id', 'ASC']],
+    where: searchQueries,
     include: [
       {
         model: Category,
         as: 'category',
         attributes: ['name'],
+        where: searchCategoryQuery,
       },
     ],
     attributes: { exclude: ['categoryId'] },

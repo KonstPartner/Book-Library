@@ -1,16 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database.ts';
 import User from './User.ts';
-
-interface RatingAttributes {
-  id: number;
-  bookId: number;
-  userId: string;
-  reviewHelpfulness: string | null;
-  reviewScore: string | null;
-  reviewSummary: string | null;
-  reviewText: string | null;
-}
+import { RatingAttributes } from './modelsInterfaces.ts';
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 interface RatingCreationAttributes extends Optional<RatingAttributes, 'id'> {}
