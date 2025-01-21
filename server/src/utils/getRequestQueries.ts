@@ -6,14 +6,7 @@ type DefaultQueriesType = {
   defaultOffset?: number;
 };
 
-const getSearchQueries = (req: Request) => {
-  const searchableFields = [
-    'title',
-    'description',
-    'author',
-    'publisher',
-    'publishedDate',
-  ];
+const getSearchQueries = (req: Request, searchableFields: string[]) => {
   const whereClause: WhereOptions = {};
   for (const field of searchableFields) {
     if (req.query[field]) {
@@ -23,13 +16,34 @@ const getSearchQueries = (req: Request) => {
   return whereClause;
 };
 
-const getSearchCategoryQuery = (req: Request) => {
-  if (req.query.category) {
+const getSubSearchQuery = (query: any, field: string) => {
+  if (query) {
     return {
-      name: { [Op.iLike]: `%${req.query.category}%` },
+      [field]: { [Op.iLike]: `%${query}%` },
     };
   }
   return undefined;
+};
+
+const getBooksQueries = (req: Request) => {
+  const searchableFields = [
+    'title',
+    'description',
+    'author',
+    'publisher',
+    'publishedDate',
+  ];
+  return getSearchQueries(req, searchableFields);
+};
+
+const getRatingsQueries = (req: Request) => {
+  const searchableFields = [
+    'reviewHelpfulness',
+    'reviewScore',
+    'reviewSummary',
+    'reviewText',
+  ];
+  return getSearchQueries(req, searchableFields);
 };
 
 export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
@@ -38,10 +52,14 @@ export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
   const limit = Number(req.query.limit) || defaultLimit;
   const offset = Number(req.query.offset) || defaultOffset;
 
-  const searchQueries = getSearchQueries(req);
-
-  const searchCategoryQuery: WhereOptions | undefined =
-    getSearchCategoryQuery(req);
-
-  return { limit, offset, searchQueries, searchCategoryQuery };
+  return {
+    limit,
+    offset,
+    searchBooksQueries: getBooksQueries(req),
+    searchRatingsQueries: getRatingsQueries(req),
+    searchQueryName: getSearchQueries(req, ['name']),
+    searchBooksCategoryQuery: getSubSearchQuery(req.query.category, 'category'),
+    searchRatingsUserQuery: getSubSearchQuery(req.query.user, 'name'),
+    searchRatingsBookQuery: getSubSearchQuery(req.query.book, 'title'),
+  };
 };

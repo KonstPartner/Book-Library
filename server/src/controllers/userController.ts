@@ -15,8 +15,8 @@ import { transformRatingWithBook } from '../utils/transformModel.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const { limit, offset } = getRequestQueries(req, { defaultLimit: 25 });
-    const users = await findAllUsersRequest(limit, offset);
+    const { limit, offset, searchQueryName } = getRequestQueries(req, { defaultLimit: 25 });
+    const users = await findAllUsersRequest(limit, offset, searchQueryName);
     handleSuccessResponse(res, users);
   } catch (error) {
     handleErrorResponse({
@@ -51,12 +51,15 @@ const getUserById = async (req: Request, res: Response) => {
 
 const getAllUserRatings = async (req: Request, res: Response) => {
   const UserId = req.params.id;
-  const { limit, offset } = getRequestQueries(req);
+  const { limit, offset, searchRatingsQueries, searchRatingsBookQuery } =
+    getRequestQueries(req);
   try {
     const ratings: RatingsWithBookType = await findAllUserRatingsRequest(
       UserId,
       limit,
-      offset
+      offset,
+      searchRatingsQueries,
+      searchRatingsBookQuery
     );
 
     if (!ratings.length) {

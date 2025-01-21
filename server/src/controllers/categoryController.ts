@@ -11,8 +11,8 @@ import {
 
 const getAllCategories = async (req: Request, res: Response) => {
   try {
-    const { limit, offset } = getRequestQueries(req, { defaultLimit: 25 });
-    const categories = await findAllCategoriesRequest(limit, offset);
+    const { limit, offset, searchQueryName } = getRequestQueries(req, { defaultLimit: 25 });
+    const categories = await findAllCategoriesRequest(limit, offset, searchQueryName);
     handleSuccessResponse(res, categories);
   } catch (error) {
     handleErrorResponse({

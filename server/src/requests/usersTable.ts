@@ -1,12 +1,23 @@
+import { WhereOptions } from 'sequelize';
 import sequelize from '../config/database.ts';
 import Book from '../models/Book.ts';
 import Rating from '../models/Rating.ts';
 import User from '../models/User.ts';
+import {
+  BookAttributes,
+  RatingAttributes,
+  UserAttributes,
+} from '../models/modelsInterfaces.ts';
 
-const findAllUsersRequest = async (limit: number, offset: number) =>
+const findAllUsersRequest = async (
+  limit: number,
+  offset: number,
+  searchQueries: WhereOptions<UserAttributes> | undefined
+) =>
   await User.findAll({
     limit,
     offset,
+    where: searchQueries,
   });
 
 const findByPkUserRequest = async (UserId: string) =>
@@ -28,10 +39,12 @@ const findByPkUserRequest = async (UserId: string) =>
 const findAllUserRatingsRequest = async (
   UserId: string,
   limit: number,
-  offset: number
+  offset: number,
+  searchQueries: WhereOptions<RatingAttributes> | undefined,
+  searchBookQuery: WhereOptions<BookAttributes> | undefined
 ) =>
   await Rating.findAll({
-    where: { userId: UserId },
+    where: { ...{ ...searchQueries, userId: UserId } },
     limit,
     offset,
     attributes: { exclude: ['bookId', 'userId'] },
@@ -40,6 +53,7 @@ const findAllUserRatingsRequest = async (
         model: Book,
         as: 'book',
         attributes: ['title'],
+        where: searchBookQuery,
       },
     ],
   });

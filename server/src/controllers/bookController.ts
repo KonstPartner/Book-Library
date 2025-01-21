@@ -18,13 +18,13 @@ import getRequestQueries from '../utils/getRequestQueries.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
-    const { limit, offset, searchQueries, searchCategoryQuery } =
+    const { limit, offset, searchBooksQueries, searchBooksCategoryQuery } =
       getRequestQueries(req);
     const books = await findAllBooksRequest(
       limit,
       offset,
-      searchQueries,
-      searchCategoryQuery
+      searchBooksQueries,
+      searchBooksCategoryQuery
     );
     const modifiedBooks = books.map((book: BookType) => transformBook(book));
     handleSuccessResponse(res, modifiedBooks);
@@ -62,12 +62,15 @@ const getBookById = async (req: Request, res: Response) => {
 
 const getAllBookRatings = async (req: Request, res: Response) => {
   const BookId = req.params.id;
-  const { limit, offset } = getRequestQueries(req);
+  const { limit, offset, searchRatingsQueries, searchRatingsUserQuery } =
+    getRequestQueries(req);
   try {
     const ratings: RatingsWithUserType = await findAllBookRatingsRequest(
       BookId,
       limit,
-      offset
+      offset,
+      searchRatingsQueries,
+      searchRatingsUserQuery
     );
 
     if (!ratings.length) {

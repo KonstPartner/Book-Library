@@ -7,6 +7,8 @@ import User from '../models/User.ts';
 import {
   BookAttributes,
   CategoryAttributes,
+  RatingAttributes,
+  UserAttributes,
 } from '../models/modelsInterfaces.ts';
 
 const findAllBooksRequest = async (
@@ -58,10 +60,12 @@ const findByPkBookRequest = async (BookId: string) =>
 const findAllBookRatingsRequest = async (
   BookId: string,
   limit: number,
-  offset: number
+  offset: number,
+  searchQueries: WhereOptions<RatingAttributes> | undefined,
+  searchUserQuery: WhereOptions<UserAttributes> | undefined
 ) =>
   await Rating.findAll({
-    where: { bookId: BookId },
+    where: { ...{ ...searchQueries, bookId: BookId } },
     limit,
     offset,
     order: [['id', 'ASC']],
@@ -71,6 +75,7 @@ const findAllBookRatingsRequest = async (
         model: User,
         as: 'user',
         attributes: ['name'],
+        where: searchUserQuery,
       },
     ],
   });
