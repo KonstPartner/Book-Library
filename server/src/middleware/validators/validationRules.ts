@@ -1,11 +1,14 @@
 import { param, query } from 'express-validator';
 
-const limitAndOffsetRules = [
+const limitRule = [
   query('limit')
     .optional()
     .trim()
     .isInt({ min: 1, max: 50 })
     .withMessage('Limit must be an integer between 1 and 50.'),
+];
+
+const offsetRule = [
   query('offset')
     .optional()
     .trim()
@@ -68,7 +71,8 @@ const booksSearchQueriesRules = [
 ];
 
 export {
-  limitAndOffsetRules,
+  limitRule,
+  offsetRule,
   idIntRule,
   idStringRule,
   ratingIdRule,

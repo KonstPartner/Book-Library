@@ -7,12 +7,18 @@ import {
 import {
   findAllCategoriesRequest,
   findByPkCategoryRequest,
-} from '../requests/categoriesTable.ts';
+} from '../services/categoriesServices.ts';
 
 const getAllCategories = async (req: Request, res: Response) => {
   try {
-    const { limit, offset, searchQueryName } = getRequestQueries(req, { defaultLimit: 25 });
-    const categories = await findAllCategoriesRequest(limit, offset, searchQueryName);
+    const { limit, offset, searchQueryName } = getRequestQueries(req, {
+      defaultLimit: 25,
+    });
+    const categories = await findAllCategoriesRequest(
+      limit,
+      offset,
+      searchQueryName
+    );
     handleSuccessResponse(res, categories);
   } catch (error) {
     handleErrorResponse({

@@ -92,9 +92,25 @@ const findByPkBookRatingRequest = async (RatingId: string) =>
     ],
   });
 
+const findRandomBooksRequest = async (limit: number, offset: number) =>
+  await Book.findAll({
+    limit,
+    offset,
+    order: sequelize.random(),
+    include: [
+      {
+        model: Category,
+        as: 'category',
+        attributes: ['name'],
+      },
+    ],
+    attributes: { exclude: ['categoryId'] },
+  });
+
 export {
   findAllBooksRequest,
   findByPkBookRequest,
   findAllBookRatingsRequest,
   findByPkBookRatingRequest,
+  findRandomBooksRequest,
 };

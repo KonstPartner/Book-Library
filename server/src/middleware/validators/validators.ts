@@ -2,11 +2,14 @@ import {
   booksSearchQueriesRules,
   idIntRule,
   idStringRule,
-  limitAndOffsetRules,
+  limitRule,
+  offsetRule,
   ratingIdRule,
 } from './validationRules.ts';
 
-const validateLimitAndOffset = [...limitAndOffsetRules];
+const validateLimit = [...limitRule];
+
+const validateLimitAndOffset = [...limitRule, ...offsetRule];
 
 const validateIdInt = [...idIntRule];
 
@@ -17,11 +20,13 @@ const validateIdIntAndRatingId = [...idIntRule, ...ratingIdRule];
 const validateIdStringAndRatingId = [...idStringRule, ...ratingIdRule];
 
 const validateGetAllBooks = [
-  ...limitAndOffsetRules,
+  ...limitRule,
+  ...offsetRule,
   ...booksSearchQueriesRules,
 ];
 
 export {
+  validateLimit,
   validateLimitAndOffset,
   validateIdIntAndRatingId,
   validateIdStringAndRatingId,

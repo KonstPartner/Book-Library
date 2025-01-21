@@ -5,7 +5,8 @@ import {
   findAllBooksRequest,
   findByPkBookRatingRequest,
   findByPkBookRequest,
-} from '../requests/booksTable.ts';
+  findRandomBooksRequest,
+} from '../services/booksServices.ts';
 import {
   handleErrorResponse,
   handleSuccessResponse,
@@ -124,4 +125,25 @@ const getBookRatingById = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllBooks, getBookById, getAllBookRatings, getBookRatingById };
+const getRandomBooks = async (req: Request, res: Response) => {
+  try {
+    const { limit, offset } = getRequestQueries(req);
+    const books = await findRandomBooksRequest(limit, offset);
+    const modifiedBooks = books.map((book: BookType) => transformBook(book));
+    handleSuccessResponse(res, modifiedBooks);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to fetch books.',
+    });
+  }
+};
+
+export {
+  getAllBooks,
+  getBookById,
+  getAllBookRatings,
+  getBookRatingById,
+  getRandomBooks,
+};

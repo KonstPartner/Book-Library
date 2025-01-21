@@ -9,13 +9,15 @@ import {
   findAllUsersRequest,
   findByPkUserRatingRequest,
   findByPkUserRequest,
-} from '../requests/usersTable.ts';
+} from '../services/usersServices.ts';
 import { RatingsWithBookType, RatingWithBookType } from '../types.ts';
 import { transformRatingWithBook } from '../utils/transformModel.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const { limit, offset, searchQueryName } = getRequestQueries(req, { defaultLimit: 25 });
+    const { limit, offset, searchQueryName } = getRequestQueries(req, {
+      defaultLimit: 25,
+    });
     const users = await findAllUsersRequest(limit, offset, searchQueryName);
     handleSuccessResponse(res, users);
   } catch (error) {
