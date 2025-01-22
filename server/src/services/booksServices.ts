@@ -107,10 +107,46 @@ const findRandomBooksRequest = async (limit: number, offset: number) =>
     attributes: { exclude: ['categoryId'] },
   });
 
+const createBookRequest = async (
+  data: BookAttributes & { category: string | null }
+) => {
+  const transaction = await sequelize.transaction();
+  try {
+    let categoryRecord;
+    if (data.category) {
+      [categoryRecord] = await Category.findOrCreate({
+        where: { name: data.category },
+        transaction,
+      });
+    }
+
+    const newBook = await Book.create(
+      {
+        title: data.title,
+        description: data.description || null,
+        author: data.author || null,
+        image: data.image || null,
+        publisher: data.publisher || null,
+        publishedDate: data.publishedDate || null,
+        infoLink: data.infoLink || null,
+        categoryId: categoryRecord ? categoryRecord.id : null,
+      },
+      { transaction }
+    );
+    await transaction.commit();
+
+    return await findByPkBookRequest(String(newBook.id));
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
+  }
+};
+
 export {
   findAllBooksRequest,
   findByPkBookRequest,
   findAllBookRatingsRequest,
   findByPkBookRatingRequest,
   findRandomBooksRequest,
+  createBookRequest,
 };

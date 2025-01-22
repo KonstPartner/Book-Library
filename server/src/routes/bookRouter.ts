@@ -5,6 +5,7 @@ import {
   getBookById,
   getBookRatingById,
   getRandomBooks,
+  postBook,
 } from '../controllers/bookController.ts';
 import validationErrorHandler from '../middleware/validationErrorHandler.ts';
 import {
@@ -13,6 +14,7 @@ import {
   validateIdIntAndRatingId,
   validateLimit,
   validateLimitAndOffset,
+  validatePostBook,
 } from '../middleware/validators/validators.ts';
 
 const router = express.Router();
@@ -36,5 +38,7 @@ router.get(
   validationErrorHandler,
   getBookRatingById
 );
+
+router.post('/', validatePostBook, validationErrorHandler, postBook);
 
 export default router;

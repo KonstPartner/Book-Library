@@ -1,4 +1,4 @@
-import { param, query } from 'express-validator';
+import { body, param, query } from 'express-validator';
 
 const limitRule = [
   query('limit')
@@ -70,6 +70,41 @@ const booksSearchQueriesRules = [
     .withMessage('Category must be between 1 and 100 characters long.'),
 ];
 
+const createBookRules = [
+  body('title')
+    .isString()
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('Title is required and cannot be empty.'),
+  body('description')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('Description is required.'),
+  body('author')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('Author is required.'),
+  body('image')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('Image is required.'),
+  body('publisher')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('Publisher is required.'),
+  body('publishedDate')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('PublishedDate is required.'),
+  body('infoLink')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('InfoLink is required.'),
+  body('category')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('Category is required and cannot be empty.'),
+];
+
 export {
   limitRule,
   offsetRule,
@@ -77,4 +112,5 @@ export {
   idStringRule,
   ratingIdRule,
   booksSearchQueriesRules,
+  createBookRules,
 };

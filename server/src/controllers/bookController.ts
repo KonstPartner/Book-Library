@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { BookType, RatingsWithUserType, RatingWithUserType } from '../types.ts';
 import {
+  createBookRequest,
   findAllBookRatingsRequest,
   findAllBooksRequest,
   findByPkBookRatingRequest,
@@ -16,6 +17,7 @@ import {
   transformRatingWithUser,
 } from '../utils/transformModel.ts';
 import getRequestQueries from '../utils/getRequestQueries.ts';
+import Book from '../models/Book.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
@@ -140,10 +142,20 @@ const getRandomBooks = async (req: Request, res: Response) => {
   }
 };
 
+const postBook = async (req: Request, res: Response) => {
+  try {
+    const newBook: Book = (await createBookRequest(req.body)) as Book;
+    handleSuccessResponse(res, transformBook(newBook));
+  } catch (error) {
+    handleErrorResponse({ res, error, message: 'Failed to create book.' });
+  }
+};
+
 export {
   getAllBooks,
   getBookById,
   getAllBookRatings,
   getBookRatingById,
   getRandomBooks,
+  postBook,
 };
