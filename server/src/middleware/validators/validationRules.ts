@@ -105,6 +105,33 @@ const createBookRules = [
     .withMessage('Category is required and cannot be empty.'),
 ];
 
+const createRatingRules = [
+  body('bookId')
+    .isString()
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('bookId is required and cannot be empty.'),
+  body('userId')
+    .isString()
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('userId is required and cannot be empty.'),
+  body('reviewHelpfulness')
+    .isString()
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('reviewHelpfulness is required and cannot be empty.'),
+  body('reviewScore')
+    .isString()
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('reviewScore is required and cannot be empty.'),
+  body('reviewSummary')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('reviewSymmary is required.'),
+  body('reviewText')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('reviewText is required.'),
+];
+
 export {
   limitRule,
   offsetRule,
@@ -113,4 +140,5 @@ export {
   ratingIdRule,
   booksSearchQueriesRules,
   createBookRules,
+  createRatingRules,
 };

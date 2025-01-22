@@ -1,6 +1,7 @@
 import {
   booksSearchQueriesRules,
   createBookRules,
+  createRatingRules,
   idIntRule,
   idStringRule,
   limitRule,
@@ -28,6 +29,8 @@ const validateGetAllBooks = [
 
 const validatePostBook = [...createBookRules];
 
+const validatePostRating = [...createRatingRules];
+
 export {
   validateLimit,
   validateLimitAndOffset,
@@ -37,4 +40,5 @@ export {
   validateIdString,
   validateGetAllBooks,
   validatePostBook,
+  validatePostRating,
 };
