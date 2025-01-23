@@ -10,7 +10,7 @@ class Rating
   extends Model<RatingAttributes, RatingCreationAttributes>
   implements RatingAttributes
 {
-  public id!: number;
+  public id!: string;
   public bookId!: number;
   public userId!: string;
   public reviewHelpfulness!: string;
@@ -22,9 +22,9 @@ class Rating
 Rating.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(26),
       primaryKey: true,
-      autoIncrement: true,
+      allowNull: false,
     },
     bookId: {
       type: DataTypes.INTEGER,
@@ -37,7 +37,7 @@ Rating.init(
       onUpdate: 'CASCADE',
     },
     userId: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(26),
       allowNull: false,
       references: {
         model: User,

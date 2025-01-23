@@ -16,8 +16,9 @@ class User
 User.init(
   {
     id: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(26),
       primaryKey: true,
+      allowNull: false,
     },
     name: {
       type: DataTypes.STRING(255),
@@ -28,7 +29,13 @@ User.init(
     sequelize,
     modelName: 'User',
     tableName: 'users',
-    timestamps: true,
+    timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ['name'],
+      },
+    ],
   }
 );
 

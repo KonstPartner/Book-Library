@@ -16,7 +16,7 @@ interface CategoryAttributes {
 }
 
 interface RatingAttributes {
-  id: number;
+  id: string;
   bookId: number;
   userId: string;
   reviewHelpfulness: string | null;
