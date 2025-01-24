@@ -5,13 +5,10 @@ import {
   getAllUserRatings,
   getAllUsers,
   getUserById,
-  getUserRatingById,
   postUser,
 } from '../controllers/userController.ts';
 import {
-  validateId,
   validateIdString,
-  validateIdStringAndRatingId,
   validateLimitAndOffset,
   validatePostUser,
 } from '../middleware/validators/validators.ts';
@@ -29,15 +26,8 @@ router.get(
   getAllUserRatings
 );
 
-router.get(
-  '/:id/ratings/:ratingId',
-  validateIdStringAndRatingId,
-  validationErrorHandler,
-  getUserRatingById
-);
-
 router.post('/', validatePostUser, validationErrorHandler, postUser);
 
-router.delete('/:id', validationErrorHandler, validateId, deleteUserById);
+router.delete('/:id', validationErrorHandler, validateIdString, deleteUserById);
 
 export default router;

@@ -3,7 +3,6 @@ import {
   getAllBooks,
   getAllBookRatings,
   getBookById,
-  getBookRatingById,
   getRandomBooks,
   postBook,
   deleteBookById,
@@ -11,9 +10,7 @@ import {
 import validationErrorHandler from '../middleware/validationErrorHandler.ts';
 import {
   validateGetAllBooks,
-  validateId,
   validateIdInt,
-  validateIdIntAndRatingId,
   validateLimit,
   validateLimitAndOffset,
   validatePostBook,
@@ -34,15 +31,8 @@ router.get(
   getAllBookRatings
 );
 
-router.get(
-  '/:id/ratings/:ratingId',
-  validateIdIntAndRatingId,
-  validationErrorHandler,
-  getBookRatingById
-);
-
 router.post('/', validatePostBook, validationErrorHandler, postBook);
 
-router.delete('/:id', validationErrorHandler, validateId, deleteBookById);
+router.delete('/:id', validationErrorHandler, validateIdInt, deleteBookById);
 
 export default router;

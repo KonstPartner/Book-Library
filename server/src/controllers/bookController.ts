@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
-import { BookType, RatingsWithUserType, RatingWithUserType } from '../types.ts';
+import { BookType, RatingsType } from '../types.ts';
 import {
   createBookRequest,
   destroyBook,
-  findAllBookRatingsRequest,
   findAllBooksRequest,
-  findByPkBookRatingRequest,
   findByPkBookRequest,
   findRandomBooksRequest,
 } from '../services/booksServices.ts';
@@ -13,12 +11,10 @@ import {
   handleErrorResponse,
   handleSuccessResponse,
 } from '../utils/handleResponse.ts';
-import {
-  transformBook,
-  transformRatingWithUser,
-} from '../utils/transformModel.ts';
+import { transformBook, transformRating } from '../utils/transformModel.ts';
 import getRequestQueries from '../utils/getRequestQueries.ts';
 import Book from '../models/Book.ts';
+import { findAllBookRatingsRequest } from '../services/ratingsServices.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
@@ -69,7 +65,7 @@ const getAllBookRatings = async (req: Request, res: Response) => {
   const { limit, offset, searchRatingsQueries, searchRatingsUserQuery } =
     getRequestQueries(req);
   try {
-    const ratings: RatingsWithUserType = await findAllBookRatingsRequest(
+    const ratings: RatingsType = await findAllBookRatingsRequest(
       BookId,
       limit,
       offset,
@@ -86,43 +82,13 @@ const getAllBookRatings = async (req: Request, res: Response) => {
       return;
     }
 
-    const modifiedRatings = ratings.map((rating) =>
-      transformRatingWithUser(rating)
-    );
+    const modifiedRatings = ratings.map((rating) => transformRating(rating));
 
     handleSuccessResponse(res, modifiedRatings);
   } catch (error) {
     handleErrorResponse({
       res,
       message: `Failed to fetch book ${BookId}.`,
-      error,
-    });
-  }
-};
-
-const getBookRatingById = async (req: Request, res: Response) => {
-  const RatingId = req.params.ratingId;
-  try {
-    const rating: RatingWithUserType | null = await findByPkBookRatingRequest(
-      RatingId
-    );
-
-    if (!rating) {
-      handleErrorResponse({
-        res,
-        message: `Invalid rating ID ${RatingId}: no such rating`,
-        code: 404,
-      });
-      return;
-    }
-
-    const modifiedRating = transformRatingWithUser(rating);
-
-    handleSuccessResponse(res, modifiedRating);
-  } catch (error) {
-    handleErrorResponse({
-      res,
-      message: `Failed to fetch rating ${RatingId}.`,
       error,
     });
   }
@@ -169,7 +135,6 @@ export {
   getAllBooks,
   getBookById,
   getAllBookRatings,
-  getBookRatingById,
   getRandomBooks,
   postBook,
   deleteBookById,

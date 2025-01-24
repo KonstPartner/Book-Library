@@ -2,13 +2,9 @@ import { WhereOptions } from 'sequelize';
 import sequelize from '../config/database.ts';
 import Book from '../models/Book.ts';
 import Category from '../models/Category.ts';
-import Rating from '../models/Rating.ts';
-import User from '../models/User.ts';
 import {
   BookAttributes,
   CategoryAttributes,
-  RatingAttributes,
-  UserAttributes,
 } from '../models/modelsInterfaces.ts';
 
 const findAllBooksRequest = async (
@@ -57,41 +53,6 @@ const findByPkBookRequest = async (BookId: string) =>
     },
   });
 
-const findAllBookRatingsRequest = async (
-  BookId: string,
-  limit: number,
-  offset: number,
-  searchQueries: WhereOptions<RatingAttributes> | undefined,
-  searchUserQuery: WhereOptions<UserAttributes> | undefined
-) =>
-  await Rating.findAll({
-    where: { ...{ ...searchQueries, bookId: BookId } },
-    limit,
-    offset,
-    order: [['id', 'ASC']],
-    attributes: { exclude: ['bookId', 'userId'] },
-    include: [
-      {
-        model: User,
-        as: 'user',
-        attributes: ['name'],
-        where: searchUserQuery,
-      },
-    ],
-  });
-
-const findByPkBookRatingRequest = async (RatingId: string) =>
-  await Rating.findByPk(RatingId, {
-    attributes: { exclude: ['bookId', 'userId'] },
-    include: [
-      {
-        model: User,
-        as: 'user',
-        attributes: ['name'],
-      },
-    ],
-  });
-
 const findRandomBooksRequest = async (limit: number, offset: number) =>
   await Book.findAll({
     limit,
@@ -110,6 +71,14 @@ const findRandomBooksRequest = async (limit: number, offset: number) =>
 const createBookRequest = async (
   data: BookAttributes & { category: string | null }
 ) => {
+  const existinBook = await Book.findOne({ where: { title: data.title } });
+  if (existinBook) {
+    throw {
+      code: 400,
+      message: 'Book already exists.',
+    };
+  }
+
   const transaction = await sequelize.transaction();
   try {
     let categoryRecord;
@@ -153,8 +122,6 @@ const destroyBook = async (BookId: string) => {
 export {
   findAllBooksRequest,
   findByPkBookRequest,
-  findAllBookRatingsRequest,
-  findByPkBookRatingRequest,
   findRandomBooksRequest,
   createBookRequest,
   destroyBook,

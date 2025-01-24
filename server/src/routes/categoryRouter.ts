@@ -4,11 +4,12 @@ import {
   deleteCategoryById,
   getAllCategories,
   getCategoryById,
+  postCategory,
 } from '../controllers/categoryController.ts';
 import {
-  validateId,
   validateIdInt,
   validateLimitAndOffset,
+  validatePostCategory,
 } from '../middleware/validators/validators.ts';
 
 const router = express.Router();
@@ -22,6 +23,8 @@ router.get(
 
 router.get('/:id', validateIdInt, validationErrorHandler, getCategoryById);
 
-router.delete('/:id', validationErrorHandler, validateId, deleteCategoryById);
+router.post('/', validatePostCategory, validationErrorHandler, postCategory);
+
+router.delete('/:id', validationErrorHandler, validateIdInt, deleteCategoryById);
 
 export default router;

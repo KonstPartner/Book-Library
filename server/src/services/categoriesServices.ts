@@ -17,6 +17,21 @@ const findAllCategoriesRequest = async (
 const findByPkCategoryRequest = async (CategoryId: string) =>
   await Category.findByPk(CategoryId);
 
+const createCategoryRequest = async (data: CategoryAttributes) => {
+  const existinCategory = await Category.findOne({ where: { name: data.name } });
+  if (existinCategory) {
+    throw {
+      code: 400,
+      message: 'Category already exists.',
+    };
+  }
+
+  const newCategory = await Category.create({
+    name: data.name,
+  });
+  return await findByPkCategoryRequest(String(newCategory.id));
+};
+
 const destroyCategory = async (CategoryId: string) => {
   const category = await Category.findByPk(CategoryId);
   if (!category) {
@@ -28,4 +43,9 @@ const destroyCategory = async (CategoryId: string) => {
   return await Category.destroy({ where: { id: CategoryId } });
 };
 
-export { findAllCategoriesRequest, findByPkCategoryRequest, destroyCategory };
+export {
+  findAllCategoriesRequest,
+  findByPkCategoryRequest,
+  createCategoryRequest,
+  destroyCategory,
+};

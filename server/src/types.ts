@@ -1,34 +1,19 @@
 import Book from './models/Book.ts';
 import Rating from './models/Rating.ts';
 
-type RatingsWithUserType = Array<Rating & RatingWithUserType>;
-
-type RatingWithUserType = Rating & {
+type RatingType = Rating & {
   reviewHelpfulness: string | null;
   reviewScore: string | null;
   reviewSummary: string | null;
   reviewText: string | null;
   user?: { name: string } | null;
-};
-
-type RatingsWithBookType = Array<Rating & RatingWithBookType>;
-
-type RatingWithBookType = Rating & {
-  reviewHelpfulness: string | null;
-  reviewScore: string | null;
-  reviewSummary: string | null;
-  reviewText: string | null;
   book?: { title: string };
 };
+
+type RatingsType = Array<Rating & RatingType>;
 
 type BookType = Book & {
   category?: { name: string };
 };
 
-export {
-  RatingWithUserType,
-  RatingsWithUserType,
-  BookType,
-  RatingsWithBookType,
-  RatingWithBookType,
-};
+export { BookType, RatingType, RatingsType };

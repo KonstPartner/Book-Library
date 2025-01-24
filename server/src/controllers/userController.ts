@@ -7,14 +7,13 @@ import {
 import {
   createUserRequest,
   destroyUser,
-  findAllUserRatingsRequest,
   findAllUsersRequest,
-  findByPkUserRatingRequest,
   findByPkUserRequest,
 } from '../services/usersServices.ts';
-import { RatingsWithBookType, RatingWithBookType } from '../types.ts';
-import { transformRatingWithBook } from '../utils/transformModel.ts';
+import { RatingsType } from '../types.ts';
 import User from '../models/User.ts';
+import { transformRating } from '../utils/transformModel.ts';
+import { findAllUserRatingsRequest } from '../services/ratingsServices.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -59,7 +58,7 @@ const getAllUserRatings = async (req: Request, res: Response) => {
   const { limit, offset, searchRatingsQueries, searchRatingsBookQuery } =
     getRequestQueries(req);
   try {
-    const ratings: RatingsWithBookType = await findAllUserRatingsRequest(
+    const ratings: RatingsType = await findAllUserRatingsRequest(
       UserId,
       limit,
       offset,
@@ -76,43 +75,13 @@ const getAllUserRatings = async (req: Request, res: Response) => {
       return;
     }
 
-    const modifiedRatings = ratings.map((rating) =>
-      transformRatingWithBook(rating)
-    );
+    const modifiedRatings = ratings.map((rating) => transformRating(rating));
 
     handleSuccessResponse(res, modifiedRatings);
   } catch (error) {
     handleErrorResponse({
       res,
       message: `Failed to fetch user ${UserId}.`,
-      error,
-    });
-  }
-};
-
-const getUserRatingById = async (req: Request, res: Response) => {
-  const RatingId = req.params.ratingId;
-  try {
-    const rating: RatingWithBookType | null = await findByPkUserRatingRequest(
-      RatingId
-    );
-
-    if (!rating) {
-      handleErrorResponse({
-        res,
-        message: `Invalid rating ID ${RatingId}: no such rating`,
-        code: 404,
-      });
-      return;
-    }
-
-    const modifiedRating = transformRatingWithBook(rating);
-
-    handleSuccessResponse(res, modifiedRating);
-  } catch (error) {
-    handleErrorResponse({
-      res,
-      message: `Failed to fetch rating ${RatingId}.`,
       error,
     });
   }
@@ -148,7 +117,6 @@ export {
   getAllUsers,
   getUserById,
   getAllUserRatings,
-  getUserRatingById,
   postUser,
   deleteUserById,
 };

@@ -58,7 +58,7 @@ export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
     searchBooksQueries: getBooksQueries(req),
     searchRatingsQueries: getRatingsQueries(req),
     searchQueryName: getSearchQueries(req, ['name']),
-    searchBooksCategoryQuery: getSubSearchQuery(req.query.category, 'category'),
+    searchBooksCategoryQuery: getSubSearchQuery(req.query.category, 'name'),
     searchRatingsUserQuery: getSubSearchQuery(req.query.user, 'name'),
     searchRatingsBookQuery: getSubSearchQuery(req.query.book, 'title'),
   };

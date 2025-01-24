@@ -1,11 +1,7 @@
 import { WhereOptions } from 'sequelize';
 import sequelize from '../config/database.ts';
-import Book from '../models/Book.ts';
-import Rating from '../models/Rating.ts';
 import User from '../models/User.ts';
 import {
-  BookAttributes,
-  RatingAttributes,
   UserAttributes,
 } from '../models/modelsInterfaces.ts';
 import { ulid } from 'ulid';
@@ -37,46 +33,12 @@ const findByPkUserRequest = async (UserId: string) =>
     },
   });
 
-const findAllUserRatingsRequest = async (
-  UserId: string,
-  limit: number,
-  offset: number,
-  searchQueries: WhereOptions<RatingAttributes> | undefined,
-  searchBookQuery: WhereOptions<BookAttributes> | undefined
-) =>
-  await Rating.findAll({
-    where: { ...{ ...searchQueries, userId: UserId } },
-    limit,
-    offset,
-    attributes: { exclude: ['bookId', 'userId'] },
-    include: [
-      {
-        model: Book,
-        as: 'book',
-        attributes: ['title'],
-        where: searchBookQuery,
-      },
-    ],
-  });
-
-const findByPkUserRatingRequest = async (RatingId: string) =>
-  await Rating.findByPk(RatingId, {
-    attributes: { exclude: ['bookId', 'userId'] },
-    include: [
-      {
-        model: Book,
-        as: 'book',
-        attributes: ['title'],
-      },
-    ],
-  });
-
 const createUserRequest = async (data: UserAttributes) => {
   const existingUser = await User.findOne({ where: { name: data.name } });
   if (existingUser) {
     throw {
       code: 400,
-      message: 'User already exists. Please choose a different name.',
+      message: 'User already exists.',
     };
   }
 
@@ -99,8 +61,6 @@ const destroyUser = async (UserId: string) => {
 export {
   findAllUsersRequest,
   findByPkUserRequest,
-  findAllUserRatingsRequest,
-  findByPkUserRatingRequest,
   createUserRequest,
   destroyUser,
 };

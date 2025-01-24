@@ -4,10 +4,10 @@ import {
   createRatingRules,
   createUserRules,
   idIntRule,
-  idRule,
   idStringRule,
   limitRule,
   offsetRule,
+  postCategoryRule,
   ratingIdRule,
 } from './validationRules.ts';
 
@@ -21,8 +21,6 @@ const validateIdString = [...idStringRule];
 
 const validateIdIntAndRatingId = [...idIntRule, ...ratingIdRule];
 
-const validateIdStringAndRatingId = [...idStringRule, ...ratingIdRule];
-
 const validateGetAllBooks = [
   ...limitRule,
   ...offsetRule,
@@ -35,18 +33,17 @@ const validatePostRating = [...createRatingRules];
 
 const validatePostUser = [...createUserRules];
 
-const validateId = [...idRule];
+const validatePostCategory = [...postCategoryRule];
 
 export {
   validateLimit,
   validateLimitAndOffset,
   validateIdIntAndRatingId,
-  validateIdStringAndRatingId,
   validateIdInt,
   validateIdString,
   validateGetAllBooks,
   validatePostBook,
   validatePostRating,
   validatePostUser,
-  validateId,
+  validatePostCategory,
 };

@@ -26,8 +26,8 @@ const idIntRule = [
 const idStringRule = [
   param('id')
     .trim()
-    .isLength({ min: 1, max: 255 })
-    .withMessage('Id must be between 1 and 255 characters long.'),
+    .isLength({ min: 26, max: 26 })
+    .withMessage('Id must be between 26 characters long.'),
 ];
 
 const ratingIdRule = [
@@ -107,9 +107,9 @@ const createBookRules = [
 
 const createRatingRules = [
   body('bookId')
-  .trim()
-  .isInt({ min: 1 })
-  .withMessage('Book id must be a non-negative integer.'),
+    .trim()
+    .isInt({ min: 1 })
+    .withMessage('Book id must be a non-negative integer.'),
   body('userId')
     .isString()
     .exists({ checkNull: true, checkFalsy: true })
@@ -145,11 +145,11 @@ const createUserRules = [
     .withMessage('Name must contain at least 2 letters.'),
 ];
 
-const idRule = [
-  param('id')
-    .trim()
-    .isInt({ min: 1 })
-    .withMessage('Id must be a non-negative integer.'),
+const postCategoryRule = [
+  body('name')
+    .isString()
+    .exists({ checkNull: true })
+    .withMessage('Name is required and cannot be empty.'),
 ];
 
 export {
@@ -162,5 +162,5 @@ export {
   createBookRules,
   createRatingRules,
   createUserRules,
-  idRule,
+  postCategoryRule,
 };

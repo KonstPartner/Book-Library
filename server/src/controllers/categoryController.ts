@@ -5,10 +5,12 @@ import {
   handleSuccessResponse,
 } from '../utils/handleResponse.ts';
 import {
+  createCategoryRequest,
   destroyCategory,
   findAllCategoriesRequest,
   findByPkCategoryRequest,
 } from '../services/categoriesServices.ts';
+import Category from '../models/Category.ts';
 
 const getAllCategories = async (req: Request, res: Response) => {
   try {
@@ -52,6 +54,17 @@ const getCategoryById = async (req: Request, res: Response) => {
   }
 };
 
+const postCategory = async (req: Request, res: Response) => {
+  try {
+    const newCategory: Category = (await createCategoryRequest(
+      req.body
+    )) as Category;
+    handleSuccessResponse(res, newCategory);
+  } catch (error) {
+    handleErrorResponse({ res, error, message: 'Failed to create category.' });
+  }
+};
+
 const deleteCategoryById = async (req: Request, res: Response) => {
   try {
     await destroyCategory(req.params.id);
@@ -65,4 +78,4 @@ const deleteCategoryById = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllCategories, getCategoryById, deleteCategoryById };
+export { getAllCategories, getCategoryById, postCategory, deleteCategoryById };
