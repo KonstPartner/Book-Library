@@ -132,6 +132,19 @@ const createRatingRules = [
     .withMessage('reviewText is required.'),
 ];
 
+const createUserRules = [
+  body('name')
+    .isString()
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('name is required and cannot be empty.')
+    .matches(/^[A-Za-z0-9]+(?:[_@ -][A-Za-z0-9]+)*$/)
+    .withMessage(
+      'Name can only contain letters, spaces, _, @, -, and cannot have multiple special characters in a row. Minimum 2 letters are required.'
+    )
+    .isLength({ min: 2 })
+    .withMessage('Name must contain at least 2 letters.'),
+];
+
 export {
   limitRule,
   offsetRule,
@@ -141,4 +154,5 @@ export {
   booksSearchQueriesRules,
   createBookRules,
   createRatingRules,
+  createUserRules,
 };

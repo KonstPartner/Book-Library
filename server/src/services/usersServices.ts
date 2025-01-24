@@ -8,6 +8,7 @@ import {
   RatingAttributes,
   UserAttributes,
 } from '../models/modelsInterfaces.ts';
+import { ulid } from 'ulid';
 
 const findAllUsersRequest = async (
   limit: number,
@@ -70,9 +71,24 @@ const findByPkUserRatingRequest = async (RatingId: string) =>
     ],
   });
 
+const createUserRequest = async (data: UserAttributes) => {
+  const existingUser = await User.findOne({ where: { name: data.name } });
+  if (existingUser) {
+    throw new Error('User already exists. Please choose a different name.');
+  }
+
+  const newUser = await User.create({
+    id: ulid(),
+    name: data.name,
+  });
+
+  return await findByPkUserRequest(String(newUser.id));
+};
+
 export {
   findAllUsersRequest,
   findByPkUserRequest,
   findAllUserRatingsRequest,
   findByPkUserRatingRequest,
+  createUserRequest,
 };

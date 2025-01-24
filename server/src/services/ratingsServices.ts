@@ -1,3 +1,4 @@
+import { ulid } from 'ulid';
 import sequelize from '../config/database.ts';
 import { RatingAttributes } from '../models/modelsInterfaces.ts';
 import Rating from '../models/Rating.ts';
@@ -19,6 +20,7 @@ const createRatingRequest = async (
 
     const newRating = await Rating.create(
       {
+        id: ulid(),
         bookId: data.bookId,
         userId: data.userId,
         reviewHelpfulness: data.reviewHelpfulness || null,

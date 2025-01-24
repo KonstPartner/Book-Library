@@ -5,11 +5,13 @@ import {
   getAllUsers,
   getUserById,
   getUserRatingById,
+  postUser,
 } from '../controllers/userController.ts';
 import {
   validateIdString,
   validateIdStringAndRatingId,
   validateLimitAndOffset,
+  validatePostUser,
 } from '../middleware/validators/validators.ts';
 
 const router = express.Router();
@@ -31,5 +33,7 @@ router.get(
   validationErrorHandler,
   getUserRatingById
 );
+
+router.post('/', validatePostUser, validationErrorHandler, postUser);
 
 export default router;

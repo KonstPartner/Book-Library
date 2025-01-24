@@ -5,6 +5,7 @@ import {
   handleSuccessResponse,
 } from '../utils/handleResponse.ts';
 import {
+  createUserRequest,
   findAllUserRatingsRequest,
   findAllUsersRequest,
   findByPkUserRatingRequest,
@@ -12,6 +13,7 @@ import {
 } from '../services/usersServices.ts';
 import { RatingsWithBookType, RatingWithBookType } from '../types.ts';
 import { transformRatingWithBook } from '../utils/transformModel.ts';
+import User from '../models/User.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -115,4 +117,23 @@ const getUserRatingById = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllUsers, getUserById, getAllUserRatings, getUserRatingById };
+const postUser = async (req: Request, res: Response) => {
+  try {
+    const newUser: User = (await createUserRequest(req.body)) as User;
+    handleSuccessResponse(res, newUser);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to create user.',
+    });
+  }
+};
+
+export {
+  getAllUsers,
+  getUserById,
+  getAllUserRatings,
+  getUserRatingById,
+  postUser,
+};

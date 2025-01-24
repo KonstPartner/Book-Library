@@ -23,6 +23,7 @@ User.init(
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      unique: true,
     },
   },
   {
@@ -32,7 +33,6 @@ User.init(
     timestamps: false,
     indexes: [
       {
-        unique: true,
         fields: ['name'],
       },
     ],
