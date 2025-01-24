@@ -145,6 +145,13 @@ const createUserRules = [
     .withMessage('Name must contain at least 2 letters.'),
 ];
 
+const idRule = [
+  param('id')
+    .trim()
+    .isInt({ min: 1 })
+    .withMessage('Id must be a non-negative integer.'),
+];
+
 export {
   limitRule,
   offsetRule,
@@ -155,4 +162,5 @@ export {
   createBookRules,
   createRatingRules,
   createUserRules,
+  idRule,
 };

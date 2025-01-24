@@ -1,6 +1,7 @@
 import express from 'express';
 import validationErrorHandler from '../middleware/validationErrorHandler.ts';
 import {
+  deleteUserById,
   getAllUserRatings,
   getAllUsers,
   getUserById,
@@ -8,6 +9,7 @@ import {
   postUser,
 } from '../controllers/userController.ts';
 import {
+  validateId,
   validateIdString,
   validateIdStringAndRatingId,
   validateLimitAndOffset,
@@ -35,5 +37,7 @@ router.get(
 );
 
 router.post('/', validatePostUser, validationErrorHandler, postUser);
+
+router.delete('/:id', validationErrorHandler, validateId, deleteUserById);
 
 export default router;

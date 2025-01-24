@@ -5,6 +5,7 @@ import {
   handleSuccessResponse,
 } from '../utils/handleResponse.ts';
 import {
+  destroyCategory,
   findAllCategoriesRequest,
   findByPkCategoryRequest,
 } from '../services/categoriesServices.ts';
@@ -51,4 +52,17 @@ const getCategoryById = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllCategories, getCategoryById };
+const deleteCategoryById = async (req: Request, res: Response) => {
+  try {
+    await destroyCategory(req.params.id);
+    handleSuccessResponse(res);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to delete category ' + req.params.id,
+    });
+  }
+};
+
+export { getAllCategories, getCategoryById, deleteCategoryById };

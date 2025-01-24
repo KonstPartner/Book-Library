@@ -6,6 +6,7 @@ import {
 } from '../utils/handleResponse.ts';
 import {
   createUserRequest,
+  destroyUser,
   findAllUserRatingsRequest,
   findAllUsersRequest,
   findByPkUserRatingRequest,
@@ -130,10 +131,24 @@ const postUser = async (req: Request, res: Response) => {
   }
 };
 
+const deleteUserById = async (req: Request, res: Response) => {
+  try {
+    await destroyUser(req.params.id);
+    handleSuccessResponse(res);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to delete user ' + req.params.id,
+    });
+  }
+};
+
 export {
   getAllUsers,
   getUserById,
   getAllUserRatings,
   getUserRatingById,
   postUser,
+  deleteUserById,
 };

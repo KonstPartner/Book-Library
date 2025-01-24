@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { BookType, RatingsWithUserType, RatingWithUserType } from '../types.ts';
 import {
   createBookRequest,
+  destroyBook,
   findAllBookRatingsRequest,
   findAllBooksRequest,
   findByPkBookRatingRequest,
@@ -151,6 +152,19 @@ const postBook = async (req: Request, res: Response) => {
   }
 };
 
+const deleteBookById = async (req: Request, res: Response) => {
+  try {
+    await destroyBook(req.params.id);
+    handleSuccessResponse(res);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to delete book ' + req.params.id,
+    });
+  }
+};
+
 export {
   getAllBooks,
   getBookById,
@@ -158,4 +172,5 @@ export {
   getBookRatingById,
   getRandomBooks,
   postBook,
+  deleteBookById,
 };

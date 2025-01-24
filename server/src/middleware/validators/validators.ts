@@ -4,6 +4,7 @@ import {
   createRatingRules,
   createUserRules,
   idIntRule,
+  idRule,
   idStringRule,
   limitRule,
   offsetRule,
@@ -34,6 +35,8 @@ const validatePostRating = [...createRatingRules];
 
 const validatePostUser = [...createUserRules];
 
+const validateId = [...idRule];
+
 export {
   validateLimit,
   validateLimitAndOffset,
@@ -45,4 +48,5 @@ export {
   validatePostBook,
   validatePostRating,
   validatePostUser,
+  validateId,
 };

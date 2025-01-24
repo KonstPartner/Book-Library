@@ -142,6 +142,14 @@ const createBookRequest = async (
   }
 };
 
+const destroyBook = async (BookId: string) => {
+  const book = await Book.findByPk(BookId);
+  if (!book) {
+    throw { code: 404, message: `Error: No such book with id ${BookId}` };
+  }
+  return await Book.destroy({ where: { id: BookId } });
+};
+
 export {
   findAllBooksRequest,
   findByPkBookRequest,
@@ -149,4 +157,5 @@ export {
   findByPkBookRatingRequest,
   findRandomBooksRequest,
   createBookRequest,
+  destroyBook,
 };

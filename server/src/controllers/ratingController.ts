@@ -5,7 +5,10 @@ import {
   handleSuccessResponse,
 } from '../utils/handleResponse.ts';
 import { transformRatingWithBook } from '../utils/transformModel.ts';
-import { createRatingRequest } from '../services/ratingsServices.ts';
+import {
+  createRatingRequest,
+  destroyRating,
+} from '../services/ratingsServices.ts';
 
 const postRating = async (req: Request, res: Response) => {
   try {
@@ -20,4 +23,17 @@ const postRating = async (req: Request, res: Response) => {
   }
 };
 
-export { postRating };
+const deleteRatingById = async (req: Request, res: Response) => {
+  try {
+    await destroyRating(req.params.id);
+    handleSuccessResponse(res);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to delete rating ' + req.params.id,
+    });
+  }
+};
+
+export { postRating, deleteRatingById };

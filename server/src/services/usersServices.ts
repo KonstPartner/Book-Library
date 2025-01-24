@@ -74,7 +74,10 @@ const findByPkUserRatingRequest = async (RatingId: string) =>
 const createUserRequest = async (data: UserAttributes) => {
   const existingUser = await User.findOne({ where: { name: data.name } });
   if (existingUser) {
-    throw new Error('User already exists. Please choose a different name.');
+    throw {
+      code: 400,
+      message: 'User already exists. Please choose a different name.',
+    };
   }
 
   const newUser = await User.create({
@@ -85,10 +88,19 @@ const createUserRequest = async (data: UserAttributes) => {
   return await findByPkUserRequest(String(newUser.id));
 };
 
+const destroyUser = async (UserId: string) => {
+  const user = await User.findByPk(UserId);
+  if (!user) {
+    throw { code: 404, message: `Error: No such user with id ${UserId}` };
+  }
+  return await User.destroy({ where: { id: UserId } });
+};
+
 export {
   findAllUsersRequest,
   findByPkUserRequest,
   findAllUserRatingsRequest,
   findByPkUserRatingRequest,
   createUserRequest,
+  destroyUser,
 };

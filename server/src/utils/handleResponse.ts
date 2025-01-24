@@ -13,15 +13,31 @@ const handleErrorResponse = ({
   error = new Error('none'),
   code = 500,
 }: ErrorResponseParams) => {
-  res.status(code).json({
-    success: false,
-    message,
-    error: error instanceof Error ? error.message : error,
-  });
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    'code' in error
+  ) {
+    res.status(Number(error.code)).json({
+      success: false,
+      message: error.message,
+    });
+  } else {
+    res.status(code).json({
+      success: false,
+      message,
+      error: error instanceof Error ? error.message : error,
+    });
+  }
 };
 
-const handleSuccessResponse = (res: Response, data: object) => {
-  res.status(200).json({ success: true, data });
+const handleSuccessResponse = (res: Response, data: object | null = null) => {
+  if (data) {
+    res.status(200).json({ success: true, data });
+  } else {
+    res.status(204).send();
+  }
 };
 
 export { handleErrorResponse, handleSuccessResponse };

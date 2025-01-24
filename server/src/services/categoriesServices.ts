@@ -17,4 +17,15 @@ const findAllCategoriesRequest = async (
 const findByPkCategoryRequest = async (CategoryId: string) =>
   await Category.findByPk(CategoryId);
 
-export { findAllCategoriesRequest, findByPkCategoryRequest };
+const destroyCategory = async (CategoryId: string) => {
+  const category = await Category.findByPk(CategoryId);
+  if (!category) {
+    throw {
+      code: 404,
+      message: `Error: No such category with id ${CategoryId}`,
+    };
+  }
+  return await Category.destroy({ where: { id: CategoryId } });
+};
+
+export { findAllCategoriesRequest, findByPkCategoryRequest, destroyCategory };

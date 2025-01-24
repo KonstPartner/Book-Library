@@ -6,10 +6,12 @@ import {
   getBookRatingById,
   getRandomBooks,
   postBook,
+  deleteBookById,
 } from '../controllers/bookController.ts';
 import validationErrorHandler from '../middleware/validationErrorHandler.ts';
 import {
   validateGetAllBooks,
+  validateId,
   validateIdInt,
   validateIdIntAndRatingId,
   validateLimit,
@@ -40,5 +42,7 @@ router.get(
 );
 
 router.post('/', validatePostBook, validationErrorHandler, postBook);
+
+router.delete('/:id', validationErrorHandler, validateId, deleteBookById);
 
 export default router;
