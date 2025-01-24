@@ -9,6 +9,7 @@ import {
   offsetRule,
   postCategoryRule,
   ratingIdRule,
+  ratingsSearchQueriesRules,
 } from './validationRules.ts';
 
 const validateLimit = [...limitRule];
@@ -26,6 +27,11 @@ const validateGetAllBooks = [
   ...offsetRule,
   ...booksSearchQueriesRules,
 ];
+const validateGetAllRatings = [
+  ...limitRule,
+  ...offsetRule,
+  ...ratingsSearchQueriesRules,
+];
 
 const validatePostBook = [...createBookRules];
 
@@ -42,6 +48,7 @@ export {
   validateIdInt,
   validateIdString,
   validateGetAllBooks,
+  validateGetAllRatings,
   validatePostBook,
   validatePostRating,
   validatePostUser,

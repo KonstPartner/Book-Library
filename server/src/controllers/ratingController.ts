@@ -8,9 +8,29 @@ import { transformRating } from '../utils/transformModel.ts';
 import {
   createRatingRequest,
   destroyRating,
+  findAllRatingsRequest,
   findByPkRatingRequest,
 } from '../services/ratingsServices.ts';
 import { RatingType } from '../types.ts';
+import getRequestQueries from '../utils/getRequestQueries.ts';
+
+const getAllRatings = async (req: Request, res: Response) => {
+  try {
+    const { limit, offset, searchRatingsQueries } = getRequestQueries(req);
+    const ratings = await findAllRatingsRequest(
+      limit,
+      offset,
+      searchRatingsQueries,
+    );
+    handleSuccessResponse(res, ratings);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to fetch ratings.',
+    });
+  }
+};
 
 const getRatingById = async (req: Request, res: Response) => {
   const RatingId = req.params.id;
@@ -62,4 +82,4 @@ const deleteRatingById = async (req: Request, res: Response) => {
   }
 };
 
-export { getRatingById, postRating, deleteRatingById };
+export { getAllRatings, getRatingById, postRating, deleteRatingById };

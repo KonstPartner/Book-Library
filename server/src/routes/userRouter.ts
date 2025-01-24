@@ -8,6 +8,7 @@ import {
   postUser,
 } from '../controllers/userController.ts';
 import {
+  validateGetAllRatings,
   validateIdString,
   validateLimitAndOffset,
   validatePostUser,
@@ -21,13 +22,13 @@ router.get('/:id', validateIdString, validationErrorHandler, getUserById);
 
 router.get(
   '/:id/ratings',
-  validateLimitAndOffset,
+  validateGetAllRatings,
   validationErrorHandler,
   getAllUserRatings
 );
 
 router.post('/', validatePostUser, validationErrorHandler, postUser);
 
-router.delete('/:id', validationErrorHandler, validateIdString, deleteUserById);
+router.delete('/:id', validateIdString, validationErrorHandler, deleteUserById);
 
 export default router;

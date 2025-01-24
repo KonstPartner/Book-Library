@@ -70,6 +70,29 @@ const booksSearchQueriesRules = [
     .withMessage('Category must be between 1 and 100 characters long.'),
 ];
 
+const ratingsSearchQueriesRules = [
+  query('reviewHelpfulness')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 255 })
+    .withMessage('reviewHelpfulness must be between 1 and 255 characters long.'),
+  query('reviewScore')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 255 })
+    .withMessage('reviewScore must be between 1 and 255 characters long.'),
+  query('reviewSummary')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 255 })
+    .withMessage('reviewSummary name must be between 1 and 255 characters long.'),
+  query('reviewScore')
+    .optional()
+    .trim()
+    .isLength({ min: 1, max: 500 })
+    .withMessage('reviewScore name must be between 1 and 500 characters long.'),
+];
+
 const createBookRules = [
   body('title')
     .isString()
@@ -159,6 +182,7 @@ export {
   idStringRule,
   ratingIdRule,
   booksSearchQueriesRules,
+  ratingsSearchQueriesRules,
   createBookRules,
   createRatingRules,
   createUserRules,

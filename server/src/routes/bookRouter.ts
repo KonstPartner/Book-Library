@@ -10,9 +10,9 @@ import {
 import validationErrorHandler from '../middleware/validationErrorHandler.ts';
 import {
   validateGetAllBooks,
+  validateGetAllRatings,
   validateIdInt,
   validateLimit,
-  validateLimitAndOffset,
   validatePostBook,
 } from '../middleware/validators/validators.ts';
 
@@ -26,13 +26,13 @@ router.get('/:id', validateIdInt, validationErrorHandler, getBookById);
 
 router.get(
   '/:id/ratings',
-  validateLimitAndOffset,
+  validateGetAllRatings,
   validationErrorHandler,
   getAllBookRatings
 );
 
 router.post('/', validatePostBook, validationErrorHandler, postBook);
 
-router.delete('/:id', validationErrorHandler, validateIdInt, deleteBookById);
+router.delete('/:id', validateIdInt, validationErrorHandler, deleteBookById);
 
 export default router;

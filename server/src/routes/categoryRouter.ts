@@ -25,6 +25,11 @@ router.get('/:id', validateIdInt, validationErrorHandler, getCategoryById);
 
 router.post('/', validatePostCategory, validationErrorHandler, postCategory);
 
-router.delete('/:id', validationErrorHandler, validateIdInt, deleteCategoryById);
+router.delete(
+  '/:id',
+  validateIdInt,
+  validationErrorHandler,
+  deleteCategoryById
+);
 
 export default router;

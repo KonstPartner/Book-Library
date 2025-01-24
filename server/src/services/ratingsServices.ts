@@ -12,6 +12,19 @@ import User from '../models/User.ts';
 import Book from '../models/Book.ts';
 import { WhereOptions } from 'sequelize';
 
+const findAllRatingsRequest = async (
+  limit: number,
+  offset: number,
+  searchQueries: WhereOptions<RatingAttributes> | undefined,
+) =>
+  await Rating.findAll({
+    limit,
+    offset,
+    order: [['id', 'ASC']],
+    where: searchQueries,
+    attributes: { exclude: ['categoryId'] },
+  });
+
 const findByPkRatingRequest = async (RatingId: string) =>
   await Rating.findByPk(RatingId, {
     attributes: { exclude: ['bookId', 'userId'] },
@@ -132,6 +145,7 @@ const destroyRating = async (RatingId: string) => {
 };
 
 export {
+  findAllRatingsRequest,
   findByPkRatingRequest,
   findAllBookRatingsRequest,
   findAllUserRatingsRequest,
