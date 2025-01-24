@@ -107,9 +107,9 @@ const createBookRules = [
 
 const createRatingRules = [
   body('bookId')
-    .isString()
-    .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('bookId is required and cannot be empty.'),
+  .trim()
+  .isInt({ min: 1 })
+  .withMessage('Book id must be a non-negative integer.'),
   body('userId')
     .isString()
     .exists({ checkNull: true, checkFalsy: true })
