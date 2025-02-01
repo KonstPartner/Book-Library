@@ -50,7 +50,7 @@ const createUserRequest = async (data: UserAttributes) => {
   return await findByPkUserRequest(String(newUser.id));
 };
 
-const destroyUser = async (UserId: string) => {
+const destroyUserRequest = async (UserId: string) => {
   const user = await User.findByPk(UserId);
   if (!user) {
     throw { code: 404, message: `Error: No such user with id ${UserId}` };
@@ -62,5 +62,5 @@ export {
   findAllUsersRequest,
   findByPkUserRequest,
   createUserRequest,
-  destroyUser,
+  destroyUserRequest,
 };

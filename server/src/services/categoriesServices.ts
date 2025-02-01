@@ -32,7 +32,7 @@ const createCategoryRequest = async (data: CategoryAttributes) => {
   return await findByPkCategoryRequest(String(newCategory.id));
 };
 
-const destroyCategory = async (CategoryId: string) => {
+const destroyCategoryRequest = async (CategoryId: string) => {
   const category = await Category.findByPk(CategoryId);
   if (!category) {
     throw {
@@ -47,5 +47,5 @@ export {
   findAllCategoriesRequest,
   findByPkCategoryRequest,
   createCategoryRequest,
-  destroyCategory,
+  destroyCategoryRequest,
 };

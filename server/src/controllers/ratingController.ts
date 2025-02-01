@@ -7,7 +7,7 @@ import {
 import { transformRating } from '../utils/transformModel.ts';
 import {
   createRatingRequest,
-  destroyRating,
+  destroyRatingRequest,
   findAllRatingsRequest,
   findByPkRatingRequest,
 } from '../services/ratingsServices.ts';
@@ -71,7 +71,7 @@ const postRating = async (req: Request, res: Response) => {
 
 const deleteRatingById = async (req: Request, res: Response) => {
   try {
-    await destroyRating(req.params.id);
+    await destroyRatingRequest(req.params.id);
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({

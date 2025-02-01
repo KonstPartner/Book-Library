@@ -2,10 +2,11 @@ import { Request, Response } from 'express';
 import { BookType, RatingsType } from '../types.ts';
 import {
   createBookRequest,
-  destroyBook,
+  destroyBookRequest,
   findAllBooksRequest,
   findByPkBookRequest,
   findRandomBooksRequest,
+  updateBookRequest,
 } from '../services/booksServices.ts';
 import {
   handleErrorResponse,
@@ -120,13 +121,26 @@ const postBook = async (req: Request, res: Response) => {
 
 const deleteBookById = async (req: Request, res: Response) => {
   try {
-    await destroyBook(req.params.id);
+    await destroyBookRequest(req.params.id);
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({
       res,
       error,
       message: 'Failed to delete book ' + req.params.id,
+    });
+  }
+};
+
+const patchBookById = async (req: Request, res: Response) => {
+  try {
+    const book = await updateBookRequest({ id: req.params.id, ...req.body });
+    handleSuccessResponse(res, book);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to update book ' + req.params.id,
     });
   }
 };
@@ -138,4 +152,5 @@ export {
   getRandomBooks,
   postBook,
   deleteBookById,
+  patchBookById,
 };

@@ -136,7 +136,7 @@ const findAllUserRatingsRequest = async (
     ],
   });
 
-const destroyRating = async (RatingId: string) => {
+const destroyRatingRequest = async (RatingId: string) => {
   const rating = await Rating.findByPk(RatingId);
   if (!rating) {
     throw { code: 404, message: `Error: No such rating with id ${RatingId}` };
@@ -150,5 +150,5 @@ export {
   findAllBookRatingsRequest,
   findAllUserRatingsRequest,
   createRatingRequest,
-  destroyRating,
+  destroyRatingRequest,
 };

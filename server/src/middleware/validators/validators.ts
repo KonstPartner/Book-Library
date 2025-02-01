@@ -41,6 +41,8 @@ const validatePostUser = [...createUserRules];
 
 const validatePostCategory = [...postCategoryRule];
 
+const validatePatchBook = [...createBookRules, ...idIntRule];
+
 export {
   validateLimit,
   validateLimitAndOffset,
@@ -53,4 +55,5 @@ export {
   validatePostRating,
   validatePostUser,
   validatePostCategory,
+  validatePatchBook,
 };

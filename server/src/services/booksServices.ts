@@ -111,7 +111,7 @@ const createBookRequest = async (
   }
 };
 
-const destroyBook = async (BookId: string) => {
+const destroyBookRequest = async (BookId: string) => {
   const book = await Book.findByPk(BookId);
   if (!book) {
     throw { code: 404, message: `Error: No such book with id ${BookId}` };
@@ -119,10 +119,34 @@ const destroyBook = async (BookId: string) => {
   return await Book.destroy({ where: { id: BookId } });
 };
 
+const updateBookRequest = async (
+  data: Partial<BookAttributes> & { category?: string }
+) => {
+  const { id, category, ...updates } = data;
+
+  const book = await Book.findByPk(id);
+  if (!book) {
+    throw { code: 404, message: `Error: No such book with id ${id}` };
+  }
+
+  Object.assign(book, updates);
+
+  if (category) {
+    const [createdCategory] = await Category.findOrCreate({
+      where: { name: category },
+    });
+    book.categoryId = createdCategory.id;
+  }
+
+  await book.save();
+  return book;
+};
+
 export {
   findAllBooksRequest,
   findByPkBookRequest,
   findRandomBooksRequest,
   createBookRequest,
-  destroyBook,
+  destroyBookRequest,
+  updateBookRequest,
 };

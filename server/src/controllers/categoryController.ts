@@ -6,7 +6,7 @@ import {
 } from '../utils/handleResponse.ts';
 import {
   createCategoryRequest,
-  destroyCategory,
+  destroyCategoryRequest,
   findAllCategoriesRequest,
   findByPkCategoryRequest,
 } from '../services/categoriesServices.ts';
@@ -67,7 +67,7 @@ const postCategory = async (req: Request, res: Response) => {
 
 const deleteCategoryById = async (req: Request, res: Response) => {
   try {
-    await destroyCategory(req.params.id);
+    await destroyCategoryRequest(req.params.id);
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({

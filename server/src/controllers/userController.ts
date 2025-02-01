@@ -6,7 +6,7 @@ import {
 } from '../utils/handleResponse.ts';
 import {
   createUserRequest,
-  destroyUser,
+  destroyUserRequest,
   findAllUsersRequest,
   findByPkUserRequest,
 } from '../services/usersServices.ts';
@@ -102,7 +102,7 @@ const postUser = async (req: Request, res: Response) => {
 
 const deleteUserById = async (req: Request, res: Response) => {
   try {
-    await destroyUser(req.params.id);
+    await destroyUserRequest(req.params.id);
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({
