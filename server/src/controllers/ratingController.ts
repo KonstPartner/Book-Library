@@ -10,6 +10,7 @@ import {
   destroyRatingRequest,
   findAllRatingsRequest,
   findByPkRatingRequest,
+  updateRatingRequest,
 } from '../services/ratingsServices.ts';
 import { RatingType } from '../types.ts';
 import getRequestQueries from '../utils/getRequestQueries.ts';
@@ -20,7 +21,7 @@ const getAllRatings = async (req: Request, res: Response) => {
     const ratings = await findAllRatingsRequest(
       limit,
       offset,
-      searchRatingsQueries,
+      searchRatingsQueries
     );
     handleSuccessResponse(res, ratings);
   } catch (error) {
@@ -82,4 +83,26 @@ const deleteRatingById = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllRatings, getRatingById, postRating, deleteRatingById };
+const patchRatingById = async (req: Request, res: Response) => {
+  try {
+    const rating = await updateRatingRequest({
+      id: req.params.id,
+      ...req.body,
+    });
+    handleSuccessResponse(res, rating);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to update rating ' + req.params.id,
+    });
+  }
+};
+
+export {
+  getAllRatings,
+  getRatingById,
+  postRating,
+  deleteRatingById,
+  patchRatingById,
+};

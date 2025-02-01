@@ -144,6 +144,22 @@ const destroyRatingRequest = async (RatingId: string) => {
   return await Rating.destroy({ where: { id: RatingId } });
 };
 
+const updateRatingRequest = async (
+  data: Partial<RatingAttributes>
+) => {
+  const { id, ...updates } = data;
+
+  const rating = await Rating.findByPk(id);
+  if (!rating) {
+    throw { code: 404, message: `Error: No such rating with id ${id}` };
+  }
+
+  Object.assign(rating, updates);
+
+  await rating.save();
+  return rating;
+};
+
 export {
   findAllRatingsRequest,
   findByPkRatingRequest,
@@ -151,4 +167,5 @@ export {
   findAllUserRatingsRequest,
   createRatingRequest,
   destroyRatingRequest,
+  updateRatingRequest,
 };

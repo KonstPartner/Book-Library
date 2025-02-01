@@ -4,11 +4,13 @@ import {
   deleteRatingById,
   getAllRatings,
   getRatingById,
+  patchRatingById,
   postRating,
 } from '../controllers/ratingController.ts';
 import {
   validateGetAllRatings,
   validateIdString,
+  validatePatchRating,
   validatePostRating,
 } from '../middleware/validators/validators.ts';
 
@@ -26,5 +28,7 @@ router.delete(
   validationErrorHandler,
   deleteRatingById
 );
+
+router.patch('/:id', validatePatchRating, validationErrorHandler, patchRatingById);
 
 export default router;

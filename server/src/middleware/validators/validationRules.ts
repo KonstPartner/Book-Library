@@ -75,7 +75,9 @@ const ratingsSearchQueriesRules = [
     .optional()
     .trim()
     .isLength({ min: 1, max: 255 })
-    .withMessage('reviewHelpfulness must be between 1 and 255 characters long.'),
+    .withMessage(
+      'reviewHelpfulness must be between 1 and 255 characters long.'
+    ),
   query('reviewScore')
     .optional()
     .trim()
@@ -85,7 +87,9 @@ const ratingsSearchQueriesRules = [
     .optional()
     .trim()
     .isLength({ min: 1, max: 255 })
-    .withMessage('reviewSummary name must be between 1 and 255 characters long.'),
+    .withMessage(
+      'reviewSummary name must be between 1 and 255 characters long.'
+    ),
   query('reviewScore')
     .optional()
     .trim()
@@ -175,6 +179,86 @@ const postCategoryRule = [
     .withMessage('Name is required and cannot be empty.'),
 ];
 
+const patchBookRules = [
+  body('title')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('Title cannot be empty if provided.'),
+  body('description')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('Description cannot be empty if provided.'),
+  body('author')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('Author cannot be empty if provided.'),
+  body('image')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('Image cannot be empty if provided.'),
+  body('publisher')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('Publisher cannot be empty if provided.'),
+  body('publishedDate')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('PublishedDate cannot be empty if provided.'),
+  body('infoLink')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('InfoLink cannot be empty if provided.'),
+  body('category')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('Category cannot be empty if provided.'),
+];
+
+const patchRatingRules = [
+  body('reviewHelpfulness')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('reviewHelpfulness cannot be empty if provided.'),
+  body('reviewScore')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('reviewScore cannot be empty if provided.'),
+  body('reviewSummary')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('reviewSummary cannot be empty if provided.'),
+  body('reviewText')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('reviewText cannot be empty if provided.'),
+];
+
+const patchUserRules = [
+  body('name')
+    .optional()
+    .isString()
+    .notEmpty()
+    .withMessage('Name cannot be empty if provided.')
+    .matches(/^[A-Za-z]+(?:[_@ -][A-Za-z]+)*$/)
+    .withMessage(
+      'Name can only contain letters, spaces, _, @, -, and cannot have multiple special characters in a row. Minimum 2 letters are required.'
+    )
+    .isLength({ min: 2 })
+    .withMessage('Name must contain at least 2 letters.'),
+];
+
 export {
   limitRule,
   offsetRule,
@@ -187,4 +271,7 @@ export {
   createRatingRules,
   createUserRules,
   postCategoryRule,
+  patchBookRules,
+  patchRatingRules,
+  patchUserRules,
 };

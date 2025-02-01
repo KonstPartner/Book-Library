@@ -1,9 +1,7 @@
 import { WhereOptions } from 'sequelize';
 import sequelize from '../config/database.ts';
 import User from '../models/User.ts';
-import {
-  UserAttributes,
-} from '../models/modelsInterfaces.ts';
+import { UserAttributes } from '../models/modelsInterfaces.ts';
 import { ulid } from 'ulid';
 
 const findAllUsersRequest = async (
@@ -58,9 +56,24 @@ const destroyUserRequest = async (UserId: string) => {
   return await User.destroy({ where: { id: UserId } });
 };
 
+const updateUserRequest = async (data: Partial<UserAttributes>) => {
+  const { id, ...updates } = data;
+
+  const user = await User.findByPk(id);
+  if (!user) {
+    throw { code: 404, message: `Error: No such user with id ${id}` };
+  }
+
+  Object.assign(user, updates);
+
+  await user.save();
+  return user;
+};
+
 export {
   findAllUsersRequest,
   findByPkUserRequest,
   createUserRequest,
   destroyUserRequest,
+  updateUserRequest,
 };

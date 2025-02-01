@@ -9,6 +9,7 @@ import {
   destroyUserRequest,
   findAllUsersRequest,
   findByPkUserRequest,
+  updateUserRequest,
 } from '../services/usersServices.ts';
 import { RatingsType } from '../types.ts';
 import User from '../models/User.ts';
@@ -113,10 +114,27 @@ const deleteUserById = async (req: Request, res: Response) => {
   }
 };
 
+const patchUserById = async (req: Request, res: Response) => {
+  try {
+    const user = await updateUserRequest({
+      id: req.params.id,
+      ...req.body,
+    });
+    handleSuccessResponse(res, user);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to update user ' + req.params.id,
+    });
+  }
+};
+
 export {
   getAllUsers,
   getUserById,
   getAllUserRatings,
   postUser,
   deleteUserById,
+  patchUserById,
 };

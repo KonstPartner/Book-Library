@@ -7,6 +7,9 @@ import {
   idStringRule,
   limitRule,
   offsetRule,
+  patchBookRules,
+  patchRatingRules,
+  patchUserRules,
   postCategoryRule,
   ratingIdRule,
   ratingsSearchQueriesRules,
@@ -41,7 +44,12 @@ const validatePostUser = [...createUserRules];
 
 const validatePostCategory = [...postCategoryRule];
 
-const validatePatchBook = [...createBookRules, ...idIntRule];
+const validatePatchBook = [...patchBookRules, ...idIntRule];
+
+const validatePatchRating = [...patchRatingRules, ...idStringRule];
+
+
+const validatePatchUser = [...patchUserRules, ...idStringRule];
 
 export {
   validateLimit,
@@ -56,4 +64,6 @@ export {
   validatePostUser,
   validatePostCategory,
   validatePatchBook,
+  validatePatchRating,
+  validatePatchUser,
 };
