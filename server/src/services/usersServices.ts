@@ -31,14 +31,18 @@ const findByPkUserRequest = async (UserId: string) =>
     },
   });
 
-const createUserRequest = async (data: UserAttributes) => {
-  const existingUser = await User.findOne({ where: { name: data.name } });
+const existingUser = async (name: string) => {
+  const existingUser = await User.findOne({ where: { name } });
   if (existingUser) {
     throw {
       code: 400,
       message: 'User already exists.',
     };
   }
+};
+
+const createUserRequest = async (data: UserAttributes) => {
+  await existingUser(data.name);
 
   const newUser = await User.create({
     id: ulid(),
@@ -58,6 +62,8 @@ const destroyUserRequest = async (UserId: string) => {
 
 const updateUserRequest = async (data: Partial<UserAttributes>) => {
   const { id, ...updates } = data;
+
+  await existingUser(data.name as string);
 
   const user = await User.findByPk(id);
   if (!user) {

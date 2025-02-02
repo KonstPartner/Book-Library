@@ -124,22 +124,30 @@ const updateBookRequest = async (
 ) => {
   const { id, category, ...updates } = data;
 
-  const book = await Book.findByPk(id);
-  if (!book) {
-    throw { code: 404, message: `Error: No such book with id ${id}` };
+  const transaction = await sequelize.transaction();
+  try {
+    const book = await Book.findByPk(id, { transaction });
+    if (!book) {
+      throw { code: 404, message: `Error: No such book with id ${id}` };
+    }
+
+    Object.assign(book, updates);
+
+    if (category) {
+      const [createdCategory] = await Category.findOrCreate({
+        where: { name: category },
+        transaction,
+      });
+      book.categoryId = createdCategory.id;
+    }
+
+    await book.save({ transaction });
+    await transaction.commit();
+    return book;
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
   }
-
-  Object.assign(book, updates);
-
-  if (category) {
-    const [createdCategory] = await Category.findOrCreate({
-      where: { name: category },
-    });
-    book.categoryId = createdCategory.id;
-  }
-
-  await book.save();
-  return book;
 };
 
 export {
