@@ -15,14 +15,11 @@ import {
   ratingsSearchQueriesRules,
 } from './validationRules.ts';
 
-const validateLimit = [...limitRule];
-
+const validateLimit = limitRule;
 const validateLimitAndOffset = [...limitRule, ...offsetRule];
 
-const validateIdInt = [...idIntRule];
-
-const validateIdString = [...idStringRule];
-
+const validateIdInt = idIntRule;
+const validateIdString = idStringRule;
 const validateIdIntAndRatingId = [...idIntRule, ...ratingIdRule];
 
 const validateGetAllBooks = [
@@ -36,19 +33,13 @@ const validateGetAllRatings = [
   ...ratingsSearchQueriesRules,
 ];
 
-const validatePostBook = [...createBookRules];
-
-const validatePostRating = [...createRatingRules];
-
-const validatePostUser = [...createUserRules];
-
-const validatePostCategory = [...postCategoryRule];
+const validatePostBook = createBookRules;
+const validatePostRating = createRatingRules;
+const validatePostUser = createUserRules;
+const validatePostCategory = postCategoryRule;
 
 const validatePatchBook = [...patchBookRules, ...idIntRule];
-
 const validatePatchRating = [...patchRatingRules, ...idStringRule];
-
-
 const validatePatchUser = [...patchUserRules, ...idStringRule];
 
 export {
