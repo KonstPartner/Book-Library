@@ -1,6 +1,6 @@
 import fs from 'fs';
 import csvParser from 'csv-parser';
-import { BATCH_SIZE } from '../config.ts';
+import { BATCH_SIZE } from '../../../seed/import/config.ts';
 
 export default async (callback: any, csvPath: string, table: string) => {
   const rowsBuffer: any[] = [];

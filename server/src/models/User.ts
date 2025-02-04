@@ -1,11 +1,8 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database.ts';
+import { UserAttributes } from './modelsInterfaces.ts';
 
-interface UserAttributes {
-  id: string;
-  name: string;
-}
-
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
 class User
@@ -19,19 +16,26 @@ class User
 User.init(
   {
     id: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(26),
       primaryKey: true,
+      allowNull: false,
     },
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      unique: true,
     },
   },
   {
     sequelize,
     modelName: 'User',
     tableName: 'users',
-    timestamps: true,
+    timestamps: false,
+    indexes: [
+      {
+        fields: ['name'],
+      },
+    ],
   }
 );
 

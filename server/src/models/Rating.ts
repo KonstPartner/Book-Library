@@ -1,24 +1,16 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database.ts';
 import User from './User.ts';
+import { RatingAttributes } from './modelsInterfaces.ts';
 
-interface RatingAttributes {
-  id: number;
-  bookId: number;
-  userId: string;
-  reviewHelpfulness: string | null;
-  reviewScore: string | null;
-  reviewSummary: string | null;
-  reviewText: string | null;
-}
-
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface RatingCreationAttributes extends Optional<RatingAttributes, 'id'> {}
 
 class Rating
   extends Model<RatingAttributes, RatingCreationAttributes>
   implements RatingAttributes
 {
-  public id!: number;
+  public id!: string;
   public bookId!: number;
   public userId!: string;
   public reviewHelpfulness!: string;
@@ -30,9 +22,9 @@ class Rating
 Rating.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(26),
       primaryKey: true,
-      autoIncrement: true,
+      allowNull: false,
     },
     bookId: {
       type: DataTypes.INTEGER,
@@ -45,7 +37,7 @@ Rating.init(
       onUpdate: 'CASCADE',
     },
     userId: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(26),
       allowNull: false,
       references: {
         model: User,
@@ -76,6 +68,16 @@ Rating.init(
     modelName: 'Rating',
     tableName: 'ratings',
     timestamps: true,
+    indexes: [
+      {
+        unique: false,
+        fields: ['bookId'],
+      },
+      {
+        unique: false,
+        fields: ['userId'],
+      },
+    ],
   }
 );
 
