@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import BookCard from './BookCard';
 import BookType from '@/types/BookType';
+import Button from './Button';
 
 const RANDOM_BOOKS_URL = 'http://localhost:3000/books/random';
 
@@ -30,19 +31,18 @@ const RandomBooksList = () => {
   };
 
   return (
-    <div>
+    <div className='flex flex-col'>
       <h1 className="text-2xl mx-autotext-2xl font-bold text-center my-4 w-full">
         Random Books
       </h1>
-      {isLoading ? (
-        <p className="text-center">Loading...</p>
-      ) : (
+      <Button disabled={isLoading} onClick={fetchRandomBooks}>Get Books</Button>
+      {!isLoading &&
         <div className="grid grid-cols-auto-fit gap-4 p-5">
           {books.map((book) => (
             <BookCard key={book.id} book={book} />
           ))}
         </div>
-      )}
+      }
     </div>
   );
 };
