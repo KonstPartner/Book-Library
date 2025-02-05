@@ -7,7 +7,7 @@ const Button = ({
 }: {
   children: ReactNode;
   onClick: () => void;
-  disabled: boolean;
+  disabled?: boolean;
 }) => {
   return (
     <button
