@@ -1,9 +1,7 @@
 'use client';
 
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp, Eraser } from 'lucide-react';
-import { ToastContainer } from 'react-toastify';
-import Input from './Input';
 import Button from './Button';
 import BookType from '@/types/BookType';
 import BooksList from './BooksList';
@@ -12,7 +10,9 @@ import createSearchQueryString from '@/utils/createSearchQueryString';
 import { SearchBooksFieldsType } from '@/types/SearchFields';
 import { booksInputFields } from '@/constants/searchFields';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
-import { validateBooksSearch } from '@/utils/validateSearch';
+import validateSearch from '@/utils/validateSearch';
+import SearchFieldsPreview from './SearchFieldsPreview';
+import SearchInputFields from './SearchInputFields';
 
 const initialSearch = {
   title: '',
@@ -36,14 +36,14 @@ const SearchBookList = () => {
   const fetchSearchedBooks = async (url: string) => {
     setIsLoading(true);
     const data = await fetchData(url);
-    setBooks(data.data);
+    if (data?.data) {
+      setBooks(data.data);
+    }
     setIsLoading(false);
   };
 
   const handleButtonClick = async () => {
-    if (!validateBooksSearch(search)) {
-      return;
-    }
+    if (!validateSearch(search)) return;
     setIsClosedInputs(true);
     const query = createSearchQueryString(search, booksInputFields);
     fetchSearchedBooks(`${ALL_BOOKS_URL}?${query}`);
@@ -56,23 +56,7 @@ const SearchBookList = () => {
       </h1>
       {isClosedInputs ? (
         <>
-          {(Object.keys(search) as Array<keyof SearchBooksFieldsType>).some(
-            (key) => search[key].trim()
-          ) && (
-            <div className="border-2 text-left p-5 m-auto mb-5">
-              {(Object.keys(search) as Array<keyof SearchBooksFieldsType>).map(
-                (key, index) =>
-                  search[key].trim() ? (
-                    <p key={index} className="text-gray-500 font-semibold">
-                      {key}: {search[key]}
-                    </p>
-                  ) : (
-                    ''
-                  )
-              )}
-            </div>
-          )}
-
+          <SearchFieldsPreview search={search} />
           <Button
             className="px-4 py-1 mb-5 text-lg"
             onClick={() => setIsClosedInputs(false)}
@@ -82,23 +66,12 @@ const SearchBookList = () => {
         </>
       ) : (
         <>
-          <div className="my-3">
-            {booksInputFields.map((field) => (
-              <Input
-                key={field}
-                className="mx-1 my-3 py-2 px-2 w-full"
-                value={search[field]}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setSearch((prev) => ({
-                    ...prev,
-                    [field]: e.target.value,
-                  }))
-                }
-                placeholder={`Enter ${field}`}
-              />
-            ))}
-          </div>
-          <div className='flex flex-row-reverse'>
+          <SearchInputFields
+            inputFields={booksInputFields}
+            search={search}
+            setSearch={(value) => setSearch(value)}
+          />
+          <div className="flex flex-row-reverse">
             <Button
               className="px-4 py-1 rounded-lg text-lg"
               onClick={() => setSearch(initialSearch)}
@@ -128,7 +101,6 @@ const SearchBookList = () => {
         ) : (
           <p className="mt-10">No books found.</p>
         ))}
-      <ToastContainer autoClose={2000} />
     </div>
   );
 };

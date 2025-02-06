@@ -18,24 +18,57 @@ const idStringRule = [
 const ratingIdRule = [createIntParamValidation('ratingId', 1)];
 
 const booksSearchQueriesRules = [
-  query('title').optional().isString().trim().isLength({ min: 1, max: 255 }),
+  query('title')
+    .optional()
+    .isString()
+    .trim()
+    .isLength({ min: 1, max: 255 })
+    .withMessage('Title must be a string between 1 and 255 characters long.'),
+
   query('description')
     .optional()
     .isString()
     .trim()
-    .isLength({ min: 1, max: 500 }),
-  query('author').optional().isString().trim().isLength({ min: 1, max: 100 }),
+    .isLength({ min: 1, max: 500 })
+    .withMessage(
+      'Description must be a string between 1 and 500 characters long.'
+    ),
+
+  query('author')
+    .optional()
+    .isString()
+    .trim()
+    .isLength({ min: 1, max: 100 })
+    .withMessage(
+      'Author name must be a string between 1 and 100 characters long.'
+    ),
+
   query('publisher')
     .optional()
     .isString()
     .trim()
-    .isLength({ min: 1, max: 100 }),
+    .isLength({ min: 1, max: 100 })
+    .withMessage(
+      'Publisher name must be a string between 1 and 100 characters long.'
+    ),
+
   query('publishedDate')
     .optional()
     .isString()
     .trim()
-    .isLength({ min: 1, max: 50 }),
-  query('category').optional().isString().trim().isLength({ min: 1, max: 100 }),
+    .matches(/^\d{4}(-\d{2})?(-\d{2})?$/)
+    .withMessage(
+      'Published date must be in the format YYYY, YYYY-MM, or YYYY-MM-DD.'
+    ),
+
+  query('category')
+    .optional()
+    .isString()
+    .trim()
+    .isLength({ min: 1, max: 100 })
+    .withMessage(
+      'Category must be a string between 1 and 100 characters long.'
+    ),
 ];
 
 const ratingsSearchQueriesRules = [
@@ -43,22 +76,37 @@ const ratingsSearchQueriesRules = [
     .optional()
     .isString()
     .trim()
-    .isLength({ min: 1, max: 255 }),
+    .isLength({ min: 1, max: 255 })
+    .withMessage(
+      'Review helpfulness must be a string between 1 and 255 characters long.'
+    ),
+
   query('reviewScore')
     .optional()
     .isString()
     .trim()
-    .isLength({ min: 1, max: 255 }),
+    .isLength({ min: 1, max: 255 })
+    .withMessage(
+      'Review score must be a string between 1 and 255 characters long.'
+    ),
+
   query('reviewSummary')
     .optional()
     .isString()
     .trim()
-    .isLength({ min: 1, max: 255 }),
+    .isLength({ min: 1, max: 255 })
+    .withMessage(
+      'Review summary must be a string between 1 and 255 characters long.'
+    ),
+
   query('reviewText')
     .optional()
     .isString()
     .trim()
-    .isLength({ min: 1, max: 500 }),
+    .isLength({ min: 1, max: 500 })
+    .withMessage(
+      'Review text must be a string between 1 and 500 characters long.'
+    ),
 ];
 
 const createBookRules = [
