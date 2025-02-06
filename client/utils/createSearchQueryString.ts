@@ -7,7 +7,7 @@ const createSearchQueryString = (
   const params = new URLSearchParams();
 
   for (const field of fields) {
-    if (search[field]) params.append(field, search[field]);
+    if (search[field].trim()) params.append(field, search[field].trim());
   }
 
   params.append('limit', '10');
