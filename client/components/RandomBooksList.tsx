@@ -29,7 +29,7 @@ const RandomBooksList = () => {
       <h1 className="text-2xl mx-autotext-2xl font-bold text-center my-4 w-full">
         Random Books
       </h1>
-      <Button disabled={isLoading} onClick={fetchRandomBooks}>
+      <Button className='py-5 px-16 text-2xl' disabled={isLoading} onClick={fetchRandomBooks}>
         Get Books
       </Button>
       {!isLoading && <BooksList books={books} />}

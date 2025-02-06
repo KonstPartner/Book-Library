@@ -1,6 +1,8 @@
 'use client';
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChevronDown, ChevronUp, Eraser } from 'lucide-react';
+import { ToastContainer } from 'react-toastify';
 import Input from './Input';
 import Button from './Button';
 import BookType from '@/types/BookType';
@@ -10,17 +12,19 @@ import createSearchQueryString from '@/utils/createSearchQueryString';
 import { SearchBooksFieldsType } from '@/types/SearchFields';
 import { booksInputFields } from '@/constants/searchFields';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { validateBooksSearch } from '@/utils/validateSearch';
+
+const initialSearch = {
+  title: '',
+  description: '',
+  author: '',
+  publishedDate: '',
+  publisher: '',
+  category: '',
+};
 
 const SearchBookList = () => {
-  const [search, setSearch] = useState<SearchBooksFieldsType>({
-    title: '',
-    description: '',
-    author: '',
-    publishedDate: '',
-    publisher: '',
-    category: '',
-  });
+  const [search, setSearch] = useState<SearchBooksFieldsType>(initialSearch);
   const [isLoading, setIsLoading] = useState(false);
   const [books, setBooks] = useState<BookType[] | []>([]);
   const [isClosedInputs, setIsClosedInputs] = useState(false);
@@ -37,6 +41,9 @@ const SearchBookList = () => {
   };
 
   const handleButtonClick = async () => {
+    if (!validateBooksSearch(search)) {
+      return;
+    }
     setIsClosedInputs(true);
     const query = createSearchQueryString(search, booksInputFields);
     fetchSearchedBooks(`${ALL_BOOKS_URL}?${query}`);
@@ -49,23 +56,28 @@ const SearchBookList = () => {
       </h1>
       {isClosedInputs ? (
         <>
-          <div className="border-2 text-left p-5 m-auto">
-            {(Object.keys(search) as Array<keyof SearchBooksFieldsType>).map(
-              (key, index) =>
-                search[key].trim() ? (
-                  <p key={index} className="text-gray-500 font-semibold">
-                    {key}: {search[key]}
-                  </p>
-                ) : (
-                  ''
-                )
-            )}
-          </div>
+          {(Object.keys(search) as Array<keyof SearchBooksFieldsType>).some(
+            (key) => search[key].trim()
+          ) && (
+            <div className="border-2 text-left p-5 m-auto mb-5">
+              {(Object.keys(search) as Array<keyof SearchBooksFieldsType>).map(
+                (key, index) =>
+                  search[key].trim() ? (
+                    <p key={index} className="text-gray-500 font-semibold">
+                      {key}: {search[key]}
+                    </p>
+                  ) : (
+                    ''
+                  )
+              )}
+            </div>
+          )}
+
           <Button
-            className="px-3 py-1 my-5"
+            className="px-4 py-1 mb-5 text-lg"
             onClick={() => setIsClosedInputs(false)}
           >
-            <ChevronDown />
+            <ChevronDown /> Open fields
           </Button>
         </>
       ) : (
@@ -86,16 +98,28 @@ const SearchBookList = () => {
               />
             ))}
           </div>
-          <Button
-            className="px-3 py-1 mb-5"
-            onClick={() => setIsClosedInputs(true)}
-          >
-            <ChevronUp />
-          </Button>
+          <div className='flex flex-row-reverse'>
+            <Button
+              className="px-4 py-1 rounded-lg text-lg"
+              onClick={() => setSearch(initialSearch)}
+            >
+              <Eraser /> Clear fields
+            </Button>
+            <Button
+              className="px-4 py-1 my-5 text-lg"
+              onClick={() => setIsClosedInputs(true)}
+            >
+              <ChevronUp /> Hide fields
+            </Button>
+          </div>
         </>
       )}
 
-      <Button onClick={handleButtonClick} disabled={isLoading}>
+      <Button
+        className="py-5 px-16 text-2xl"
+        onClick={handleButtonClick}
+        disabled={isLoading}
+      >
         Search
       </Button>
       {!isLoading &&
@@ -104,6 +128,7 @@ const SearchBookList = () => {
         ) : (
           <p className="mt-10">No books found.</p>
         ))}
+      <ToastContainer autoClose={2000} />
     </div>
   );
 };
