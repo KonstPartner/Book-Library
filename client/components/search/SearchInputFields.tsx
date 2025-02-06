@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from 'react';
-import Input from './Input';
-import { SearchBooksFieldsType } from '@/types/SearchFields';
 import { Eraser } from 'lucide-react';
-import Button from './Button';
+import { SearchBooksFieldsType } from '@/types/SearchFields';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
 
 const SearchInputFields = ({
   inputFields,

@@ -1,5 +1,5 @@
-import { SearchBooksFieldsType } from '@/types/SearchFields';
 import React from 'react';
+import { SearchBooksFieldsType } from '@/types/SearchFields';
 
 const SearchFieldsPreview = ({ search }: { search: SearchBooksFieldsType }) => {
   return (

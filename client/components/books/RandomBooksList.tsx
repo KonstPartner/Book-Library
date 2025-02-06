@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import BookType from '@/types/BookType';
-import Button from './Button';
+import Button from '@/components/Button';
 import BooksList from './BooksList';
 import fetchData from '@/utils/fetchData';
 import { RANDOM_BOOKS_URL } from '@/constants/apiSources';

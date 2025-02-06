@@ -2,17 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp, Eraser } from 'lucide-react';
-import Button from './Button';
+import Button from '@/components/Button';
 import BookType from '@/types/BookType';
-import BooksList from './BooksList';
+import BooksList from '@/components/books/BooksList';
 import fetchData from '@/utils/fetchData';
 import createSearchQueryString from '@/utils/createSearchQueryString';
 import { SearchBooksFieldsType } from '@/types/SearchFields';
 import { booksInputFields } from '@/constants/searchFields';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import validateSearch from '@/utils/validateSearch';
-import SearchFieldsPreview from './SearchFieldsPreview';
-import SearchInputFields from './SearchInputFields';
+import SearchFieldsPreview from '../search/SearchFieldsPreview';
+import SearchInputFields from '../search/SearchInputFields';
 
 const initialSearch = {
   title: '',
