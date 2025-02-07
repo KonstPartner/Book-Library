@@ -14,7 +14,7 @@ const SearchInputFields = ({
   setSearch: (value: SearchBooksFieldsType) => void;
 }) => {
   return (
-    <div className="my-3">
+    <div>
       {inputFields.map((field) => (
         <div key={field} className="flex justify-center items-center">
           <Input

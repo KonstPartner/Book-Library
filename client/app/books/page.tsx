@@ -1,8 +1,7 @@
 import SearchBookList from '@/components/books/SearchBookList';
-import React from 'react';
 
-const Search = () => {
+const SearchPage = () => {
   return <SearchBookList />;
 };
 
-export default Search;
+export default SearchPage;

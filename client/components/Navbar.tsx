@@ -18,7 +18,7 @@ const Navbar = () => {
             Random
           </Link>
           <Link
-            href="/search"
+            href="/books"
             className="text-gray-800 dark:text-white hover:text-gray-600 dark:hover:text-gray-400"
           >
             Search
