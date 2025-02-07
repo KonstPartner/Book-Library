@@ -2,10 +2,10 @@ import Link from 'next/link';
 
 const Navbar = () => {
   return (
-    <nav className="bg-white dark:bg-gray-800 p-4 shadow-md">
+    <nav className="bg-purple-600 dark:bg-purple-800 p-4 shadow-md">
       <div className="container mx-auto flex items-center">
         <Link href="/">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+          <h1 className="text-2xl font-bold text-gray-100 dark:text-gray-200">
             Book Library App
           </h1>
         </Link>
@@ -13,13 +13,13 @@ const Navbar = () => {
         <div className="text-xl pl-20 flex space-x-8">
           <Link
             href="/"
-            className="text-gray-800 dark:text-white hover:text-gray-600 dark:hover:text-gray-400"
+            className="border-b-2 border-transparent text-gray-100 dark:text-gray-200 hover:text-white hover:border-white"
           >
             Random
           </Link>
           <Link
             href="/books"
-            className="text-gray-800 dark:text-white hover:text-gray-600 dark:hover:text-gray-400"
+            className="border-b-2 border-transparent text-gray-100 dark:text-gray-200hover:text-white hover:border-white"
           >
             Search
           </Link>

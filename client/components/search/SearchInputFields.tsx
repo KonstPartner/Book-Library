@@ -30,7 +30,7 @@ const SearchInputFields = ({
           />
           {search[field] && (
             <Button
-              className="rounded-md border-gray-400 p-2"
+              className="rounded-md border-gray-400 dark:border-white p-2 text-gray-400 dark:text-white"
               onClick={() =>
                 setSearch({
                   ...search,
@@ -38,7 +38,7 @@ const SearchInputFields = ({
                 })
               }
             >
-              <Eraser color="gray" />
+              <Eraser />
             </Button>
           )}
         </div>

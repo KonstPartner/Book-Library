@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 const Input = ({
   value,
@@ -14,7 +15,7 @@ const Input = ({
   return (
     <input
       type="text"
-      className={`border ${className}`}
+      className={twMerge('border dark:bg-transparent dark:border-gray-500', className)}
       value={value}
       onChange={onChange}
       placeholder={placeholder ? placeholder : ''}

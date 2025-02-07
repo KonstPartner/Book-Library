@@ -26,10 +26,14 @@ const RandomBooksList = () => {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-2xl mx-autotext-2xl font-bold text-center my-4 w-full">
+      <h1 className="text-2xl mx-auto font-bold text-center my-4 w-full">
         Random Books
       </h1>
-      <Button className='py-5 px-16 text-2xl' disabled={isLoading} onClick={fetchRandomBooks}>
+      <Button
+        className="m-auto border-none bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600"
+        disabled={isLoading}
+        onClick={fetchRandomBooks}
+      >
         Get Books
       </Button>
       {!isLoading && <BooksList books={books} />}

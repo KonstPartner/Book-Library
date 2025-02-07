@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 const Button = ({
   children,
@@ -13,7 +14,12 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`flex flex-row items-center hover:bg-gray-50 hover:shadow-none border-black border-2 shadow-lg rounded-full m-auto ${className}`}
+      className={twMerge(
+        'flex flex-row items-center shadow-lg rounded-xl px-7 py-3 text-lg border-2 w-fit',
+        'border-black dark:border-gray-400',
+        'hover:shadow-none',
+        className
+      )}
       disabled={disabled}
       onClick={onClick}
     >

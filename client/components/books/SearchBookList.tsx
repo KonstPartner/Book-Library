@@ -58,7 +58,7 @@ const SearchBookList = () => {
         <>
           <SearchFieldsPreview search={search} />
           <Button
-            className="px-4 py-1 mb-5 text-lg"
+            className="mt-5 mx-auto"
             onClick={() => setIsClosedInputs(false)}
           >
             <ChevronDown /> Open fields
@@ -71,17 +71,11 @@ const SearchBookList = () => {
             search={search}
             setSearch={(value) => setSearch(value)}
           />
-          <div className="flex flex-row-reverse">
-            <Button
-              className="px-4 py-1 rounded-lg text-lg"
-              onClick={() => setSearch(initialSearch)}
-            >
-              <Eraser /> Clear fields
+          <div className="flex flex-row-reverse justify-evenly my-4">
+            <Button onClick={() => setSearch(initialSearch)}>
+              <Eraser /> <span className='ml-1'>Clear fields</span>
             </Button>
-            <Button
-              className="px-4 py-1 my-5 text-lg"
-              onClick={() => setIsClosedInputs(true)}
-            >
+            <Button onClick={() => setIsClosedInputs(true)}>
               <ChevronUp /> Hide fields
             </Button>
           </div>
@@ -89,7 +83,7 @@ const SearchBookList = () => {
       )}
 
       <Button
-        className="py-5 px-16 text-2xl"
+        className="mt-10 mx-auto border-none bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600"
         onClick={handleButtonClick}
         disabled={isLoading}
       >
