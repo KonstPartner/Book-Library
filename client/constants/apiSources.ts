@@ -1,3 +1,4 @@
-export const ALL_BOOKS_URL = 'http://localhost:3000/books';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const RANDOM_BOOKS_URL = 'http://localhost:3000/books/random';
+export const ALL_BOOKS_URL = `${API_BASE_URL}/books`;
+export const RANDOM_BOOKS_URL = `${API_BASE_URL}/books/random`;
