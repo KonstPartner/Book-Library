@@ -5,6 +5,7 @@ type RatingType = {
   reviewSummary: string | null;
   reviewText: string | null;
   user: string;
+  book: string;
 };
 
 export default RatingType;

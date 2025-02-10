@@ -23,12 +23,16 @@ const BookRatings = ({
   }, [id]);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg">
+    <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
       <div className="flex justify-between">
         <p>Reviews ({ratingsCount})</p>
-        <Link href={`/books/${id}/ratings`}>
-          <p className='text-blue-600'>Show All</p>
-        </Link>
+        {ratingsCount && ratingsCount > 5 && (
+          <Link href={`/books/${id}/ratings`}>
+            <p className="text-blue-600 text-lg text-center w-fit m-auto p-1 rounded-md dark:text-gray-200 dark:bg-blue-500 hover:underline">
+              Show All
+            </p>
+          </Link>
+        )}
       </div>
       <RatingsList ratings={ratings} />
     </div>

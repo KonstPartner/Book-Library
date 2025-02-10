@@ -3,6 +3,10 @@ import { toast } from 'react-toastify';
 
 const fetchErrors = async (res: Response) => {
   const errorData = await res.json();
+  if (errorData.message) {
+    toast.error(errorData.message);
+    return;
+  }
   if (!errorData.errors || !Array.isArray(errorData.errors)) {
     toast.error('Unexpected error occured');
     return;

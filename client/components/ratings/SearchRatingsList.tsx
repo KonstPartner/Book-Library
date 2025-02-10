@@ -108,7 +108,7 @@ const SearchRatingsList = () => {
       )}
 
       <Button
-        className="mt-10 mx-auto border-none bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600"
+        className="my-10 mx-auto border-none bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600"
         onClick={handleButtonClick}
         disabled={isLoading}
       >
