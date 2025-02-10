@@ -12,5 +12,6 @@ export type SearchRatingsFieldsType = {
   reviewScore: string;
   reviewSummary: string;
   reviewText: string;
-  user: string;
+  user?: string;
+  book?: string;
 };

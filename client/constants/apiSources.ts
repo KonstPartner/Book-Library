@@ -4,3 +4,5 @@ export const ALL_BOOKS_URL = `${API_BASE_URL}/books`;
 export const RANDOM_BOOKS_URL = `${API_BASE_URL}/books/random`;
 
 export const ALL_RATINGS_URL = `${API_BASE_URL}/ratings`;
+
+export const ALL_USERS_URL = `${API_BASE_URL}/users`;

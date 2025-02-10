@@ -1,5 +1,7 @@
 type RatingType = {
   id: string;
+  bookId: number;
+  userId: string,
   reviewHelpfulness: string | null;
   reviewScore: string | null;
   reviewSummary: string | null;

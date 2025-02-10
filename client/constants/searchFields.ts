@@ -17,7 +17,6 @@ const ratingsInputFields: (keyof SearchRatingsFieldsType)[] = [
   'reviewScore',
   'reviewSummary',
   'reviewText',
-  'user',
 ];
 
 export { booksInputFields, ratingsInputFields };

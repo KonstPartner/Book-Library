@@ -1,8 +1,8 @@
+import RatingsPreview from '@/components/RatingsPreview';
 import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
 import Image from 'next/image';
 import React from 'react';
-import BookRatings from './BookRatings';
 
 const BookInfo = ({ book }: { book: BookType }) => {
   const {
@@ -70,7 +70,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
             </a>
           )}
         </div>
-        <BookRatings id={id} ratingsCount={ratingsCount} />
+        <RatingsPreview contextType='book' id={id} ratingsCount={ratingsCount} />
       </div>
     </div>
   );

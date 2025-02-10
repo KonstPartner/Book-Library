@@ -27,7 +27,6 @@ const findAllRatingsRequest = async (
 
 const findByPkRatingRequest = async (RatingId: string) =>
   await Rating.findByPk(RatingId, {
-    attributes: { exclude: ['bookId', 'userId'] },
     include: [
       {
         model: Book,
@@ -93,7 +92,6 @@ const findAllBookRatingsRequest = async (
     limit,
     offset,
     order: [['id', 'ASC']],
-    attributes: { exclude: ['bookId', 'userId'] },
     include: [
       {
         model: Book,
@@ -120,7 +118,6 @@ const findAllUserRatingsRequest = async (
     where: { ...{ ...searchQueries, userId: UserId } },
     limit,
     offset,
-    attributes: { exclude: ['bookId', 'userId'] },
     include: [
       {
         model: Book,

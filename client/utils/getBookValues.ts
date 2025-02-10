@@ -1,5 +1,5 @@
-import { coverImage } from "@/constants/images";
-import BookType from "@/types/BookType";
+import { coverImage } from '@/constants/images';
+import BookType from '@/types/BookType';
 
 const getBookValues = (book: BookType) => {
   return {
@@ -12,7 +12,7 @@ const getBookValues = (book: BookType) => {
     publishedDate: book.publishedDate || '-',
     publisher: book.publisher || '-',
     category: book.category || '',
-   ratingsCount: book.ratingsCount,
+    ratingsCount: book.ratingsCount,
   };
 };
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { ALL_BOOKS_URL } from '@/constants/apiSources';
+import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
 import fetchData from '@/utils/fetchData';
 import {
   useParams,
@@ -20,16 +20,27 @@ import { ratingsInputFields } from '@/constants/searchFields';
 import validateSearch from '@/utils/validateSearch';
 import updateSearchParams from '@/utils/updateSearchParams';
 import createSearchQueryString from '@/utils/createSearchQueryString';
+import Link from 'next/link';
 
-const initialSearch = {
-  reviewHelpfulness: '',
-  reviewScore: '',
-  reviewSummary: '',
-  reviewText: '',
-  user: '',
-};
+const SearchRatingsList = ({
+  contextType,
+}: {
+  contextType: 'book' | 'user';
+}) => {
+  const isBook = contextType === 'book';
 
-const SearchRatingsList = () => {
+  const initialSearch: SearchRatingsFieldsType = {
+    reviewHelpfulness: '',
+    reviewScore: '',
+    reviewSummary: '',
+    reviewText: '',
+  };
+
+  if (isBook) {
+    initialSearch.user = '';
+  } else {
+    initialSearch.book = '';
+  }
   const [search, setSearch] = useState<SearchRatingsFieldsType>(initialSearch);
   const [isLoading, setIsLoading] = useState(false);
   const [ratings, setRatings] = useState<RatingType[] | []>([]);
@@ -41,10 +52,12 @@ const SearchRatingsList = () => {
 
   const params = useParams();
   const { id } = params as { id: string };
-  
+
   useEffect(() => {
-    fetchSearchedRatings(`${ALL_BOOKS_URL}/${id}/ratings`);
-  }, [id]);
+    fetchSearchedRatings(
+      `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`
+    );
+  }, [id, isBook]);
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
@@ -70,8 +83,13 @@ const SearchRatingsList = () => {
     if (!validateSearch(search)) return;
     updateSearchParams(search, { searchParams, router, pathname });
     setIsClosedInputs(true);
-    const query = createSearchQueryString(search, ratingsInputFields);
-    fetchSearchedRatings(`${ALL_BOOKS_URL}/${id}/ratings?${query}`);
+    const query = createSearchQueryString(search, [
+      ...ratingsInputFields,
+      isBook ? 'user' : 'book',
+    ]);
+    fetchSearchedRatings(
+      `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings?${query}`
+    );
   };
 
   return (
@@ -79,6 +97,18 @@ const SearchRatingsList = () => {
       <h1 className="text-2xl font-bold text-center my-4 w-full">
         Search Ratings
       </h1>
+      <p className="text-lg text-gray-700 dark:text-gray-300">
+        For {isBook ? 'book' : 'user'}:
+      </p>
+      {!!ratings.length && (
+        <p className="text-lg font-bold text-gray-700 dark:text-gray-300 hover:underline">
+          {isBook ? (
+            <Link href={`/books/${ratings[0].bookId}`}>{ratings[0].book}</Link>
+          ) : (
+            <Link href={`/users/${ratings[0].userId}`}>{ratings[0].user}</Link>
+          )}
+        </p>
+      )}
       {isClosedInputs ? (
         <>
           <SearchFieldsPreview search={search} />
@@ -92,7 +122,7 @@ const SearchRatingsList = () => {
       ) : (
         <>
           <SearchInputFields
-            inputFields={ratingsInputFields}
+            inputFields={[...ratingsInputFields, isBook ? 'user' : 'book']}
             search={search}
             setSearch={(value) => setSearch(value as SearchRatingsFieldsType)}
           />
@@ -116,7 +146,7 @@ const SearchRatingsList = () => {
       </Button>
       {!isLoading &&
         (ratings.length ? (
-          <RatingsList ratings={ratings} />
+          <RatingsList contextType={contextType} ratings={ratings} />
         ) : (
           <p className="mt-10">No ratings found.</p>
         ))}

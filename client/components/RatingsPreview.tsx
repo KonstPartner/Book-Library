@@ -1,42 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import RatingsList from '../../ratings/RatingsList';
+import RatingsList from '@/components/ratings/RatingsList';
 import fetchData from '@/utils/fetchData';
-import { ALL_BOOKS_URL } from '@/constants/apiSources';
+import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
 import Link from 'next/link';
 
-const BookRatings = ({
+const RatingsPreview = ({
   id,
   ratingsCount,
+  contextType,
 }: {
-  id: number;
+  id: number | string;
   ratingsCount: number;
+  contextType: 'book' | 'user';
 }) => {
   const [ratings, setRatings] = useState([]);
+
+  const isBook = contextType === 'book';
+
   useEffect(() => {
     const fetchRatings = async () => {
-      const data = await fetchData(`${ALL_BOOKS_URL}/${id}/ratings`);
+      const data = await fetchData(
+        `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`
+      );
       if (data?.data) {
         setRatings(data.data);
       }
     };
     fetchRatings();
-  }, [id]);
+  }, [id, isBook]);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
       <div className="flex justify-between">
         <p>Reviews ({ratingsCount})</p>
         {ratingsCount && ratingsCount > 5 && (
-          <Link href={`/books/${id}/ratings`}>
+          <Link href={`/${isBook ? 'books' : 'users'}/${id}/ratings`}>
             <p className="text-blue-600 text-lg text-center w-fit m-auto p-1 rounded-md dark:text-gray-200 dark:bg-blue-500 hover:underline">
               Show All
             </p>
           </Link>
         )}
       </div>
-      <RatingsList ratings={ratings} />
+      <RatingsList contextType={contextType} ratings={ratings} />
     </div>
   );
 };
 
-export default BookRatings;
+export default RatingsPreview;
