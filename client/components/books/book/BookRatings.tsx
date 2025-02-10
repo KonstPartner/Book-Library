@@ -11,7 +11,6 @@ const BookRatings = ({
   ratingsCount: number;
 }) => {
   const [ratings, setRatings] = useState([]);
-  console.log(ratings);
   useEffect(() => {
     const fetchRatings = async () => {
       const data = await fetchData(`${ALL_BOOKS_URL}/${id}/ratings`);
@@ -21,10 +20,9 @@ const BookRatings = ({
     };
     fetchRatings();
   }, [id]);
-  console.log(ratings);
 
   return (
-    <div>
+    <div className='bg-gray-100 dark:bg-gray-800 p-3 rounded-lg'>
       <div>Reviews ({ratingsCount})</div>
       <RatingsList ratings={ratings} />
     </div>

@@ -33,20 +33,20 @@ const BookInfo = ({ book }: { book: BookType }) => {
             {title}
           </h1>
 
-          <p className="flex justify-between px-2 rounded-md text-gray-700 dark:text-gray-300 bg-blue-200 dark:bg-gray-600">
+          <p className="flex justify-between px-2 rounded-md text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-600 py-1">
             <span className="font-semibold">Author:</span> {author}
           </p>
 
-          <p className="flex justify-between px-2 rounded-md text-gray-700 dark:text-gray-300 bg-blue-200 dark:bg-gray-600">
+          <p className="flex justify-between px-2 rounded-md text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-600 py-1">
             <span className="font-semibold">Publisher:</span> {publisher}
           </p>
 
-          <p className="flex justify-between px-2 rounded-md text-gray-700 dark:text-gray-300 bg-blue-200 dark:bg-gray-600">
+          <p className="flex justify-between px-2 rounded-md text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-600 py-1">
             <span className="font-semibold">Published Date:</span>{' '}
             {publishedDate}
           </p>
 
-          <p className="flex justify-between px-2 rounded-md text-gray-700 dark:text-gray-300 bg-blue-200 dark:bg-gray-600">
+          <p className="flex justify-between px-2 rounded-md text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-600 py-1">
             <span className="font-semibold">Category:</span> {category || '-'}
           </p>
 

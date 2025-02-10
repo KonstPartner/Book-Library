@@ -4,11 +4,10 @@ import RatingCard from './RatingCard';
 
 const RatingInfo = ({ ratings }: { ratings: RatingType[] }) => {
   return (
-    <div>
-      {ratings.map((rating) => (
-        <RatingCard key={rating.id} rating={rating} />
-      ))}
-    </div>
+    <>
+      {!!ratings.length &&
+        ratings.map((rating) => <RatingCard key={rating.id} rating={rating} />)}
+    </>
   );
 };
 
