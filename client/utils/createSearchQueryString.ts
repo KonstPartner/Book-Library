@@ -1,13 +1,14 @@
-import { SearchBooksFieldsType } from '@/types/SearchFields';
+import { SearchBooksFieldsType, SearchRatingsFieldsType } from '@/types/SearchFields';
 
 const createSearchQueryString = (
-  search: SearchBooksFieldsType,
-  fields: (keyof SearchBooksFieldsType)[]
+  search: SearchBooksFieldsType | SearchRatingsFieldsType,
+  fields: (keyof SearchBooksFieldsType | keyof SearchRatingsFieldsType)[]
 ) => {
   const params = new URLSearchParams();
 
   for (const field of fields) {
-    if (search[field].trim()) params.append(field, search[field].trim());
+    const value = (search as any)[field];
+    if (value.trim()) params.append(field, value.trim());
   }
 
   params.append('limit', '10');

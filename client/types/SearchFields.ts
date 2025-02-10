@@ -6,3 +6,11 @@ export type SearchBooksFieldsType = {
   publisher: string;
   category: string;
 };
+
+export type SearchRatingsFieldsType = {
+  reviewHelpfulness: string;
+  reviewScore: string;
+  reviewSummary: string;
+  reviewText: string;
+  user: string;
+};

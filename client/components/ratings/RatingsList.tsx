@@ -1,8 +1,8 @@
-import RatingType from '@/types/RatingType';
 import React from 'react';
+import RatingType from '@/types/RatingType';
 import RatingCard from './RatingCard';
 
-const RatingInfo = ({ ratings }: { ratings: RatingType[] }) => {
+const RatingsList = ({ ratings }: { ratings: RatingType[] }) => {
   return (
     <>
       {!!ratings.length &&
@@ -11,4 +11,4 @@ const RatingInfo = ({ ratings }: { ratings: RatingType[] }) => {
   );
 };
 
-export default RatingInfo;
+export default RatingsList;

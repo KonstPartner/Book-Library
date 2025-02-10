@@ -1,4 +1,7 @@
-import { SearchBooksFieldsType } from '@/types/SearchFields';
+import {
+  SearchBooksFieldsType,
+  SearchRatingsFieldsType,
+} from '@/types/SearchFields';
 
 const booksInputFields: (keyof SearchBooksFieldsType)[] = [
   'title',
@@ -9,4 +12,12 @@ const booksInputFields: (keyof SearchBooksFieldsType)[] = [
   'category',
 ];
 
-export { booksInputFields };
+const ratingsInputFields: (keyof SearchRatingsFieldsType)[] = [
+  'reviewHelpfulness',
+  'reviewScore',
+  'reviewSummary',
+  'reviewText',
+  'user',
+];
+
+export { booksInputFields, ratingsInputFields };

@@ -1,9 +1,9 @@
-import { SearchBooksFieldsType } from '@/types/SearchFields';
+import { SearchBooksFieldsType, SearchRatingsFieldsType } from '@/types/SearchFields';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { ReadonlyURLSearchParams } from 'next/navigation';
 
 const updateSearchParams = (
-  newParams: Partial<SearchBooksFieldsType>,
+  newParams: Partial<SearchBooksFieldsType | SearchRatingsFieldsType>,
   {
     searchParams,
     router,
