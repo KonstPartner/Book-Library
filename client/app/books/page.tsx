@@ -1,7 +1,7 @@
-import SearchBookList from '@/components/books/SearchBookList';
+import SearchBooksList from '@/components/books/SearchBooksList';
 
 const SearchPage = () => {
-  return <SearchBookList />;
+  return <SearchBooksList />;
 };
 
 export default SearchPage;

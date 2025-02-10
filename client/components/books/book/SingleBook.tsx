@@ -1,6 +1,6 @@
 'use client';
 
-import BookInfo from '@/components/books/BookInfo';
+import BookInfo from '@/components/books/book/BookInfo';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import BookType from '@/types/BookType';
 import fetchData from '@/utils/fetchData';

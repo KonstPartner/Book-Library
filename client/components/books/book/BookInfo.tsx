@@ -2,9 +2,11 @@ import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
 import Image from 'next/image';
 import React from 'react';
+import BookRatings from './BookRatings';
 
 const BookInfo = ({ book }: { book: BookType }) => {
   const {
+    id,
     title,
     author,
     description,
@@ -13,11 +15,12 @@ const BookInfo = ({ book }: { book: BookType }) => {
     publishedDate,
     publisher,
     category,
+    ratingsCount,
   } = getBookValues(book);
 
   return (
     <div className="max-w-3xl mx-auto p-6 shadow-lg rounded-lg dark:bg-zinc-800">
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="flex flex-col gap-6">
         <Image
           src={image}
           width={200}
@@ -67,6 +70,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
             </a>
           )}
         </div>
+        <BookRatings id={id} ratingsCount={ratingsCount} />
       </div>
     </div>
   );

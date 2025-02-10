@@ -12,6 +12,7 @@ const getBookValues = (book: BookType) => {
     publishedDate: book.publishedDate || '-',
     publisher: book.publisher || '-',
     category: book.category || '',
+   ratingsCount: book.ratingsCount,
   };
 };
 

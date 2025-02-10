@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp, Eraser } from 'lucide-react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Button from '@/components/Button';
 import BookType from '@/types/BookType';
 import BooksList from '@/components/books/BooksList';
@@ -13,6 +14,7 @@ import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import validateSearch from '@/utils/validateSearch';
 import SearchFieldsPreview from '../search/SearchFieldsPreview';
 import SearchInputFields from '../search/SearchInputFields';
+import updateSearchParams from '@/utils/updateSearchParams';
 
 const initialSearch = {
   title: '',
@@ -23,15 +25,30 @@ const initialSearch = {
   category: '',
 };
 
-const SearchBookList = () => {
+const SearchBooksList = () => {
   const [search, setSearch] = useState<SearchBooksFieldsType>(initialSearch);
   const [isLoading, setIsLoading] = useState(false);
   const [books, setBooks] = useState<BookType[] | []>([]);
   const [isClosedInputs, setIsClosedInputs] = useState(false);
 
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
   useEffect(() => {
     fetchSearchedBooks(`${ALL_BOOKS_URL}?limit=10`);
   }, []);
+
+  useEffect(() => {
+    const params = Object.fromEntries(searchParams.entries());
+
+    setSearch((prev) => ({
+      ...prev,
+      ...Object.fromEntries(
+        Object.entries(params).filter(([key]) => key in prev)
+      ),
+    }));
+  }, [searchParams]);
 
   const fetchSearchedBooks = async (url: string) => {
     setIsLoading(true);
@@ -44,6 +61,7 @@ const SearchBookList = () => {
 
   const handleButtonClick = async () => {
     if (!validateSearch(search)) return;
+    updateSearchParams(search, { searchParams, router, pathname });
     setIsClosedInputs(true);
     const query = createSearchQueryString(search, booksInputFields);
     fetchSearchedBooks(`${ALL_BOOKS_URL}?${query}`);
@@ -73,7 +91,7 @@ const SearchBookList = () => {
           />
           <div className="flex flex-row-reverse justify-evenly my-4">
             <Button onClick={() => setSearch(initialSearch)}>
-              <Eraser /> <span className='ml-1'>Clear fields</span>
+              <Eraser /> <span className="ml-1">Clear fields</span>
             </Button>
             <Button onClick={() => setIsClosedInputs(true)}>
               <ChevronUp /> Hide fields
@@ -99,4 +117,4 @@ const SearchBookList = () => {
   );
 };
 
-export default SearchBookList;
+export default SearchBooksList;

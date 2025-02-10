@@ -8,6 +8,7 @@ type BookType = {
   publishedDate: string | null;
   infoLink: string | null;
   category: string | null;
+  ratingsCount: number
 };
 
 export default BookType;
