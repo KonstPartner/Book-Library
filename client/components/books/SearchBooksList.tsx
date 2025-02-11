@@ -15,6 +15,7 @@ import validateSearch from '@/utils/validateSearch';
 import SearchFieldsPreview from '../search/SearchFieldsPreview';
 import SearchInputFields from '../search/SearchInputFields';
 import updateSearchParams from '@/utils/updateSearchParams';
+import Spinner from '../Spinner';
 
 const initialSearch = {
   title: '',
@@ -107,12 +108,13 @@ const SearchBooksList = () => {
       >
         Search
       </Button>
-      {!isLoading &&
-        (books.length ? (
-          <BooksList books={books} />
-        ) : (
-          <p className="mt-10">No books found.</p>
-        ))}
+      {isLoading ? (
+        <Spinner className="mx-auto my-16" />
+      ) : books.length ? (
+        <BooksList books={books} />
+      ) : (
+        <p className="mt-10">No books found.</p>
+      )}
     </div>
   );
 };

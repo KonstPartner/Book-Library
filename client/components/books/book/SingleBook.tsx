@@ -1,6 +1,7 @@
 'use client';
 
 import BookInfo from '@/components/books/book/BookInfo';
+import Spinner from '@/components/Spinner';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import BookType from '@/types/BookType';
 import fetchData from '@/utils/fetchData';
@@ -26,7 +27,7 @@ const SingleBook = () => {
   }, [id]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Spinner className='mx-auto my-16'/>;
   }
 
   if (!book) {

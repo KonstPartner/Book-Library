@@ -6,6 +6,7 @@ import Button from '@/components/Button';
 import BooksList from './BooksList';
 import fetchData from '@/utils/fetchData';
 import { RANDOM_BOOKS_URL } from '@/constants/apiSources';
+import Spinner from '../Spinner';
 
 const RandomBooksList = () => {
   const [books, setBooks] = useState<BookType[] | []>([]);
@@ -36,7 +37,7 @@ const RandomBooksList = () => {
       >
         Get Books
       </Button>
-      {!isLoading && <BooksList books={books} />}
+      {isLoading ? <Spinner className='mx-auto my-16'/> : <BooksList books={books} />}
     </div>
   );
 };

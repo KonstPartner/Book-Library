@@ -1,5 +1,6 @@
 'use client';
 
+import Spinner from '@/components/Spinner';
 import UserInfo from '@/components/users/user/UserInfo';
 import { ALL_USERS_URL } from '@/constants/apiSources';
 import UserType from '@/types/UserType';
@@ -26,7 +27,7 @@ const SingleUser = () => {
   }, [id]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Spinner className='mx-auto my-16'/>;
   }
 
   if (!user) {

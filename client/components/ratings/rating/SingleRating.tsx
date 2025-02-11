@@ -1,6 +1,7 @@
 'use client';
 
 import RatingInfo from '@/components/ratings/rating/RatingInfo';
+import Spinner from '@/components/Spinner';
 import { ALL_RATINGS_URL } from '@/constants/apiSources';
 import RatingType from '@/types/RatingType';
 import fetchData from '@/utils/fetchData';
@@ -26,7 +27,7 @@ const SingleRating = () => {
   }, [id]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Spinner className='mx-auto my-16'/>;
   }
 
   if (!rating) {

@@ -21,6 +21,7 @@ import validateSearch from '@/utils/validateSearch';
 import updateSearchParams from '@/utils/updateSearchParams';
 import createSearchQueryString from '@/utils/createSearchQueryString';
 import Link from 'next/link';
+import Spinner from '../Spinner';
 
 const SearchRatingsList = ({
   contextType,
@@ -144,12 +145,13 @@ const SearchRatingsList = ({
       >
         Search
       </Button>
-      {!isLoading &&
-        (ratings.length ? (
-          <RatingsList contextType={contextType} ratings={ratings} />
-        ) : (
-          <p className="mt-10">No ratings found.</p>
-        ))}
+      {isLoading ? (
+        <Spinner className="mx-auto my-16" />
+      ) : ratings.length ? (
+        <RatingsList contextType={contextType} ratings={ratings} />
+      ) : (
+        <p className="mt-10">No ratings found.</p>
+      )}
     </div>
   );
 };

@@ -16,7 +16,7 @@ const SearchFieldsPreview = ({
   if (!filteredKeys.length) return null;
 
   return (
-    <div className="border-2 text-left p-5 m-auto mb-5 dark:border-transparent dark:bg-gray-600 dark:rounded-md">
+    <div className="border-2 text-left p-5 m-auto my-5 dark:border-transparent dark:bg-gray-600 dark:rounded-md">
       {filteredKeys.map((key, index) => (
         <p
           key={index}
