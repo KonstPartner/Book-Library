@@ -8,7 +8,7 @@ import {
   useRouter,
   useSearchParams,
 } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import RatingsList from './RatingsList';
 import RatingType from '@/types/RatingType';
 import { SearchRatingsFieldsType } from '@/types/SearchFields';
@@ -54,11 +54,20 @@ const SearchRatingsList = ({
   const params = useParams();
   const { id } = params as { id: string };
 
+  const fetchSearchedRatings = useCallback(async (url: string) => {
+    setIsLoading(true);
+    const data = await fetchData(url);
+    if (data?.data) {
+      setRatings(data.data);
+    }
+    setIsLoading(false);
+  }, []);
+  
   useEffect(() => {
     fetchSearchedRatings(
       `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`
     );
-  }, [id, isBook]);
+  }, [id, isBook, fetchSearchedRatings]);
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
@@ -71,16 +80,7 @@ const SearchRatingsList = ({
     }));
   }, [searchParams]);
 
-  const fetchSearchedRatings = async (url: string) => {
-    setIsLoading(true);
-    const data = await fetchData(url);
-    if (data?.data) {
-      setRatings(data.data);
-    }
-    setIsLoading(false);
-  };
-
-  const handleButtonClick = async () => {
+  const handleButtonClick = useCallback(async () => {
     if (!validateSearch(search)) return;
     updateSearchParams(search, { searchParams, router, pathname });
     setIsClosedInputs(true);
@@ -91,7 +91,7 @@ const SearchRatingsList = ({
     fetchSearchedRatings(
       `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings?${query}`
     );
-  };
+  }, [id, isBook, pathname, router, search, searchParams, fetchSearchedRatings]);
 
   return (
     <div className="flex flex-col text-center">

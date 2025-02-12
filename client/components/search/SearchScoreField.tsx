@@ -8,9 +8,12 @@ const SearchScoreField = ({
 }: {
   setSearch: (value: SearchBooksFieldsType | SearchRatingsFieldsType) => void;
   search: SearchBooksFieldsType | SearchRatingsFieldsType;
-  field: string;
+  field: keyof (SearchBooksFieldsType & SearchRatingsFieldsType)
 }) => {
-  const fieldValue = (search as any)[field] || "";
+  const fieldValue = (search as Record<
+    keyof SearchBooksFieldsType | keyof SearchRatingsFieldsType,
+    string
+  >)[field] || "";
   const [whole, decimal] = fieldValue.split(".");
 
   const handleWholeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -27,7 +30,7 @@ const SearchScoreField = ({
     setSearch({ ...search, [field]: `${whole || "0"}.${newDecimal || "0"}` } as SearchBooksFieldsType | SearchRatingsFieldsType);
   };
 
-  const wholeOptions = useMemo(() => ["", ...Array.from({ length: 6 }, (_, i) => i)], []);
+  const wholeOptions = useMemo(() => ["", ...Array.from({ length: 5 }, (_, i) => ++i)], []);
   const decimalOptions = useMemo(() => ["", ...Array.from({ length: 10 }, (_, i) => i)], []);
 
   return (

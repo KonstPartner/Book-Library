@@ -67,15 +67,6 @@ const getAllUserRatings = async (req: Request, res: Response) => {
       searchRatingsBookQuery
     );
 
-    if (!ratings.length) {
-      handleErrorResponse({
-        res,
-        message: `No ratings found for user ID ${UserId}`,
-        code: 404,
-      });
-      return;
-    }
-
     const modifiedRatings = ratings.map((rating) => transformRating(rating));
 
     handleSuccessResponse(res, modifiedRatings);

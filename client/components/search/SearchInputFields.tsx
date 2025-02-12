@@ -36,7 +36,14 @@ const SearchInputFields = ({
           ) : (
             <Input
               className="mx-1 my-3 py-2 px-2 w-full"
-              value={(search as any)[field]}
+              value={
+                (
+                  search as Record<
+                    keyof SearchBooksFieldsType | keyof SearchRatingsFieldsType,
+                    string
+                  >
+                )[field] ?? ''
+              }
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch({
                   ...search,
@@ -46,7 +53,12 @@ const SearchInputFields = ({
               placeholder={`Enter ${field}`}
             />
           )}
-          {(search as any)[field] && (
+          {(
+            search as Record<
+              keyof SearchBooksFieldsType | keyof SearchRatingsFieldsType,
+              string
+            >
+          )[field] && (
             <Button
               className="rounded-md border-gray-400 dark:border-white p-2 text-gray-400 dark:text-white"
               onClick={() =>

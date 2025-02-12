@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp, Eraser } from 'lucide-react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Button from '@/components/Button';
@@ -36,9 +36,18 @@ const SearchBooksList = () => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const fetchSearchedBooks = useCallback(async (url: string) => {
+    setIsLoading(true);
+    const data = await fetchData(url);
+    if (data?.data) {
+      setBooks(data.data);
+    }
+    setIsLoading(false);
+  }, []);
+  
   useEffect(() => {
     fetchSearchedBooks(`${ALL_BOOKS_URL}?limit=10`);
-  }, []);
+  }, [fetchSearchedBooks]);
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
@@ -51,22 +60,13 @@ const SearchBooksList = () => {
     }));
   }, [searchParams]);
 
-  const fetchSearchedBooks = async (url: string) => {
-    setIsLoading(true);
-    const data = await fetchData(url);
-    if (data?.data) {
-      setBooks(data.data);
-    }
-    setIsLoading(false);
-  };
-
-  const handleButtonClick = async () => {
+  const handleButtonClick = useCallback(async () => {
     if (!validateSearch(search)) return;
     updateSearchParams(search, { searchParams, router, pathname });
     setIsClosedInputs(true);
     const query = createSearchQueryString(search, booksInputFields);
     fetchSearchedBooks(`${ALL_BOOKS_URL}?${query}`);
-  };
+  }, [fetchSearchedBooks, pathname, router, search, searchParams]);
 
   return (
     <div className="flex flex-col text-center">
