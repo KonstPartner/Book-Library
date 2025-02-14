@@ -43,6 +43,9 @@ const fetchData = async (url: string, options: FetchParamsType = {}) => {
     if (!res.ok) {
       return await fetchErrors(res);
     }
+    if(res.status === 204) {
+      return true;
+    }
     return await res.json();
   } catch (error) {
     console.error('Fetch error:', error instanceof Error ? error.message : error);

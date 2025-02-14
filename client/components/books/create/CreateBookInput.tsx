@@ -1,6 +1,6 @@
 import Input from '@/components/Input';
 import { bookInputFields } from '@/constants/createFields';
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent } from 'react';
 
 const CreateBookInput = ({
   field,
@@ -27,7 +27,7 @@ const CreateBookInput = ({
     return (
       <>
         <a
-          className="p-1 pb-0 rounded-sm text-blue-600 dark:text-gray-200 dark:bg-blue-500 hover:underline"
+          className="p-1 pb-0 rounded-sm text-blue-600 dark:text-blue-400  hover:underline"
           href="https://search.worldcat.org/"
           target="_blank"
           rel="noopener noreferrer"
@@ -54,4 +54,4 @@ const CreateBookInput = ({
   );
 };
 
-export default CreateBookInput
+export default CreateBookInput;

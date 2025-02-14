@@ -8,6 +8,7 @@ import Button from '@/components/Button';
 import Input from '@/components/Input';
 import { ratingInputFields } from '@/constants/createFields';
 import fetchData from '@/utils/fetchData';
+import { ALL_RATINGS_URL } from '@/constants/apiSources';
 
 type RatingForm = {
   user: string;
@@ -53,7 +54,7 @@ const CreateRating = ({ id }: { id: number }) => {
       ),
     };
 
-    const data = await fetchData('http://localhost:4000/ratings', {
+    const data = await fetchData(ALL_RATINGS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(ratingData),
