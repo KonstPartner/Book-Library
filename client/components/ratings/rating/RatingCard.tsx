@@ -38,17 +38,19 @@ const RatingCard = ({
         <div className="flex flex-col text-start">
           {isBook ? (
             <Link
+              className="w-fit"
               href={`/users/${userId}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="font-semibold text-lg hover:underline w-fit">{user}</h3>
+              <h3 className="font-semibold text-lg hover:underline">{user}</h3>
             </Link>
           ) : (
             <Link
+              className="w-fit"
               href={`/books/${bookId}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <p className="font-bold text-gray-800 dark:text-gray-300 hover:underline w-fit">
+              <p className="font-bold text-gray-800 dark:text-gray-300 hover:underline">
                 {book}
               </p>
             </Link>

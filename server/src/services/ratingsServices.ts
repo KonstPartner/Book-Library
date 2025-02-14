@@ -42,9 +42,22 @@ const findByPkRatingRequest = async (RatingId: string) =>
   });
 
 const createRatingRequest = async (
-  data: RatingAttributes & { category: string | null }
+  data: RatingAttributes & { user?: string }
 ) => {
-  const existinRating = await Rating.findOne({ where: { bookId: data.bookId, userId: data.userId } });
+  let userId = data.userId;
+
+  if (data.user) {
+    const user = await User.findOne({ where: { name: data.user } });
+    if (!user) {
+      throw {
+        code: 400,
+        message: `User with name "${data.user}" not found.`,
+      };
+    }
+    userId = user.id;
+  }
+
+  const existinRating = await Rating.findOne({ where: { bookId: data.bookId, userId } });
   if (existinRating) {
     throw {
       code: 400,
@@ -55,7 +68,7 @@ const createRatingRequest = async (
   const transaction = await sequelize.transaction();
   try {
     const book = await findByPkBookRequest(String(data.bookId));
-    const user = await findByPkUserRequest(String(data.userId));
+    const user = await findByPkUserRequest(String(userId));
     if (!book) throw new Error('Cannot find book');
     if (!user) throw new Error('Cannot find user');
 
@@ -63,7 +76,7 @@ const createRatingRequest = async (
       {
         id: ulid(),
         bookId: data.bookId,
-        userId: data.userId,
+        userId,
         reviewHelpfulness: data.reviewHelpfulness || null,
         reviewScore: data.reviewScore || null,
         reviewSummary: data.reviewSummary || null,

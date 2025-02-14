@@ -3,6 +3,7 @@ import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
 import Image from 'next/image';
 import React from 'react';
+import CreateRating from '@/components/books/create/CreateRating';
 
 const BookInfo = ({ book }: { book: BookType }) => {
   const {
@@ -71,6 +72,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
           )}
         </div>
         <RatingsPreview contextType='book' id={(id as number)} ratingsCount={(ratingsCount as number)} />
+        <CreateRating id={(id as number)} />
       </div>
     </div>
   );

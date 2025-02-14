@@ -9,4 +9,11 @@ const bookInputFields = [
   'category',
 ] as const;
 
-export { bookInputFields };
+const ratingInputFields = [
+  'user',
+  'reviewScore',
+  'reviewSummary',
+  'reviewText',
+];
+
+export { bookInputFields, ratingInputFields };
