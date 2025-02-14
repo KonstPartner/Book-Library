@@ -70,7 +70,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
             </a>
           )}
         </div>
-        <RatingsPreview contextType='book' id={id} ratingsCount={ratingsCount} />
+        <RatingsPreview contextType='book' id={(id as number)} ratingsCount={(ratingsCount as number)} />
       </div>
     </div>
   );

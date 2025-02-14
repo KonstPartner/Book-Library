@@ -23,6 +23,12 @@ const Navbar = () => {
           >
             Search
           </Link>
+          <Link
+            href="/books/create"
+            className="border-b-2 border-transparent text-gray-100 dark:text-gray-200hover:text-white hover:border-white"
+          >
+            Create
+          </Link>
         </div>
       </div>
     </nav>

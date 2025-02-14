@@ -114,19 +114,19 @@ const createBookRules = [
     'title',
     1,
     255,
-    'Title is required and cannot be empty.'
+    'Title is required and must be between 2 and 100 characters long.'
   ),
-  createStringValidation('description', 1, 500, 'Description is required.'),
-  createStringValidation('author', 1, 100, 'Author is required.'),
-  createStringValidation('image', 1, 500, 'Image is required.'),
-  createStringValidation('publisher', 1, 100, 'Publisher is required.'),
-  createStringValidation('publishedDate', 1, 50, 'PublishedDate is required.'),
-  createStringValidation('infoLink', 1, 500, 'InfoLink is required.'),
+  createStringValidation('description', 2, 500, 'Description is required.'),
+  createStringValidation('author', 2, 100, 'Author is required and must be between 2 and 100 characters long.'),
+  createStringValidation('image', 2, 255, 'Image is required and must be between 2 and 255 characters long.'),
+  createStringValidation('publisher', 2, 100, 'Publisher is required and must be between 2 and 100 characters long.'),
+  createStringValidation('publishedDate', 2, 50, 'PublishedDate is required and must be between 2 and 50 characters long.'),
+  createStringValidation('infoLink', 2, 255, 'InfoLink is required and must be between 2 and 255 characters long.'),
   createStringValidation(
     'category',
     1,
     100,
-    'Category is required and cannot be empty.'
+    'Category is required and cannot be empty and must be between 1 and 100 characters long.'
   ),
 ];
 
@@ -144,9 +144,9 @@ const createRatingRules = [
     255,
     'reviewHelpfulness is required.'
   ),
-  createStringValidation('reviewScore', 1, 255, 'reviewScore is required.'),
-  createStringValidation('reviewSummary', 1, 255, 'reviewSummary is required.'),
-  createStringValidation('reviewText', 1, 500, 'reviewText is required.'),
+  createStringValidation('reviewScore', 1, 3, 'reviewScore is required and must be between 1 and 3 characters long.'),
+  createStringValidation('reviewSummary', 1, 255, 'reviewSummary is required and must be between 1 and 255 characters long.'),
+  createStringValidation('reviewText', 1, 500, 'reviewText is required and must be between 1 and 500 characters long.'),
 ];
 
 const createUserRules = [
@@ -162,7 +162,7 @@ const postCategoryRule = [
     'name',
     1,
     100,
-    'Name is required and cannot be empty.'
+    'Name is required and must be between 1 and 100 characters long.'
   ),
 ];
 
