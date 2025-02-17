@@ -4,7 +4,7 @@ import getBookValues from '@/utils/getBookValues';
 import Image from 'next/image';
 import React from 'react';
 import CreateRating from '@/components/books/create/CreateRating';
-import DataOptions from '@/components/DataOptions';
+import DataOptions from '@/components/dataOptions/DataOptions';
 
 const BookInfo = ({ book }: { book: BookType }) => {
   const {

@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import { userAvatar } from '@/constants/images';
 import RatingsPreview from '@/components/RatingsPreview';
-import DataOptions from '@/components/DataOptions';
+import DataOptions from '@/components/dataOptions/DataOptions';
 
 const UserInfo = ({ user }: { user: UserType }) => {
   const { id, name, ratingsCount } = user;

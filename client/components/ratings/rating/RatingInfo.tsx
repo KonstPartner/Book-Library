@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React from 'react';
 import RatingStars from '../RatingStars';
 import Link from 'next/link';
-import DataOptions from '@/components/DataOptions';
+import DataOptions from '@/components/dataOptions/DataOptions';
 
 const RatingInfo = ({ rating }: { rating: RatingType }) => {
   const {
