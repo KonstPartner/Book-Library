@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-  SearchBooksFieldsType,
-  SearchRatingsFieldsType,
-} from '@/types/SearchFields';
+import BookType from '@/types/BookType';
+import RatingType from '@/types/RatingType';
 
 const SearchFieldsPreview = ({
   search,
 }: {
-  search: SearchBooksFieldsType | SearchRatingsFieldsType;
+  search: Partial<BookType> | Partial<RatingType>;
 }) => {
   const filteredKeys = Object.keys(search).filter((key) =>
     (search[key as keyof typeof search] as string).trim()

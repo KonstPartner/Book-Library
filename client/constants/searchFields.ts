@@ -1,9 +1,7 @@
-import {
-  SearchBooksFieldsType,
-  SearchRatingsFieldsType,
-} from '@/types/SearchFields';
+import BookType from '@/types/BookType';
+import RatingType from '@/types/RatingType';
 
-const booksInputFields: (keyof SearchBooksFieldsType)[] = [
+const booksInputFields: (keyof Partial<BookType>)[] = [
   'title',
   'description',
   'author',
@@ -12,11 +10,27 @@ const booksInputFields: (keyof SearchBooksFieldsType)[] = [
   'category',
 ];
 
-const ratingsInputFields: (keyof SearchRatingsFieldsType)[] = [
+const ratingsInputFields: (keyof Partial<RatingType>)[] = [
   'reviewHelpfulness',
   'reviewScore',
   'reviewSummary',
   'reviewText',
 ];
 
-export { booksInputFields, ratingsInputFields };
+const bookDataFields: Partial<BookType> = {
+  title: '',
+  description: '',
+  author: '',
+  publishedDate: '',
+  publisher: '',
+  category: '',
+};
+
+const ratingDataFields: Partial<RatingType> = {
+  reviewHelpfulness: '',
+  reviewScore: '',
+  reviewSummary: '',
+  reviewText: '',
+};
+
+export { booksInputFields, ratingsInputFields, bookDataFields, ratingDataFields };

@@ -124,6 +124,16 @@ const updateBookRequest = async (
 ) => {
   const { id, category, ...updates } = data;
 
+  if (updates.title) {
+    const existinTitle = await Book.findOne({ where: { title: updates.title } });
+    if (existinTitle) {
+      throw {
+        code: 400,
+        message: 'Title already used in another book.',
+      };
+    }
+  }
+
   const transaction = await sequelize.transaction();
   try {
     const book = await Book.findByPk(id, { transaction });

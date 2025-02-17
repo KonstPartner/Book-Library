@@ -1,14 +1,14 @@
 'use client';
 
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { RefreshCcw } from 'lucide-react';
 import Button from '@/components/Button';
 import RatingInfo from '@/components/ratings/rating/RatingInfo';
 import Spinner from '@/components/Spinner';
 import { ALL_RATINGS_URL } from '@/constants/apiSources';
 import RatingType from '@/types/RatingType';
 import fetchData from '@/utils/fetchData';
-import { RefreshCcw } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react';
 
 const SingleRating = () => {
   const params = useParams();

@@ -8,26 +8,18 @@ import BookType from '@/types/BookType';
 import BooksList from '@/components/books/BooksList';
 import fetchData from '@/utils/fetchData';
 import createSearchQueryString from '@/utils/createSearchQueryString';
-import { SearchBooksFieldsType } from '@/types/SearchFields';
-import { booksInputFields } from '@/constants/searchFields';
+import { bookDataFields, booksInputFields } from '@/constants/searchFields';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import validateSearch from '@/utils/validateSearch';
 import SearchFieldsPreview from '../search/SearchFieldsPreview';
-import SearchInputFields from '../search/SearchInputFields';
+import SearchInputFields from '@/components/search/SearchInputFields';
 import updateSearchParams from '@/utils/updateSearchParams';
-import Spinner from '../Spinner';
+import Spinner from '@/components/Spinner';
 
-const initialSearch = {
-  title: '',
-  description: '',
-  author: '',
-  publishedDate: '',
-  publisher: '',
-  category: '',
-};
+
 
 const SearchBooksList = () => {
-  const [search, setSearch] = useState<SearchBooksFieldsType>(initialSearch);
+  const [search, setSearch] = useState<Partial<BookType>>(bookDataFields);
   const [isLoading, setIsLoading] = useState(false);
   const [books, setBooks] = useState<BookType[] | []>([]);
   const [isClosedInputs, setIsClosedInputs] = useState(false);
@@ -88,10 +80,10 @@ const SearchBooksList = () => {
           <SearchInputFields
             inputFields={booksInputFields}
             search={search}
-            setSearch={(value) => setSearch(value as SearchBooksFieldsType)}
+            setSearch={(value) => setSearch(value as Partial<BookType>)}
           />
           <div className="flex flex-row-reverse justify-evenly my-4">
-            <Button onClick={() => setSearch(initialSearch)}>
+            <Button onClick={() => setSearch(bookDataFields)}>
               <Eraser /> <span className="ml-1">Clear fields</span>
             </Button>
             <Button onClick={() => setIsClosedInputs(true)}>

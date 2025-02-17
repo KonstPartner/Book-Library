@@ -1,6 +1,6 @@
+import React, { ChangeEvent } from 'react';
 import Input from '@/components/Input';
 import { bookInputFields } from '@/constants/createFields';
-import React, { ChangeEvent } from 'react';
 
 const CreateBookInput = ({
   field,

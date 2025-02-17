@@ -1,10 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { userAvatar } from '@/constants/images';
 import RatingType from '@/types/RatingType';
 import getRatingValues from '@/utils/getRatingValues';
-import RatingStars from '../RatingStars';
-import Link from 'next/link';
+import RatingStars from '@/components/ratings/RatingStars';
 
 const RatingCard = ({
   rating,

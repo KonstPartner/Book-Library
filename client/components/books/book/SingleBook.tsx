@@ -1,14 +1,14 @@
 'use client';
 
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { RefreshCcw } from 'lucide-react';
 import BookInfo from '@/components/books/book/BookInfo';
 import Button from '@/components/Button';
 import Spinner from '@/components/Spinner';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import BookType from '@/types/BookType';
 import fetchData from '@/utils/fetchData';
-import { RefreshCcw } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react';
 
 const SingleBook = () => {
   const params = useParams();

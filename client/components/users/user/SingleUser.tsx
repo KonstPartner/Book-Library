@@ -1,14 +1,14 @@
 'use client';
 
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { RefreshCcw } from 'lucide-react';
 import Button from '@/components/Button';
 import Spinner from '@/components/Spinner';
 import UserInfo from '@/components/users/user/UserInfo';
 import { ALL_USERS_URL } from '@/constants/apiSources';
 import UserType from '@/types/UserType';
 import fetchData from '@/utils/fetchData';
-import { RefreshCcw } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react';
 
 const SingleUser = () => {
   const params = useParams();

@@ -1,8 +1,8 @@
-import UserType from '@/types/UserType';
 import React from 'react';
 import Image from 'next/image';
+import UserType from '@/types/UserType';
 import { userAvatar } from '@/constants/images';
-import RatingsPreview from '@/components/RatingsPreview';
+import RatingsPreview from '@/components/ratings/RatingsPreview';
 import DataOptions from '@/components/dataOptions/DataOptions';
 
 const UserInfo = ({ user }: { user: UserType }) => {
@@ -22,12 +22,12 @@ const UserInfo = ({ user }: { user: UserType }) => {
           <p className="text-center text-2xl">{name}</p>
           <RatingsPreview
             contextType="user"
-            id={id}
-            ratingsCount={ratingsCount}
+            id={id as string}
+            ratingsCount={ratingsCount as number}
           />
         </div>
       </div>
-      <DataOptions contextType="user" id={id} />
+      <DataOptions contextType="user" id={id as string} />
     </div>
   );
 };

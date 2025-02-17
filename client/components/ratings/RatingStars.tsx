@@ -1,5 +1,5 @@
-import { FaStar, FaRegStarHalfStroke, FaRegStar } from 'react-icons/fa6';
 import React from 'react';
+import { FaStar, FaRegStarHalfStroke, FaRegStar } from 'react-icons/fa6';
 
 const RatingStars = ({ rating }: { rating: number }) => {
   const stars = [];

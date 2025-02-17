@@ -1,10 +1,10 @@
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { userAvatar } from '@/constants/images';
 import RatingType from '@/types/RatingType';
 import getRatingValues from '@/utils/getRatingValues';
-import Image from 'next/image';
-import React from 'react';
-import RatingStars from '../RatingStars';
-import Link from 'next/link';
+import RatingStars from '@/components/ratings/RatingStars';
 import DataOptions from '@/components/dataOptions/DataOptions';
 
 const RatingInfo = ({ rating }: { rating: RatingType }) => {
@@ -28,7 +28,7 @@ const RatingInfo = ({ rating }: { rating: RatingType }) => {
             <Link href={`/users/${userId}`}>
               <Image
                 src={userAvatar}
-                alt={user}
+                alt={user as string}
                 className="w-12 h-12 rounded-full object-cover border border-gray-400"
               />
             </Link>
@@ -61,7 +61,7 @@ const RatingInfo = ({ rating }: { rating: RatingType }) => {
           {reviewText}
         </p>
       </div>
-      <DataOptions contextType="rating" id={id} />
+      <DataOptions contextType="rating" id={id as string} />
     </div>
   );
 };

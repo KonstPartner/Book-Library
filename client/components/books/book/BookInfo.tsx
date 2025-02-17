@@ -1,9 +1,9 @@
-import RatingsPreview from '@/components/RatingsPreview';
+import React from 'react';
+import Image from 'next/image';
+import RatingsPreview from '@/components/ratings/RatingsPreview';
 import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
-import Image from 'next/image';
-import React from 'react';
-import CreateRating from '@/components/books/create/CreateRating';
+import CreateRating from '@/components/create/CreateRating';
 import DataOptions from '@/components/dataOptions/DataOptions';
 
 const BookInfo = ({ book }: { book: BookType }) => {
@@ -75,13 +75,13 @@ const BookInfo = ({ book }: { book: BookType }) => {
           </div>
           <RatingsPreview
             contextType="book"
-            id={id as number}
-            ratingsCount={ratingsCount as number}
+            id={id}
+            ratingsCount={ratingsCount}
           />
-          <CreateRating id={id as number} />
+          <CreateRating id={id} />
         </div>
       </div>
-      <DataOptions contextType="book" id={id as number} />
+      <DataOptions contextType="book" id={id} />
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import RatingsList from '@/components/ratings/RatingsList';
 import fetchData from '@/utils/fetchData';
 import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
-import Link from 'next/link';
 
 const RatingsPreview = ({
   id,

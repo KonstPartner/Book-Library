@@ -1,7 +1,7 @@
 type UserType = {
   id: string;
   name: string;
-  ratingsCount: number;
+  ratingsCount?: number;
 };
 
 export default UserType;

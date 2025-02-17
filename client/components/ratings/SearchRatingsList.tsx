@@ -1,7 +1,5 @@
 'use client';
 
-import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
-import fetchData from '@/utils/fetchData';
 import {
   useParams,
   usePathname,
@@ -9,19 +7,20 @@ import {
   useSearchParams,
 } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
+import { ChevronDown, ChevronUp, Eraser } from 'lucide-react';
+import Link from 'next/link';
+import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
+import fetchData from '@/utils/fetchData';
 import RatingsList from './RatingsList';
 import RatingType from '@/types/RatingType';
-import { SearchRatingsFieldsType } from '@/types/SearchFields';
-import SearchFieldsPreview from '../search/SearchFieldsPreview';
-import Button from '../Button';
-import { ChevronDown, ChevronUp, Eraser } from 'lucide-react';
-import SearchInputFields from '../search/SearchInputFields';
-import { ratingsInputFields } from '@/constants/searchFields';
+import SearchFieldsPreview from '@/components/search/SearchFieldsPreview';
+import Button from '@/components/Button';
+import SearchInputFields from '@/components/search/SearchInputFields';
+import { ratingDataFields, ratingsInputFields } from '@/constants/searchFields';
 import validateSearch from '@/utils/validateSearch';
 import updateSearchParams from '@/utils/updateSearchParams';
 import createSearchQueryString from '@/utils/createSearchQueryString';
-import Link from 'next/link';
-import Spinner from '../Spinner';
+import Spinner from '@/components/Spinner';
 
 const SearchRatingsList = ({
   contextType,
@@ -30,19 +29,14 @@ const SearchRatingsList = ({
 }) => {
   const isBook = contextType === 'book';
 
-  const initialSearch: SearchRatingsFieldsType = {
-    reviewHelpfulness: '',
-    reviewScore: '',
-    reviewSummary: '',
-    reviewText: '',
-  };
+  const initialSearch = {...ratingDataFields};
 
   if (isBook) {
     initialSearch.user = '';
   } else {
     initialSearch.book = '';
   }
-  const [search, setSearch] = useState<SearchRatingsFieldsType>(initialSearch);
+  const [search, setSearch] = useState<Partial<RatingType>>(initialSearch);
   const [isLoading, setIsLoading] = useState(false);
   const [ratings, setRatings] = useState<RatingType[] | []>([]);
   const [isClosedInputs, setIsClosedInputs] = useState(false);
@@ -62,7 +56,7 @@ const SearchRatingsList = ({
     }
     setIsLoading(false);
   }, []);
-  
+
   useEffect(() => {
     fetchSearchedRatings(
       `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`
@@ -91,7 +85,15 @@ const SearchRatingsList = ({
     fetchSearchedRatings(
       `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings?${query}`
     );
-  }, [id, isBook, pathname, router, search, searchParams, fetchSearchedRatings]);
+  }, [
+    id,
+    isBook,
+    pathname,
+    router,
+    search,
+    searchParams,
+    fetchSearchedRatings,
+  ]);
 
   return (
     <div className="flex flex-col text-center">
@@ -125,7 +127,7 @@ const SearchRatingsList = ({
           <SearchInputFields
             inputFields={[...ratingsInputFields, isBook ? 'user' : 'book']}
             search={search}
-            setSearch={(value) => setSearch(value as SearchRatingsFieldsType)}
+            setSearch={(value) => setSearch(value as Partial<RatingType>)}
           />
           <div className="flex flex-row-reverse justify-evenly my-4">
             <Button onClick={() => setSearch(initialSearch)}>

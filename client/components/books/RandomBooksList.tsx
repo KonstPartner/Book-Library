@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 import BooksList from './BooksList';
 import fetchData from '@/utils/fetchData';
 import { RANDOM_BOOKS_URL } from '@/constants/apiSources';
-import Spinner from '../Spinner';
+import Spinner from '@/components/Spinner';
 
 const RandomBooksList = () => {
   const [books, setBooks] = useState<BookType[] | []>([]);

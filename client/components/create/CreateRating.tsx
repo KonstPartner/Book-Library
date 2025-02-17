@@ -2,30 +2,20 @@
 
 import React, { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaStar } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
-import { ratingInputFields } from '@/constants/createFields';
+import { ratingDataFields, ratingInputFields } from '@/constants/createFields';
 import fetchData from '@/utils/fetchData';
 import { ALL_RATINGS_URL } from '@/constants/apiSources';
-
-type RatingForm = {
-  user: string;
-  reviewScore: string;
-  reviewSummary: string;
-  reviewText: string;
-};
+import RatingType from '@/types/RatingType';
+import RatingInput from '../ratings/RatingInput';
 
 const CreateRating = ({ id }: { id: number }) => {
   const router = useRouter();
 
-  const [formData, setFormData] = useState<RatingForm>({
-    user: '',
-    reviewScore: '',
-    reviewSummary: '',
-    reviewText: '',
-  });
+  const [formData, setFormData] =
+    useState<Partial<RatingType>>(ratingDataFields);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
@@ -40,7 +30,7 @@ const CreateRating = ({ id }: { id: number }) => {
   const handleClick = async () => {
     setIsLoading(true);
 
-    if (!formData.user.trim() || !formData.reviewScore.trim()) {
+    if (!formData.user?.trim() || !formData.reviewScore?.trim()) {
       toast.warn('User and rating are required!');
       setIsLoading(false);
       return;
@@ -50,7 +40,9 @@ const CreateRating = ({ id }: { id: number }) => {
       bookId: id,
       reviewHelpfulness: '0/0',
       ...Object.fromEntries(
-        Object.entries(formData).filter(([, value]) => value.trim() !== '')
+        Object.entries(formData).filter(
+          ([, value]) => value?.toString().trim() !== ''
+        )
       ),
     };
 
@@ -77,38 +69,24 @@ const CreateRating = ({ id }: { id: number }) => {
             {field === 'reviewText' ? (
               <textarea
                 name={field}
-                value={formData[field as keyof RatingForm]}
+                value={formData[field as keyof RatingType] as string}
                 onChange={handleChange}
                 placeholder="Your review"
                 className="p-3 border rounded-md
                 bg-gray-100 dark:bg-transparent dark:border-gray-400"
               />
             ) : field === 'reviewScore' ? (
-              <div className="m-auto">
-                <p className="text-center text-gray-500">Select rating:</p>
-                <div className="flex items-center space-x-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <FaStar
-                      key={star}
-                      onClick={() =>
-                        setFormData({
-                          ...formData,
-                          reviewScore: star.toString(),
-                        })
-                      }
-                      className={`cursor-pointer text-xl transition-all ${
-                        star <= Number(formData.reviewScore)
-                          ? 'text-yellow-300'
-                          : 'text-gray-400'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
+              <RatingInput
+                field={field}
+                dataFields={formData}
+                setDataFields={(value) =>
+                  setFormData(value as Partial<RatingType>)
+                }
+              />
             ) : (
               <Input
                 name={field}
-                value={formData[field as keyof RatingForm]}
+                value={formData[field as keyof RatingType] as string}
                 onChange={handleChange}
                 placeholder={field === 'user' ? 'User name' : field}
                 className={`${

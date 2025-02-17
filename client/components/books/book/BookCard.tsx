@@ -1,7 +1,7 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
-import Link from 'next/link';
 
 const BookCard = ({ book }: { book: BookType }) => {
   const { id, title, author, image, publishedDate, category } =
@@ -17,12 +17,14 @@ const BookCard = ({ book }: { book: BookType }) => {
               width={160}
               height={200}
               alt={`${title} Image`}
-              className="object-cover rounded-md"
+              className="rounded-md"
             />
           </div>
           <div className="mt-3 flex flex-col gap-2">
             <h2 className="text-lg font-semibold">{title}</h2>
-            <p className="text-gray-600 dark:text-gray-400 min-h-[20px]">By: {author}</p>
+            <p className="text-gray-600 dark:text-gray-400 min-h-[20px]">
+              By: {author}
+            </p>
             <p className="text-gray-600 dark:text-gray-400 min-h-[20px]">
               Published: {publishedDate}
             </p>

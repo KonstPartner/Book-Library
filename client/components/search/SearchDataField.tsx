@@ -1,19 +1,17 @@
 import React from 'react';
-import Input from '../Input';
-import {
-  SearchBooksFieldsType,
-  SearchRatingsFieldsType,
-} from '@/types/SearchFields';
+import Input from '@/components/Input';
+import BookType from '@/types/BookType';
+import RatingType from '@/types/RatingType';
 
 const SearchDataField = ({
   setSearch,
   search,
 }: {
-  setSearch: (value: SearchBooksFieldsType | SearchRatingsFieldsType) => void;
-  search: SearchBooksFieldsType | SearchRatingsFieldsType;
+  setSearch: (value: Partial<BookType> | Partial<RatingType>) => void;
+  search: Partial<BookType> | Partial<RatingType>;
 }) => {
-  const { publishedDate = '' } = search as SearchBooksFieldsType;
-  const [year, month, day] = publishedDate.split('-');
+  const { publishedDate = '' } = search as Partial<BookType>;
+  const [year, month, day] = (publishedDate as string).split('-');
 
   const dateFields = [
     { type: 'year', placeholder: 'YYYY', value: year, width: 'w-20' },
@@ -38,7 +36,7 @@ const SearchDataField = ({
       publishedDate: [newDate.year, newDate.month, newDate.day]
         .filter(Boolean)
         .join('-'),
-    } as SearchBooksFieldsType);
+    } as Partial<BookType>);
   };
 
   return (

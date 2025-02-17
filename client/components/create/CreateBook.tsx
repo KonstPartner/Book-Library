@@ -2,71 +2,18 @@
 
 import React, { ChangeEvent, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 import Button from '@/components/Button';
 import fetchData from '@/utils/fetchData';
-import { toast } from 'react-toastify';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import BookType from '@/types/BookType';
 import CreateBookInput from './CreateBookInput';
-import { bookInputFields } from '@/constants/createFields';
-
-const VALID_IMAGE_DOMAINS = ['books.google.com', 'coverart.oclc.org'] as const;
-
-const isValidBook = async (book: BookType) => {
-  const trimmedBook = Object.fromEntries(
-    Object.entries(book).map(([key, value]) => [
-      key,
-      typeof value === 'string' ? value.trim() : value,
-    ])
-  ) as BookType;
-
-  if (!trimmedBook.title) {
-    toast.warn('Title is required!');
-    return false;
-  }
-
-  if (
-    Object.values(trimmedBook).some(
-      (value) => value && (value as string).length < 2
-    )
-  ) {
-    toast.warn('Fields must be at least 2 chars long');
-    return false;
-  }
-
-  if (
-    trimmedBook.publishedDate &&
-    !/^\d{4}(-\d{2})?(-\d{2})?$/.test(trimmedBook.publishedDate)
-  ) {
-    toast.warn('Published Date must be in format YYYY, YYYY-MM, or YYYY-MM-DD');
-    return false;
-  }
-
-  if (trimmedBook.image && !VALID_IMAGE_DOMAINS.some(domain => (trimmedBook.image as string).startsWith(`https://${domain}`))) {
-    toast.warn('Image URL is invalid. Valid domains: coverart.oclc.org and books.google.com');
-    return false;
-  }
-
-  if (trimmedBook.infoLink && !trimmedBook.infoLink.startsWith('https://')) {
-    toast.warn('Info Link URL is invalid');
-    return false;
-  }
-
-  return true;
-};
+import { bookDataFields, bookInputFields } from '@/constants/createFields';
+import isValidData from '@/utils/isValidData';
 
 const CreateBook = () => {
   const router = useRouter();
-  const [book, setBook] = useState<BookType>({
-    title: '',
-    description: '',
-    author: '',
-    image: '',
-    publisher: '',
-    publishedDate: '',
-    infoLink: '',
-    category: '',
-  });
+  const [book, setBook] = useState<Partial<BookType>>(bookDataFields);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = useCallback(
@@ -80,7 +27,7 @@ const CreateBook = () => {
   const handleClick = useCallback(async () => {
     setIsLoading(true);
 
-    if (!(await isValidBook(book))) {
+    if (!isValidData('book', book as BookType)) {
       setIsLoading(false);
       return;
     }
@@ -114,7 +61,7 @@ const CreateBook = () => {
           <CreateBookInput
             key={field}
             field={field}
-            value={book[field] as any}
+            value={book[field as keyof BookType] as string}
             onChange={handleChange(field)}
           />
         ))}

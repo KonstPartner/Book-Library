@@ -1,17 +1,16 @@
-import { SearchBooksFieldsType, SearchRatingsFieldsType } from '@/types/SearchFields';
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import BookType from "@/types/BookType";
+import RatingType from "@/types/RatingType";
 
-const validateSearch = (search: SearchBooksFieldsType | SearchRatingsFieldsType) => {
-  if (
-    (Object.keys(search) as Array<keyof typeof search>).some(
-      (key) => (search as any)[key].length === 1 || (search as any)[key].length > 255
-    )
-  ) {
-    toast.warn('Searchable fields must be between 2 and 255 characters length!');
+const validateSearch = (search: Partial<BookType> | Partial<RatingType>) => {
+  return Object.entries(search).some(([, value]) => {
+    if (typeof value === 'string') {
+      return value.length === 1 || value.length > 255;
+    }
     return false;
-  }
-
-  return true;
+  })
+    ? (toast.warn('Searchable fields must be between 2 and 255 characters length!'), false)
+    : true;
 };
 
 export default validateSearch;

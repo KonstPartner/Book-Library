@@ -1,17 +1,10 @@
-import { bookInputFields, ratingInputFields } from '@/constants/createFields';
 import React, { ChangeEvent, Fragment } from 'react';
-import Input from '../Input';
-import BookType from '@/types/BookType';
-import { FaStar } from 'react-icons/fa6';
-
-type RatingForm = {
-  reviewScore: string;
-  reviewSummary: string;
-  reviewText: string;
-};
-
-type ContextType = 'book' | 'rating' | 'user';
-type FieldsType = BookType | RatingForm | { name: string };
+import { bookInputFields, ratingInputFields } from '@/constants/createFields';
+import Input from '@/components/Input';
+import FieldsType from '@/types/FieldsType';
+import ContextType from '@/types/ContextType';
+import RatingInput from '../ratings/RatingInput';
+import RatingType from '@/types/RatingType';
 
 const UpdateDataInputs = ({
   contextType,
@@ -59,27 +52,14 @@ const UpdateDataInputs = ({
             }}
           />
         ) : field === 'reviewScore' ? (
-          <div key={field} className="m-auto">
-            <p className="text-center text-gray-500">Select rating:</p>
-            <div className="flex items-center space-x-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <FaStar
-                  key={star}
-                  onClick={() =>
-                    setUpdateFields({
-                      ...updateFields,
-                      reviewScore: star.toString(),
-                    })
-                  }
-                  className={`cursor-pointer text-xl transition-all ${
-                    star <= Number(updateFields[field as keyof FieldsType])
-                      ? 'text-yellow-300'
-                      : 'text-gray-400'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
+          <RatingInput
+            key={field}
+            field={field}
+            dataFields={updateFields}
+            setDataFields={(value) =>
+              setUpdateFields(value as Partial<RatingType>)
+            }
+          />
         ) : (
           <Fragment key={field}>
             {field === 'image' && (
@@ -94,7 +74,7 @@ const UpdateDataInputs = ({
             )}
             <Input
               className="px-3 py-2"
-              value={updateFields[field as keyof FieldsType] || ''}
+              value={updateFields[field as keyof FieldsType] as string}
               onChange={handleChange(field as keyof FieldsType)}
               placeholder={field}
             />
