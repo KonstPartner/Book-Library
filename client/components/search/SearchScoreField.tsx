@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { ChangeEvent, useMemo } from 'react';
 import BookType from '@/types/BookType';
 import RatingType from '@/types/RatingType';
 
@@ -14,7 +14,7 @@ const SearchScoreField = ({
   const fieldValue = (search[field] as string) || '';
   const [whole, decimal] = fieldValue.split('.');
 
-  const handleWholeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleWholeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newWhole = e.target.value;
     if (!newWhole) {
       setSearch({ ...search, [field]: '' } as
@@ -27,7 +27,7 @@ const SearchScoreField = ({
     }
   };
 
-  const handleDecimalChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleDecimalChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newDecimal = e.target.value;
     setSearch({ ...search, [field]: `${whole || '0'}.${newDecimal || '0'}` } as
       | Partial<BookType>

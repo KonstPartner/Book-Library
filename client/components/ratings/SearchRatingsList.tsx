@@ -96,65 +96,65 @@ const SearchRatingsList = ({
   ]);
 
   return (
-    <div className="flex flex-col text-center">
-      <h1 className="text-2xl font-bold text-center my-4 w-full">
-        Search Ratings
-      </h1>
-      <p className="text-lg text-gray-700 dark:text-gray-300">
-        For {isBook ? 'book' : 'user'}:
+    <div className="flex flex-col text-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto">
+    <h1 className="text-2xl font-bold my-4">Search Ratings</h1>
+  
+    <p className="text-lg text-gray-700 dark:text-gray-300">
+      For {isBook ? 'book' : 'user'}:
+    </p>
+  
+    {ratings.length > 0 && (
+      <p className="text-lg font-bold text-gray-700 dark:text-gray-300 hover:underline">
+        {isBook ? (
+          <Link href={`/books/${ratings[0].bookId}`}>{ratings[0].book}</Link>
+        ) : (
+          <Link href={`/users/${ratings[0].userId}`}>{ratings[0].user}</Link>
+        )}
       </p>
-      {!!ratings.length && (
-        <p className="text-lg font-bold text-gray-700 dark:text-gray-300 hover:underline">
-          {isBook ? (
-            <Link href={`/books/${ratings[0].bookId}`}>{ratings[0].book}</Link>
-          ) : (
-            <Link href={`/users/${ratings[0].userId}`}>{ratings[0].user}</Link>
-          )}
-        </p>
-      )}
-      {isClosedInputs ? (
-        <>
-          <SearchFieldsPreview search={search} />
-          <Button
-            className="mt-5 mx-auto"
-            onClick={() => setIsClosedInputs(false)}
-          >
-            <ChevronDown /> Open fields
+    )}
+  
+    {isClosedInputs ? (
+      <>
+        <SearchFieldsPreview search={search} />
+        <Button className="mt-5 mx-auto" onClick={() => setIsClosedInputs(false)}>
+          <ChevronDown /> Open fields
+        </Button>
+      </>
+    ) : (
+      <>
+        <SearchInputFields
+          inputFields={[...ratingsInputFields, isBook ? 'user' : 'book']}
+          search={search}
+          setSearch={(value) => setSearch(value as Partial<RatingType>)}
+        />
+        <div className="flex flex-col lg:flex-row items-center justify-evenly gap-4 my-4">
+          <Button onClick={() => setSearch(initialSearch)}>
+            <Eraser /> <span className="ml-1">Clear fields</span>
           </Button>
-        </>
-      ) : (
-        <>
-          <SearchInputFields
-            inputFields={[...ratingsInputFields, isBook ? 'user' : 'book']}
-            search={search}
-            setSearch={(value) => setSearch(value as Partial<RatingType>)}
-          />
-          <div className="flex flex-row-reverse justify-evenly my-4">
-            <Button onClick={() => setSearch(initialSearch)}>
-              <Eraser /> <span className="ml-1">Clear fields</span>
-            </Button>
-            <Button onClick={() => setIsClosedInputs(true)}>
-              <ChevronUp /> Hide fields
-            </Button>
-          </div>
-        </>
-      )}
-
-      <Button
-        className="my-10 mx-auto border-none bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600"
-        onClick={handleButtonClick}
-        disabled={isLoading}
-      >
-        Search
-      </Button>
-      {isLoading ? (
-        <Spinner className="mx-auto my-16" />
-      ) : ratings.length ? (
-        <RatingsList contextType={contextType} ratings={ratings} />
-      ) : (
-        <p className="mt-10">No ratings found.</p>
-      )}
-    </div>
+          <Button onClick={() => setIsClosedInputs(true)}>
+            <ChevronUp /> Hide fields
+          </Button>
+        </div>
+      </>
+    )}
+  
+    <Button
+      className="my-10 mx-auto border-none bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600"
+      onClick={handleButtonClick}
+      disabled={isLoading}
+    >
+      Search
+    </Button>
+  
+    {isLoading ? (
+      <Spinner className="mx-auto my-16" />
+    ) : ratings.length > 0 ? (
+      <RatingsList contextType={contextType} ratings={ratings} />
+    ) : (
+      <p className="mt-10 text-gray-500 dark:text-gray-300">No ratings found.</p>
+    )}
+  </div>
+  
   );
 };
 

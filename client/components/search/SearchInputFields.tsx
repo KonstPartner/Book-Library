@@ -29,7 +29,7 @@ const SearchInputFields = ({
             <SearchScoreField
               setSearch={(value) => setSearch(value as Partial<BookType>)}
               search={search}
-              field={field}
+              field={field as  any}
             />
           ) : (
             <Input

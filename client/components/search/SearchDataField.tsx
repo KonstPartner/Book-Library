@@ -14,9 +14,9 @@ const SearchDataField = ({
   const [year, month, day] = (publishedDate as string).split('-');
 
   const dateFields = [
-    { type: 'year', placeholder: 'YYYY', value: year, width: 'md:w-20 sm:w-12' },
-    { type: 'month', placeholder: 'MM', value: month, width: 'md:w-16 sm:w-10' },
-    { type: 'day', placeholder: 'DD', value: day, width: 'md:w-14 sm:w-8' },
+    { type: 'year', placeholder: 'YYYY', value: year, width: 'w-24' },
+    { type: 'month', placeholder: 'MM', value: month, width: 'w-16' },
+    { type: 'day', placeholder: 'DD', value: day, width: 'w-14' },
   ] as const;
 
   const handleDateChange = (type: 'year' | 'month' | 'day', value: string) => {
