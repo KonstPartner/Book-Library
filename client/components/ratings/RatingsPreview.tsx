@@ -30,7 +30,7 @@ const RatingsPreview = ({
   }, [id, isBook]);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
+    <div className="bg-gray-100 dark:bg-gray-700 md:p-3 rounded-lg">
       <div className="flex justify-between">
         <p>Reviews ({ratingsCount})</p>
         {ratingsCount && ratingsCount > 5 && (

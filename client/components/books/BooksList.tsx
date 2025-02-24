@@ -4,7 +4,7 @@ import BookType from '@/types/BookType';
 
 const BooksList = ({ books }: { books: BookType[] }) => {
   return (
-    <div className="grid grid-cols-auto-fit gap-4 p-5">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 p-5">
       {books.map((book) => (
         <BookCard key={book.id} book={book} />
       ))}

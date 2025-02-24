@@ -23,13 +23,13 @@ const RatingInfo = ({ rating }: { rating: RatingType }) => {
   return (
     <div>
       <div className="max-w-3xl mx-auto p-6 shadow-lg rounded-lg dark:bg-zinc-800 bg-white">
-        <div className="flex items-center justify-between border-b pb-4 border-gray-300 dark:border-gray-700">
+        <div className="flex flex-wrap items-center justify-between border-b pb-4 border-gray-300 dark:border-gray-700">
           <div className="flex items-center gap-2">
             <Link href={`/users/${userId}`}>
               <Image
                 src={userAvatar}
                 alt={user as string}
-                className="w-12 h-12 rounded-full object-cover border border-gray-400"
+                className="w-12 h-auto rounded-full object-contain border border-gray-400"
               />
             </Link>
             <div>

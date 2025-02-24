@@ -23,7 +23,7 @@ const RatingCard = ({
       className="w-full cursor-pointer"
       onClick={() => (window.location.href = `/ratings/${id}`)}
     >
-      <div className="flex items-center gap-4 p-4 border rounded-lg shadow-md my-3 bg-white dark:bg-gray-800 dark:border-transparent hover:bg-gray-50 dark:hover:bg-gray-900">
+      <div className="flex items-center gap-4 md:p-4 sm:p-0 border rounded-lg shadow-md my-3 bg-white dark:bg-gray-800 dark:border-transparent hover:bg-gray-50 dark:hover:bg-gray-900">
         {isBook && (
           <Link href={`/user/${userId}`} onClick={(e) => e.stopPropagation()}>
             <Image

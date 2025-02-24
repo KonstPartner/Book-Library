@@ -61,53 +61,56 @@ const SearchBooksList = () => {
   }, [fetchSearchedBooks, pathname, router, search, searchParams]);
 
   return (
-    <div className="flex flex-col text-center">
-      <h1 className="text-2xl font-bold text-center my-4 w-full">
-        Search Books
-      </h1>
-      {isClosedInputs ? (
-        <>
-          <SearchFieldsPreview search={search} />
-          <Button
-            className="mt-5 mx-auto"
-            onClick={() => setIsClosedInputs(false)}
-          >
-            <ChevronDown /> Open fields
-          </Button>
-        </>
-      ) : (
-        <>
-          <SearchInputFields
-            inputFields={booksInputFields}
-            search={search}
-            setSearch={(value) => setSearch(value as Partial<BookType>)}
-          />
-          <div className="flex flex-row-reverse justify-evenly my-4">
-            <Button onClick={() => setSearch(bookDataFields)}>
-              <Eraser /> <span className="ml-1">Clear fields</span>
-            </Button>
-            <Button onClick={() => setIsClosedInputs(true)}>
-              <ChevronUp /> Hide fields
-            </Button>
-          </div>
-        </>
-      )}
+    <div className="flex flex-col items-center text-center w-full max-w-3xl mx-auto px-4 sm:px-6">
+  <h1 className="text-2xl font-bold my-4 w-full">Search Books</h1>
 
+  {isClosedInputs ? (
+    <>
+      <SearchFieldsPreview search={search} />
       <Button
-        className="mt-10 mx-auto border-none bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600"
-        onClick={handleButtonClick}
-        disabled={isLoading}
+        className="mt-5 mx-auto px-4 py-2"
+        onClick={() => setIsClosedInputs(false)}
       >
-        Search
+        <ChevronDown /> Open fields
       </Button>
-      {isLoading ? (
-        <Spinner className="mx-auto my-16" />
-      ) : books.length ? (
-        <BooksList books={books} />
-      ) : (
-        <p className="mt-10">No books found.</p>
-      )}
-    </div>
+    </>
+  ) : (
+    <>
+      <div className="w-full">
+        <SearchInputFields
+          inputFields={booksInputFields}
+          search={search}
+          setSearch={(value) => setSearch(value as Partial<BookType>)}
+        />
+      </div>
+      <div className="flex flex-wrap justify-center gap-4 my-4 w-full">
+        <Button onClick={() => setSearch(bookDataFields)} className="px-4 py-2">
+          <Eraser /> <span className="ml-1">Clear fields</span>
+        </Button>
+        <Button onClick={() => setIsClosedInputs(true)} className="px-4 py-2">
+          <ChevronUp /> Hide fields
+        </Button>
+      </div>
+    </>
+  )}
+
+  <Button
+    className="mt-10 mx-auto border-none bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 px-6 py-3 sm:w-auto"
+    onClick={handleButtonClick}
+    disabled={isLoading}
+  >
+    Search
+  </Button>
+
+  {isLoading ? (
+    <Spinner className="mx-auto my-16" />
+  ) : books.length ? (
+    <BooksList books={books} />
+  ) : (
+    <p className="mt-10 text-gray-500 dark:text-gray-400">No books found.</p>
+  )}
+</div>
+
   );
 };
 
