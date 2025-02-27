@@ -105,7 +105,7 @@ const SearchBooksList = () => {
   {isLoading ? (
     <Spinner className="mx-auto my-16" />
   ) : books.length ? (
-    <BooksList books={books} />
+    <BooksList books={books} search={search} />
   ) : (
     <p className="mt-10 text-gray-500 dark:text-gray-400">No books found.</p>
   )}

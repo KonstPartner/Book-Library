@@ -149,7 +149,7 @@ const SearchRatingsList = ({
     {isLoading ? (
       <Spinner className="mx-auto my-16" />
     ) : ratings.length > 0 ? (
-      <RatingsList contextType={contextType} ratings={ratings} />
+      <RatingsList contextType={contextType} ratings={ratings} search={search} />
     ) : (
       <p className="mt-10 text-gray-500 dark:text-gray-300">No ratings found.</p>
     )}

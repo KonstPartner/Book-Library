@@ -5,13 +5,16 @@ import { userAvatar } from '@/constants/images';
 import RatingType from '@/types/RatingType';
 import getRatingValues from '@/utils/getRatingValues';
 import RatingStars from '@/components/ratings/RatingStars';
+import highlightText from '@/utils/highlightText';
 
 const RatingCard = ({
   rating,
   contextType,
+  search = {},
 }: {
   rating: RatingType;
   contextType: 'book' | 'user';
+  search?: Partial<RatingType>;
 }) => {
   const { id, bookId, userId, user, book, reviewSummary, reviewScore } =
     getRatingValues(rating);
@@ -42,7 +45,9 @@ const RatingCard = ({
               href={`/users/${userId}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="font-semibold text-lg hover:underline">{user}</h3>
+              <h3 className="font-semibold text-lg hover:underline">
+                {highlightText(user, search?.user)}
+              </h3>
             </Link>
           ) : (
             <Link
@@ -51,7 +56,7 @@ const RatingCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <p className="font-bold text-gray-800 dark:text-gray-300 hover:underline">
-                {book}
+                {highlightText(book, search?.book)}
               </p>
             </Link>
           )}
@@ -60,7 +65,7 @@ const RatingCard = ({
             <RatingStars rating={Number(reviewScore)} />
           </div>
           <p className="mt-2 text-pretty text-gray-700 dark:text-gray-300">
-            {reviewSummary}
+            {highlightText(reviewSummary, search?.reviewSummary)}
           </p>
         </div>
       </div>
