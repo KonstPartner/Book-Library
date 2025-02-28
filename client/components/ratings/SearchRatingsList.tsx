@@ -8,7 +8,7 @@ import RatingsList from './RatingsList';
 import RatingType from '@/types/RatingType';
 import { ratingDataFields, ratingsInputFields } from '@/constants/searchFields';
 import { SearchContainer } from '@/components/search/SearchContainer';
-import { useSearchWithPagination } from '@/hooks/useSearchWithPagination';
+import useSearchWithPagination from '@/hooks/useSearchWithPagination';
 import { RatingsType } from '@/types/FetchDataTypes';
 
 const SearchRatingsList = ({

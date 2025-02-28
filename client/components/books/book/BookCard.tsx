@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
-import highlightText from '@/utils/highlightText';
+import HighlightText from '@/types/HighlightText';
 
 const BookCard = ({
   book,
@@ -29,17 +29,30 @@ const BookCard = ({
           </div>
           <div className="mt-3 flex flex-col gap-2">
             <h2 className="text-lg font-semibold">
-              {highlightText(title, search?.title)}
+              <HighlightText
+                text={title}
+                searchText={search?.title}
+                highlightClass="bg-yellow-200 dark:bg-yellow-600"
+              />
             </h2>
             <p className="text-gray-600 dark:text-gray-400 min-h-[20px]">
-              By: {highlightText(author, search?.author)}
+              By:{' '}
+              <HighlightText
+                text={author}
+                searchText={search?.author}
+                highlightClass="bg-yellow-200 dark:bg-yellow-600"
+              />
             </p>
             <p className="text-gray-600 dark:text-gray-400 min-h-[20px]">
               Published: {publishedDate}
             </p>
             {category && (
               <p className="text-orange-500 dark:text-orange-400 bg-gray-200 dark:bg-gray-600 min-h-[20px] border dark:border-transparent rounded-md mx-auto px-3">
-                {highlightText(category, search?.category)}
+                <HighlightText
+                  text={category}
+                  searchText={search?.category}
+                  highlightClass="bg-yellow-200 dark:bg-yellow-600"
+                />
               </p>
             )}
           </div>

@@ -1,4 +1,4 @@
-import BooksMetadata from '@/types/DataMetadata';
+import MetadataType from '@/types/MetadataType';
 import React from 'react';
 import Button from './Button';
 
@@ -31,7 +31,7 @@ const PaginationBar = ({
   metadata,
   onPageChange,
 }: {
-  metadata: BooksMetadata;
+  metadata: MetadataType;
   onPageChange: (page: number) => void;
 }) => {
   const { totalPages, currentPage } = metadata;

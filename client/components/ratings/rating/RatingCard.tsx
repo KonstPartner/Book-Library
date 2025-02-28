@@ -5,7 +5,7 @@ import { userAvatar } from '@/constants/images';
 import RatingType from '@/types/RatingType';
 import getRatingValues from '@/utils/getRatingValues';
 import RatingStars from '@/components/ratings/RatingStars';
-import highlightText from '@/utils/highlightText';
+import HighlightText from '@/types/HighlightText';
 
 const RatingCard = ({
   rating,
@@ -46,7 +46,11 @@ const RatingCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <h3 className="font-semibold text-lg hover:underline">
-                {highlightText(user, search?.user)}
+                <HighlightText
+                  text={user}
+                  searchText={search?.user}
+                  highlightClass="bg-yellow-200 dark:bg-yellow-600"
+                />
               </h3>
             </Link>
           ) : (
@@ -56,7 +60,11 @@ const RatingCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <p className="font-bold text-gray-800 dark:text-gray-300 hover:underline">
-                {highlightText(book, search?.book)}
+                <HighlightText
+                  text={book}
+                  searchText={search?.book}
+                  highlightClass="bg-yellow-200 dark:bg-yellow-600"
+                />
               </p>
             </Link>
           )}
@@ -65,7 +73,11 @@ const RatingCard = ({
             <RatingStars rating={Number(reviewScore)} />
           </div>
           <p className="mt-2 text-pretty text-gray-700 dark:text-gray-300">
-            {highlightText(reviewSummary, search?.reviewSummary)}
+            <HighlightText
+              text={reviewSummary}
+              searchText={search?.reviewSummary}
+              highlightClass="bg-yellow-200 dark:bg-yellow-600"
+            />
           </p>
         </div>
       </div>

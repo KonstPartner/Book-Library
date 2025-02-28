@@ -4,19 +4,15 @@ import fetchData from '@/utils/fetchData';
 import updateSearchParams from '@/utils/updateSearchParams';
 import createSearchQueryString from '@/utils/createSearchQueryString';
 import validateSearch from '@/utils/validateSearch';
+import MetadataType from '@/types/MetadataType';
 
-type SearchDataType = Record<string, any>;
+type SearchDataType = Record<string, string | number | null>;
 type FetchResponseType<T> = {
   data: T[];
-  metadata: {
-    totalItems: number;
-    totalPages: number;
-    currentPage: number;
-    perPage: number;
-  };
+  metadata: MetadataType;
 };
 
-export const useSearchWithPagination = <T extends SearchDataType, R>(
+const useSearchWithPagination = <T extends SearchDataType, R>(
   initialSearch: T,
   inputFields: string[],
   baseUrl: string,
@@ -127,3 +123,5 @@ export const useSearchWithPagination = <T extends SearchDataType, R>(
     fetchDataWithOffset,
   };
 };
+
+export default useSearchWithPagination;

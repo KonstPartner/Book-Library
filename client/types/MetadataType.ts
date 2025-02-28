@@ -1,8 +1,8 @@
-type DataMetadata = {
+type MetadataType = {
   totalItems: number;
   totalPages: number;
   currentPage: number;
   perPage: number;
 };
 
-export default DataMetadata;
+export default MetadataType;

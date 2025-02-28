@@ -6,7 +6,7 @@ import BooksList from '@/components/books/BooksList';
 import { bookDataFields, booksInputFields } from '@/constants/searchFields';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import { SearchContainer } from '@/components/search/SearchContainer';
-import { useSearchWithPagination } from '@/hooks/useSearchWithPagination';
+import useSearchWithPagination from '@/hooks/useSearchWithPagination';
 import { BooksType } from '@/types/FetchDataTypes';
 
 const SearchBooksList = () => {
