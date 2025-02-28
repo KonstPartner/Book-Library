@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BookType, RatingsType } from '../types.ts';
+import { BookType } from '../types.ts';
 import {
   createBookRequest,
   destroyBookRequest,
@@ -79,8 +79,9 @@ const getAllBookRatings = async (req: Request, res: Response) => {
   const BookId = req.params.id;
   const { limit, offset, searchRatingsQueries, searchRatingsUserQuery } =
     getRequestQueries(req);
+
   try {
-    const ratings: RatingsType = await findAllBookRatingsRequest(
+    const { count, rows: ratings } = await findAllBookRatingsRequest(
       BookId,
       limit,
       offset,
@@ -90,7 +91,18 @@ const getAllBookRatings = async (req: Request, res: Response) => {
 
     const modifiedRatings = ratings.map((rating) => transformRating(rating));
 
-    handleSuccessResponse(res, modifiedRatings);
+    const totalPages = Math.ceil(count / limit);
+    const currentPage = offset / limit + 1;
+
+    handleSuccessResponse(res, {
+      data: modifiedRatings,
+      metadata: {
+        totalItems: count,
+        totalPages,
+        currentPage,
+        perPage: limit,
+      },
+    });
   } catch (error) {
     handleErrorResponse({
       res,

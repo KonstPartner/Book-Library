@@ -1,5 +1,6 @@
-import BooksMetadata from '@/types/BooksMetadata';
+import BooksMetadata from '@/types/DataMetadata';
 import React from 'react';
+import Button from './Button';
 
 const CurrentPageBtn = ({
   page,
@@ -11,16 +12,18 @@ const CurrentPageBtn = ({
   onClick: (page: number) => void;
 }) => {
   return (
-    <button
-      className={`px-3 py-1 rounded ${
+    <Button
+      className={`px-3 py-1 rounded border-none ${
         page === currentPage
-          ? 'bg-blue-500 text-white'
-          : 'bg-gray-200 hover:bg-gray-300'
+          ? 'bg-purple-600 text-white'
+          : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600'
       }`}
       onClick={() => onClick(page)}
+      disabled={page === currentPage}
+      noLoadingText
     >
       {page}
-    </button>
+    </Button>
   );
 };
 
@@ -66,7 +69,7 @@ const PaginationBar = ({
     return pages;
   };
 
-  if (totalPages <= 1 || totalPages < currentPage)
+  if (totalPages <= 1 || totalPages < currentPage || currentPage < 1)
     return (
       <CurrentPageBtn
         page={1}
@@ -75,17 +78,17 @@ const PaginationBar = ({
       />
     );
 
-    const pageNumbers = getPageNumbers();
-    
+  const pageNumbers = getPageNumbers();
+
   return (
     <div className="flex justify-center gap-2 my-4">
       {currentPage > 1 && (
-        <button
-          className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+        <Button
+          className="px-3 py-1 rounded border-none bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600"
           onClick={() => onPageChange(currentPage - 1)}
         >
           Prev
-        </button>
+        </Button>
       )}
 
       {pageNumbers.map((page) => (
@@ -98,12 +101,12 @@ const PaginationBar = ({
       ))}
 
       {currentPage < totalPages && (
-        <button
-          className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+        <Button
+          className="px-3 py-1 rounded border-none bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600"
           onClick={() => onPageChange(currentPage + 1)}
         >
           Next
-        </button>
+        </Button>
       )}
     </div>
   );

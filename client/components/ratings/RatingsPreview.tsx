@@ -3,6 +3,7 @@ import Link from 'next/link';
 import RatingsList from '@/components/ratings/RatingsList';
 import fetchData from '@/utils/fetchData';
 import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
+import Spinner from '../Spinner';
 
 const RatingsPreview = ({
   id,
@@ -14,7 +15,7 @@ const RatingsPreview = ({
   contextType: 'book' | 'user';
 }) => {
   const [ratings, setRatings] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const isBook = contextType === 'book';
 
   useEffect(() => {
@@ -22,10 +23,14 @@ const RatingsPreview = ({
       const data = await fetchData(
         `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`
       );
-      if (data?.data) {
-        setRatings(data.data);
+
+      if (data?.data?.data) {
+        setRatings(data.data.data);
       }
+      setIsLoading(false);
     };
+
+    setIsLoading(true);
     fetchRatings();
   }, [id, isBook]);
 
@@ -41,7 +46,11 @@ const RatingsPreview = ({
           </Link>
         )}
       </div>
-      <RatingsList contextType={contextType} ratings={ratings} />
+      {isLoading ? (
+        <Spinner className="mx-auto my-16" />
+      ) : (
+        <RatingsList contextType={contextType} ratings={ratings} />
+      )}
     </div>
   );
 };

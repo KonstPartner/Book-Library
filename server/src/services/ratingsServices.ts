@@ -100,7 +100,7 @@ const findAllBookRatingsRequest = async (
   searchQueries: WhereOptions<RatingAttributes> | undefined,
   searchUserQuery: WhereOptions<UserAttributes> | undefined
 ) =>
-  await Rating.findAll({
+  await Rating.findAndCountAll({
     where: { ...{ ...searchQueries, bookId: BookId } },
     limit,
     offset,
@@ -127,7 +127,7 @@ const findAllUserRatingsRequest = async (
   searchQueries: WhereOptions<RatingAttributes> | undefined,
   searchBookQuery: WhereOptions<BookAttributes> | undefined
 ) =>
-  await Rating.findAll({
+  await Rating.findAndCountAll({
     where: { ...{ ...searchQueries, userId: UserId } },
     limit,
     offset,

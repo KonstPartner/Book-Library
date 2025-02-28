@@ -11,7 +11,7 @@ import BookType from '@/types/BookType';
 const RandomBooksList = () => {
   const [books, setBooks] = useState<BookType[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  
   useEffect(() => {
     fetchRandomBooks();
   }, []);
@@ -41,10 +41,7 @@ const RandomBooksList = () => {
       {isLoading ? (
         <Spinner className="mx-auto my-16" />
       ) : (
-        <BooksList books={{
-          data: books,
-          metadata: { totalItems: 0, totalPages: 1, currentPage: 1, perPage: 10 },
-        }} />
+        <BooksList books={books} />
       )}
     </div>
   );

@@ -11,7 +11,6 @@ import {
   findByPkUserRequest,
   updateUserRequest,
 } from '../services/usersServices.ts';
-import { RatingsType } from '../types.ts';
 import User from '../models/User.ts';
 import { transformRating } from '../utils/transformModel.ts';
 import { findAllUserRatingsRequest } from '../services/ratingsServices.ts';
@@ -59,7 +58,7 @@ const getAllUserRatings = async (req: Request, res: Response) => {
   const { limit, offset, searchRatingsQueries, searchRatingsBookQuery } =
     getRequestQueries(req);
   try {
-    const ratings: RatingsType = await findAllUserRatingsRequest(
+    const { count, rows: ratings } = await findAllUserRatingsRequest(
       UserId,
       limit,
       offset,
@@ -69,7 +68,18 @@ const getAllUserRatings = async (req: Request, res: Response) => {
 
     const modifiedRatings = ratings.map((rating) => transformRating(rating));
 
-    handleSuccessResponse(res, modifiedRatings);
+    const totalPages = Math.ceil(count / limit);
+    const currentPage = offset / limit + 1;
+
+    handleSuccessResponse(res, {
+      data: modifiedRatings,
+      metadata: {
+        totalItems: count,
+        totalPages,
+        currentPage,
+        perPage: limit,
+      },
+    });
   } catch (error) {
     handleErrorResponse({
       res,

@@ -15,8 +15,8 @@ import SearchFieldsPreview from '../search/SearchFieldsPreview';
 import SearchInputFields from '@/components/search/SearchInputFields';
 import updateSearchParams from '@/utils/updateSearchParams';
 import Spinner from '@/components/Spinner';
-import BooksType from '@/types/BooksType';
 import PaginationBar from '../PaginationBar';
+import { BooksType } from '@/types/FetchDataTypes';
 
 const SearchBooksList = () => {
   const [search, setSearch] = useState<Partial<BookType>>(bookDataFields);
@@ -132,7 +132,7 @@ const SearchBooksList = () => {
         <Spinner className="mx-auto my-16" />
       ) : books.data.length ? (
         <div className="w-full">
-          <BooksList books={books} search={search} />
+          <BooksList books={books.data} search={search} />
         </div>
       ) : (
         <p className="mt-10 text-gray-500 dark:text-gray-400">

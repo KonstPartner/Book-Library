@@ -48,7 +48,7 @@ const SingleBook = () => {
       >
         <RefreshCcw />
       </Button>
-      <BookInfo book={book} />;
+      <BookInfo book={book} />
     </>
   );
 };

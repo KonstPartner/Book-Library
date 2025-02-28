@@ -6,11 +6,13 @@ const Button = ({
   onClick,
   disabled,
   className,
+  noLoadingText,
 }: {
   children: ReactNode;
   onClick: () => void;
   disabled?: boolean;
   className?: string;
+  noLoadingText?: boolean;
 }) => {
   return (
     <button
@@ -23,7 +25,7 @@ const Button = ({
       disabled={disabled}
       onClick={onClick}
     >
-      {disabled ? 'Loading...' : children}
+      {disabled && !noLoadingText ? 'Loading...' : children}
     </button>
   );
 };

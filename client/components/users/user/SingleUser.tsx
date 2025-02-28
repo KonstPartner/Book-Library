@@ -48,7 +48,7 @@ const SingleUser = () => {
       >
         <RefreshCcw />
       </Button>
-      <UserInfo user={user} />;
+      <UserInfo user={user} />
     </>
   );
 };

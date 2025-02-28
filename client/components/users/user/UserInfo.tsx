@@ -22,12 +22,12 @@ const UserInfo = ({ user }: { user: UserType }) => {
           <p className="text-center text-2xl">{name}</p>
           <RatingsPreview
             contextType="user"
-            id={id as string}
+            id={id}
             ratingsCount={ratingsCount as number}
           />
         </div>
       </div>
-      <DataOptions contextType="user" id={id as string} />
+      <DataOptions contextType="user" id={id} />
     </div>
   );
 };
