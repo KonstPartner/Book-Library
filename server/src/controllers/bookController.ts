@@ -21,14 +21,28 @@ const getAllBooks = async (req: Request, res: Response) => {
   try {
     const { limit, offset, searchBooksQueries, searchBooksCategoryQuery } =
       getRequestQueries(req);
-    const books = await findAllBooksRequest(
+
+    const { count, rows: books } = await findAllBooksRequest(
       limit,
       offset,
       searchBooksQueries,
       searchBooksCategoryQuery
     );
+
     const modifiedBooks = books.map((book: BookType) => transformBook(book));
-    handleSuccessResponse(res, modifiedBooks);
+
+    const totalPages = Math.ceil(count / limit);
+    const currentPage = offset / limit + 1;
+
+    handleSuccessResponse(res, {
+      data: modifiedBooks,
+      metadata: {
+        totalItems: count,
+        totalPages,
+        currentPage,
+        perPage: limit,
+      },
+    });
   } catch (error) {
     handleErrorResponse({
       res,

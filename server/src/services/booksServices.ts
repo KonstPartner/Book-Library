@@ -13,7 +13,7 @@ const findAllBooksRequest = async (
   searchQueries: WhereOptions<BookAttributes> | undefined,
   searchCategoryQuery: WhereOptions<CategoryAttributes> | undefined
 ) =>
-  await Book.findAll({
+  await Book.findAndCountAll({
     limit,
     offset,
     order: [['id', 'ASC']],
@@ -125,7 +125,9 @@ const updateBookRequest = async (
   const { id, category, ...updates } = data;
 
   if (updates.title) {
-    const existinTitle = await Book.findOne({ where: { title: updates.title } });
+    const existinTitle = await Book.findOne({
+      where: { title: updates.title },
+    });
     if (existinTitle) {
       throw {
         code: 400,

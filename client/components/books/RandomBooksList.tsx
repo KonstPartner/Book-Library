@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import BookType from '@/types/BookType';
 import Button from '@/components/Button';
 import BooksList from './BooksList';
 import fetchData from '@/utils/fetchData';
 import { RANDOM_BOOKS_URL } from '@/constants/apiSources';
 import Spinner from '@/components/Spinner';
+import BookType from '@/types/BookType';
 
 const RandomBooksList = () => {
   const [books, setBooks] = useState<BookType[] | []>([]);
@@ -20,6 +20,7 @@ const RandomBooksList = () => {
     setIsLoading(true);
     const data = await fetchData(RANDOM_BOOKS_URL);
     if (data?.data) {
+      console.log(data.data)
       setBooks(data.data);
     }
     setIsLoading(false);
@@ -37,7 +38,14 @@ const RandomBooksList = () => {
       >
         Get Books
       </Button>
-      {isLoading ? <Spinner className='mx-auto my-16'/> : <BooksList books={books} />}
+      {isLoading ? (
+        <Spinner className="mx-auto my-16" />
+      ) : (
+        <BooksList books={{
+          data: books,
+          metadata: { totalItems: 0, totalPages: 1, currentPage: 1, perPage: 10 },
+        }} />
+      )}
     </div>
   );
 };
