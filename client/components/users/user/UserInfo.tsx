@@ -26,8 +26,8 @@ const UserInfo = ({ user }: { user: UserType }) => {
             ratingsCount={ratingsCount as number}
           />
         </div>
-      </div>
       <DataOptions contextType="user" id={id} />
+      </div>
     </div>
   );
 };

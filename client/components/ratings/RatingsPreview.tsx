@@ -35,9 +35,9 @@ const RatingsPreview = ({
   }, [id, isBook]);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-700 md:p-3 rounded-lg">
+    <div className="bg-gray-100 dark:bg-gray-700 md:p-3 rounded-lg px-1">
       <div className="flex justify-between">
-        <p>Reviews ({ratingsCount})</p>
+        <p className='p-1'>Reviews ({ratingsCount})</p>
         {ratingsCount && ratingsCount > 5 && (
           <Link href={`/${isBook ? 'books' : 'users'}/${id}/ratings`}>
             <p className="text-blue-600 text-lg text-center w-fit m-auto p-1 rounded-md dark:text-gray-200 dark:bg-blue-500 hover:underline">

@@ -60,8 +60,8 @@ const RatingInfo = ({ rating }: { rating: RatingType }) => {
         <p className="text-gray-600 dark:text-gray-300 text-lg mb-4">
           {reviewText}
         </p>
-      </div>
       <DataOptions contextType="rating" id={id as string} />
+      </div>
     </div>
   );
 };

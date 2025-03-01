@@ -80,8 +80,8 @@ const BookInfo = ({ book }: { book: BookType }) => {
           />
           <CreateRating id={id} />
         </div>
-      </div>
       <DataOptions contextType="book" id={id} />
+      </div>
     </div>
   );
 };

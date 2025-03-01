@@ -18,7 +18,7 @@ const RandomBooksList = () => {
 
   const fetchRandomBooks = async () => {
     setIsLoading(true);
-    const data = await fetchData(RANDOM_BOOKS_URL);
+    const data = await fetchData(`${RANDOM_BOOKS_URL}?limit=10`);
     if (data?.data) {
       console.log(data.data)
       setBooks(data.data);

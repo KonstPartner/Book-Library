@@ -16,7 +16,7 @@ const findAllBooksRequest = async (
   await Book.findAndCountAll({
     limit,
     offset,
-    order: [['id', 'ASC']],
+    order: [['title', 'ASC']],
     where: searchQueries,
     include: [
       {

@@ -13,7 +13,7 @@ const createSearchQueryString = (
       params.append(field, value?.toString().trim());
   }
 
-  params.append('limit', '10');
+  params.append('limit', '12');
 
   return params.toString();
 };

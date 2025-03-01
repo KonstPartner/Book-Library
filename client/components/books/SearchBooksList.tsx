@@ -42,7 +42,7 @@ const SearchBooksList = () => {
       handlePageChange={handlePageChange}
       inputFields={booksInputFields}
       initialSearch={bookDataFields}
-      containerClassName="flex flex-col items-center text-center w-full max-w-3xl mx-auto px-4 sm:px-6"
+      containerClassName="flex flex-col items-center text-center w-full max-w-3xl sm:max-w-[90%] mx-auto px-4 sm:px-6"
     >
       <BooksList books={data.data} search={search} />
     </SearchContainer>
