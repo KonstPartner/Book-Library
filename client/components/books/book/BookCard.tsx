@@ -5,7 +5,6 @@ import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
 import HighlightText from '@/types/HighlightText';
 import RippleEffect from '@/components/RippleEffect';
-import '@/globals.css';
 
 const BookCard = ({
   book,

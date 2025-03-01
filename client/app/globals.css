@@ -19,3 +19,64 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes ripple {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(20);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(40);
+  }
+}
+
+.animate-ripple {
+  animation: ripple 0.7s ease-out forwards;
+}
+
+@keyframes tilt-right {
+  0%,
+  100% {
+    transform: rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: rotate(calc(var(--rotate, 0deg) + 20deg));
+  }
+}
+
+@keyframes tilt-left {
+  0%,
+  100% {
+    transform: rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: rotate(calc(var(--rotate, 0deg) - 20deg));
+  }
+}
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: scale(1) rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: scale(1.4) rotate(var(--rotate, 0deg));
+  }
+}
+
+.animate-tilt-right {
+  animation: tilt-right 5s ease-in-out infinite;
+}
+
+.animate-tilt-left {
+  animation: tilt-left 5s ease-in-out infinite;
+}
+
+.animate-scale {
+  animation: scale 5s ease-in-out infinite;
+}
