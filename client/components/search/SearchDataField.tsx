@@ -11,49 +11,83 @@ const SearchDataField = ({
   search: Partial<BookType> | Partial<RatingType>;
 }) => {
   const { publishedDate = '' } = search as Partial<BookType>;
-  const [year, month, day] = (publishedDate as string).split('-');
+  const [year, month, day] = (publishedDate as string).split('-') || [
+    '',
+    '',
+    '',
+  ];
 
   const dateFields = [
-    { type: 'year', placeholder: 'YYYY', value: year, width: 'w-24' },
-    { type: 'month', placeholder: 'MM', value: month, width: 'w-16' },
-    { type: 'day', placeholder: 'DD', value: day, width: 'w-14' },
+    {
+      type: 'year',
+      placeholder: 'YYYY',
+      value: year,
+      maxLength: 4,
+      width: 'w-20 sm:w-24',
+    },
+    {
+      type: 'month',
+      placeholder: 'MM',
+      value: month,
+      maxLength: 2,
+      width: 'w-14 sm:w-16',
+    },
+    {
+      type: 'day',
+      placeholder: 'DD',
+      value: day,
+      maxLength: 2,
+      width: 'w-14 sm:w-16',
+    },
   ] as const;
 
   const handleDateChange = (type: 'year' | 'month' | 'day', value: string) => {
     const limits = { year: 3000, month: 12, day: 31 };
-    if (value && (Number(value) > limits[type] || Number(value) < 1)) return;
+    const cleanedValue = value.replace(/\D/g, '');
+
+    if (
+      cleanedValue &&
+      (Number(cleanedValue) > limits[type] || Number(cleanedValue) < 1)
+    )
+      return;
 
     const newDate = {
-      year: type === 'year' ? value : year || '',
-      month: type === 'month' ? value : month || '',
-      day: type === 'day' ? value : day || '',
+      year: type === 'year' ? cleanedValue : year || '',
+      month: type === 'month' ? cleanedValue : month || '',
+      day: type === 'day' ? cleanedValue : day || '',
     };
+
+    const newPublishedDate =
+      [newDate.year, newDate.month, newDate.day].filter(Boolean).join('-') ||
+      '';
 
     setSearch({
       ...search,
-      publishedDate: [newDate.year, newDate.month, newDate.day]
-        .filter(Boolean)
-        .join('-'),
+      publishedDate: newPublishedDate,
     } as Partial<BookType>);
   };
 
   return (
-    <div className="flex flex-wrap items-center border dark:bg-transparent dark:border-gray-500 w-full mx-1 my-2 py-2 px-3 gap-2 sm:gap-1">
-      <p className="text-gray-400 dark:text-gray-400">Enter Published date:</p>
-      {dateFields.map(({ type, placeholder, value, width }, index) => (
-        <div key={type} className="flex items-center">
-          <Input
-            className={`py-1 px-2 ${width} text-center`}
-            type="number"
-            placeholder={placeholder}
-            value={value || ''}
-            onChange={(e) => handleDateChange(type, e.target.value)}
-          />
-          {index < dateFields.length - 1 && (
-            <p className="text-gray-500 dark:text-gray-400 mx-1">-</p>
-          )}
-        </div>
-      ))}
+    <div className="flex items-center gap-2 sm:gap-3 w-fit mx-auto">
+      {dateFields.map(
+        ({ type, placeholder, value, maxLength, width }, index) => (
+          <div key={type} className="flex items-center">
+            <Input
+              className={`py-2 px-2 ${width} text-center text-sm sm:text-base bg-transparent border-white/20`}
+              type="text"
+              placeholder={placeholder}
+              value={value || ''}
+              onChange={(e) => handleDateChange(type, e.target.value)}
+              maxLength={maxLength}
+            />
+            {index < dateFields.length - 1 && (
+              <span className="text-gray-500 dark:text-gray-400 mx-1 sm:mx-2 text-sm sm:text-base">
+                -
+              </span>
+            )}
+          </div>
+        )
+      )}
     </div>
   );
 };

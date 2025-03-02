@@ -44,29 +44,41 @@ const SearchScoreField = ({
   );
 
   return (
-    <div className="flex items-center gap-2 border mx-1 my-3 px-2 w-full dark:bg-transparent dark:border-gray-500">
-      <p className="text-gray-400 dark:text-gray-500">Enter rating:</p>
-      <div className="flex gap-2 items-end">
+    <div className="flex items-center gap-2 sm:gap-3 bg-white/10 dark:bg-gray-800/10 backdrop-blur-sm border border-white/20 rounded-lg p-3 sm:p-4 w-full">
+      <p className="text-gray-600 dark:text-gray-300 font-medium text-sm sm:text-base whitespace-nowrap">
+        Rating:
+      </p>
+      <div className="flex items-center gap-2 sm:gap-3 flex-1">
         <select
-          className="my-1 py-2 px-2 w-1/2 border rounded-md dark:bg-transparent"
+          className="py-2 px-3 w-full sm:w-20 bg-white/5 dark:bg-gray-900/5 border border-white/20 rounded-lg text-sm sm:text-base text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
           value={whole || ''}
           onChange={handleWholeChange}
         >
           {wholeOptions.map((num) => (
-            <option className="dark:text-gray-700" key={num} value={num}>
+            <option
+              key={num}
+              value={num}
+              className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+            >
               {num === '' ? '-' : num}
             </option>
           ))}
         </select>
-        <p className="text-2xl">.</p>
+        <span className="text-gray-500 dark:text-gray-400 text-xl sm:text-2xl">
+          .
+        </span>
         <select
-          className="my-1 mr-2 py-2 px-2 w-1/2 border rounded-md dark:bg-transparent"
+          className="py-2 px-3 w-full sm:w-20 bg-white/5 dark:bg-gray-900/5 border border-white/20 rounded-lg text-sm sm:text-base text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
           value={decimal || ''}
           onChange={handleDecimalChange}
           disabled={!whole}
         >
           {decimalOptions.map((num) => (
-            <option className="dark:text-gray-700" key={num} value={num}>
+            <option
+              key={num}
+              value={num}
+              className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+            >
               {num === '' ? '-' : num}
             </option>
           ))}

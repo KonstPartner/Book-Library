@@ -17,9 +17,8 @@ const Button = ({
   return (
     <button
       className={twMerge(
-        'flex flex-row items-center shadow-lg rounded-xl px-7 py-3 text-lg border-2 w-fit',
-        'border-black dark:border-gray-400',
-        'hover:shadow-none',
+        'flex flex-row items-center rounded-lg px-7 py-3 text-lg transition-all duration-300',
+        disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
       disabled={disabled}

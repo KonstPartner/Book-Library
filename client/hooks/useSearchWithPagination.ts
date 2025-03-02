@@ -31,7 +31,6 @@ const useSearchWithPagination = <T extends SearchDataType, R>(
   const fetchDataWithOffset = useCallback(
     async (offset: number = 0, searchQuery = search) => {
       setIsLoading(true);
-      console.log(search);
       const query = createSearchQueryString(searchQuery, inputFields as any);
       const url = `${baseUrl}?${query}&offset=${offset}`;
       const response = await fetchData(url);
@@ -55,7 +54,6 @@ const useSearchWithPagination = <T extends SearchDataType, R>(
         ),
       };
       setSearch(newSearch);
-
       const page = parseInt(searchParams.get('page') || '1', 10);
       const offset = (page - 1) * defaultData.metadata.perPage;
       setData((prev) => ({

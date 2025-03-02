@@ -1,5 +1,8 @@
+'use client';
+
 import { AlignJustify } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 
 const NavMenu = ({
@@ -11,31 +14,42 @@ const NavMenu = ({
   }[];
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
       <button
-        className="sm:hidden text-gray-100 dark:text-gray-200"
+        className="sm:hidden p-2 text-gray-100 dark:text-gray-200 rounded-lg hover:bg-white/10 transition-all duration-300"
         onClick={() => setIsOpen(!isOpen)}
       >
         <AlignJustify size={28} />
       </button>
 
-      {isOpen && (
-        <div className="sm:hidden absolute top-16 right-4 bg-purple-700 dark:bg-purple-900 text-gray-100 dark:text-gray-200 rounded-lg shadow-lg w-40 p-2 flex flex-col space-y-2">
-          {links.map(({ href, label }) => (
+      <div
+        className={`sm:hidden absolute top-16 right-4 w-48 bg-purple-700/20 dark:bg-purple-900/20 backdrop-blur-lg border border-white/20 rounded-xl shadow-xl p-3 flex flex-col space-y-2 z-50 transform transition-all duration-200 ease-in-out ${
+          isOpen
+            ? 'opacity-100 scale-100 translate-y-0'
+            : 'opacity-0 scale-95 -translate-y-4 pointer-events-none'
+        }`}
+      >
+        {links.map(({ href, label }) => {
+          const isActive = pathname === href;
+          return (
             <Link
               key={href}
               href={href}
-              className="block px-4 py-2 hover:bg-purple-500 rounded"
+              className={`block px-4 py-2 text-lg text-gray-100 dark:text-gray-200 rounded-lg transition-all duration-300 transform hover:scale-105 ${
+                isActive
+                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 scale-105'
+                  : 'hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500'
+              }`}
               onClick={() => setIsOpen(false)}
             >
               {label}
             </Link>
-          ))}
-        </div>
-      )}
-      
+          );
+        })}
+      </div>
     </>
   );
 };

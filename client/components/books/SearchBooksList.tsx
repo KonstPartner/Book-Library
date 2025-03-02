@@ -5,10 +5,11 @@ import BookType from '@/types/BookType';
 import BooksList from '@/components/books/BooksList';
 import { bookDataFields, booksInputFields } from '@/constants/searchFields';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
-import { SearchContainer } from '@/components/search/SearchContainer';
+import SearchContainer from '@/components/search/SearchContainer';
 import useSearchWithPagination from '@/hooks/useSearchWithPagination';
 import { BooksType } from '@/types/FetchDataTypes';
 import BooksIcons from '@/components/BooksIcons';
+import defaultFetchData from '@/constants/defaultFetchData';
 
 const SearchBooksList = () => {
   const {
@@ -24,10 +25,7 @@ const SearchBooksList = () => {
     bookDataFields,
     booksInputFields,
     ALL_BOOKS_URL,
-    {
-      data: [],
-      metadata: { totalItems: 0, totalPages: 0, currentPage: 1, perPage: 10 },
-    }
+    defaultFetchData
   );
 
   return (

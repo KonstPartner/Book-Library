@@ -7,9 +7,10 @@ import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
 import RatingsList from './RatingsList';
 import RatingType from '@/types/RatingType';
 import { ratingDataFields, ratingsInputFields } from '@/constants/searchFields';
-import { SearchContainer } from '@/components/search/SearchContainer';
+import SearchContainer from '@/components/search/SearchContainer';
 import useSearchWithPagination from '@/hooks/useSearchWithPagination';
 import { RatingsType } from '@/types/FetchDataTypes';
+import defaultFetchData from '@/constants/defaultFetchData';
 
 const SearchRatingsList = ({
   contextType,
@@ -40,10 +41,7 @@ const SearchRatingsList = ({
     initialSearch,
     inputFields,
     baseUrl,
-    {
-      data: [],
-      metadata: { totalItems: 0, totalPages: 0, currentPage: 1, perPage: 10 },
-    }
+    defaultFetchData
   );
 
   return (

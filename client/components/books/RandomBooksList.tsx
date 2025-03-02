@@ -7,20 +7,22 @@ import fetchData from '@/utils/fetchData';
 import { RANDOM_BOOKS_URL } from '@/constants/apiSources';
 import Spinner from '@/components/Spinner';
 import BookType from '@/types/BookType';
+import { randomBooksCardsLimit } from '@/constants/cardsLimit';
 
 const RandomBooksList = () => {
   const [books, setBooks] = useState<BookType[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   useEffect(() => {
     fetchRandomBooks();
   }, []);
 
   const fetchRandomBooks = async () => {
     setIsLoading(true);
-    const data = await fetchData(`${RANDOM_BOOKS_URL}?limit=10`);
+    const data = await fetchData(
+      `${RANDOM_BOOKS_URL}?limit=${randomBooksCardsLimit}`
+    );
     if (data?.data) {
-      console.log(data.data)
       setBooks(data.data);
     }
     setIsLoading(false);

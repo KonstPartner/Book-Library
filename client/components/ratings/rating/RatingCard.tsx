@@ -5,7 +5,7 @@ import { userAvatar } from '@/constants/images';
 import RatingType from '@/types/RatingType';
 import getRatingValues from '@/utils/getRatingValues';
 import RatingStars from '@/components/ratings/RatingStars';
-import HighlightText from '@/types/HighlightText';
+import HighlightText from '@/components/HighlightText';
 
 const RatingCard = ({
   rating,

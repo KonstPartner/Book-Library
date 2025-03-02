@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
-import HighlightText from '@/types/HighlightText';
+import HighlightText from '@/components/HighlightText';
 import RippleEffect from '@/components/RippleEffect';
 
 const BookCard = ({

@@ -1,5 +1,5 @@
-import MetadataType from '@/types/MetadataType';
 import React from 'react';
+import MetadataType from '@/types/MetadataType';
 import Button from './Button';
 
 const CurrentPageBtn = ({
@@ -13,10 +13,10 @@ const CurrentPageBtn = ({
 }) => {
   return (
     <Button
-      className={`px-3 py-1 rounded border-none ${
+      className={`px-4 py-2 rounded-lg transition-all duration-300 ${
         page === currentPage
-          ? 'bg-purple-600 text-white'
-          : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600'
+          ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
+          : 'bg-white/20 hover:bg-white/30 text-gray-800 dark:text-gray-200'
       }`}
       onClick={() => onClick(page)}
       disabled={page === currentPage}
@@ -81,10 +81,10 @@ const PaginationBar = ({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex justify-center gap-2 my-4">
+    <div className="flex justify-center gap-2 my-4 bg-white/10 backdrop-blur-lg p-3 rounded-lg border border-white/20">
       {currentPage > 1 && (
         <Button
-          className="px-3 py-1 rounded border-none bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600"
+          className="px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-lg transition-all duration-300"
           onClick={() => onPageChange(currentPage - 1)}
         >
           Prev
@@ -102,7 +102,7 @@ const PaginationBar = ({
 
       {currentPage < totalPages && (
         <Button
-          className="px-3 py-1 rounded border-none bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-600"
+          className="px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-lg transition-all duration-300"
           onClick={() => onPageChange(currentPage + 1)}
         >
           Next

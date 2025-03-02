@@ -1,3 +1,4 @@
+import { searchPageCardsLimit } from '@/constants/cardsLimit';
 import BookType from '@/types/BookType';
 import RatingType from '@/types/RatingType';
 
@@ -13,7 +14,7 @@ const createSearchQueryString = (
       params.append(field, value?.toString().trim());
   }
 
-  params.append('limit', '12');
+  params.append('limit', searchPageCardsLimit.toString());
 
   return params.toString();
 };
