@@ -90,16 +90,16 @@ const PaginationBar = ({
           Prev
         </Button>
       )}
-
-      {pageNumbers.map((page) => (
-        <CurrentPageBtn
-          key={page}
-          page={page}
-          currentPage={currentPage}
-          onClick={onPageChange}
-        />
-      ))}
-
+      <div className="hidden sm:flex flex-wrap gap-1 justify-evenly">
+        {pageNumbers.map((page) => (
+          <CurrentPageBtn
+            key={page}
+            page={page}
+            currentPage={currentPage}
+            onClick={onPageChange}
+          />
+        ))}
+      </div>
       {currentPage < totalPages && (
         <Button
           className="px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-lg transition-all duration-300"

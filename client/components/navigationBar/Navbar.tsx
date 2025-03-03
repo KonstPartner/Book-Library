@@ -14,7 +14,7 @@ const NAV_LINKS = [
 const Navbar = () => {
   return (
     <nav className="bg-gradient-to-r from-purple-600/90 to-blue-600/90 dark:from-purple-800/90 dark:to-blue-800/90 border-b border-white/20 shadow-lg">
-      <div className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+      <div className="md:container mx-auto flex items-center justify-between px-4 py-3 md:px-6 sm:py-4">
         <Link href="/" className="flex items-center gap-2 group">
           <BookOpenText
             className="text-gray-100 dark:text-gray-200 transition-transform duration-300 group-hover:rotate-12"

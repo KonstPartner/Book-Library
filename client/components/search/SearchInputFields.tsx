@@ -21,7 +21,7 @@ const SearchInputFields = ({
       {inputFields.map((field) => (
         <div
           key={field}
-          className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-2"
+          className="flex sm:items-center gap-3 sm:gap-2"
         >
           <div className="flex-1 min-w-0">
             {field === 'publishedDate' ? (

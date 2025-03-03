@@ -23,7 +23,7 @@ const SearchDataField = ({
       placeholder: 'YYYY',
       value: year,
       maxLength: 4,
-      width: 'w-20 sm:w-24',
+      width: 'w-20 sm:w-22',
     },
     {
       type: 'month',
@@ -68,12 +68,12 @@ const SearchDataField = ({
   };
 
   return (
-    <div className="flex items-center gap-2 sm:gap-3 w-fit mx-auto">
+    <div className="flex items-center w-fit mx-auto">
       {dateFields.map(
         ({ type, placeholder, value, maxLength, width }, index) => (
           <div key={type} className="flex items-center">
             <Input
-              className={`py-2 px-2 ${width} text-center text-sm sm:text-base bg-transparent border-white/20`}
+              className={`${width} text-center text-sm sm:text-base bg-transparent border-white/20`}
               type="text"
               placeholder={placeholder}
               value={value || ''}
@@ -81,8 +81,8 @@ const SearchDataField = ({
               maxLength={maxLength}
             />
             {index < dateFields.length - 1 && (
-              <span className="text-gray-500 dark:text-gray-400 mx-1 sm:mx-2 text-sm sm:text-base">
-                -
+              <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base mx-1">
+                {'-'}
               </span>
             )}
           </div>

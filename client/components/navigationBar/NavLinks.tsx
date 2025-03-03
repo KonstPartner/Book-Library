@@ -22,7 +22,7 @@ const NavLinks = ({
           <Link
             key={href}
             href={href}
-            className={`px-4 py-2 text-gray-100 dark:text-gray-200 rounded-lg transition-all duration-300 ${
+            className={`px-4 py-2 text-lg text-gray-100 dark:text-gray-200 rounded-lg transition-all duration-300 ${
               isActive
                 ? 'bg-gradient-to-r from-purple-600 to-blue-600'
                 : 'hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500'

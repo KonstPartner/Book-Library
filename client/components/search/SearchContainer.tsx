@@ -52,7 +52,7 @@ const SearchContainer = <T,>({
       </h1>
 
       {isClosedInputs ? (
-        <div className="w-full bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20">
+        <div className={`${isClosedInputs ? 'w-fit' : 'w-fill'} bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20`}>
           <SearchFieldsPreview search={search as any} />
           <div className="flex justify-center items-center gap-4 mt-4">
             <Button
