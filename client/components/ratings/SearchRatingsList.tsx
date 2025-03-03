@@ -11,6 +11,7 @@ import SearchContainer from '@/components/search/SearchContainer';
 import useSearchWithPagination from '@/hooks/useSearchWithPagination';
 import { RatingsType } from '@/types/FetchDataTypes';
 import defaultFetchData from '@/constants/defaultFetchData';
+import { SearchRatingFieldsType } from '@/types/SearchFieldsType';
 
 const SearchRatingsList = ({
   contextType,
@@ -22,8 +23,8 @@ const SearchRatingsList = ({
   const { id } = params as { id: string };
 
   const initialSearch = { ...ratingDataFields };
-  if (isBook) initialSearch.user = '';
-  else initialSearch.book = '';
+  if (isBook) initialSearch.user = { field: '', isExact: false };
+  else initialSearch.book = { field: '', isExact: false };
 
   const baseUrl = `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`;
   const inputFields = [...ratingsInputFields, isBook ? 'user' : 'book'];
@@ -37,7 +38,7 @@ const SearchRatingsList = ({
     setIsClosedInputs,
     handleSearch,
     handlePageChange,
-  } = useSearchWithPagination<Partial<RatingType>, RatingType>(
+  } = useSearchWithPagination<SearchRatingFieldsType, RatingType>(
     initialSearch,
     inputFields,
     baseUrl,

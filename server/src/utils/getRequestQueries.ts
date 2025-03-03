@@ -6,21 +6,46 @@ type DefaultQueriesType = {
   defaultOffset?: number;
 };
 
-const getSearchQueries = (req: Request, searchableFields: string[]) => {
+const getSearchQueries = (
+  req: Request,
+  searchableFields: string[]
+): WhereOptions => {
   const whereClause: WhereOptions = {};
+
+  const exactFields = (req.query.exact as string)?.split(',') || [];
+
   for (const field of searchableFields) {
     if (req.query[field]) {
-      whereClause[field] = { [Op.iLike]: `%${req.query[field]}%` };
+      const value = req.query[field] as string;
+      const isExact = exactFields.includes(field);
+      whereClause[field] = isExact
+        ? { [Op.iLike]: value }
+        : { [Op.iLike]: `%${value}%` };
     }
   }
   return whereClause;
 };
 
-const getSubSearchQuery = (query: any, field: string) => {
+const getSubSearchQuery = (
+  query: any,
+  field: string,
+  exactFields: string[] = []
+) => {
+  const fieldMapping: { [key: string]: string } = {
+    category: 'name',
+    user: 'name',
+    book: 'title',
+  };
+
+  const modifiedExactFields = new Set(
+    exactFields.map((inputField) => fieldMapping[inputField] || inputField)
+  );
+
   if (query) {
-    return {
-      [field]: { [Op.iLike]: `%${query}%` },
-    };
+    const isExact = modifiedExactFields.has(field);
+    return isExact
+      ? { [field]: { [Op.iLike]: query } }
+      : { [field]: { [Op.iLike]: `%${query}%` } };
   }
   return undefined;
 };
@@ -51,6 +76,7 @@ export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
 
   const limit = Number(req.query.limit) || defaultLimit;
   const offset = Number(req.query.offset) || defaultOffset;
+  const exactFields = (req.query.exactFields as string)?.split(',') || [];
 
   return {
     limit,
@@ -58,8 +84,20 @@ export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
     searchBooksQueries: getBooksQueries(req),
     searchRatingsQueries: getRatingsQueries(req),
     searchQueryName: getSearchQueries(req, ['name']),
-    searchBooksCategoryQuery: getSubSearchQuery(req.query.category, 'name'),
-    searchRatingsUserQuery: getSubSearchQuery(req.query.user, 'name'),
-    searchRatingsBookQuery: getSubSearchQuery(req.query.book, 'title'),
+    searchBooksCategoryQuery: getSubSearchQuery(
+      req.query.category,
+      'name',
+      exactFields
+    ),
+    searchRatingsUserQuery: getSubSearchQuery(
+      req.query.user,
+      'name',
+      exactFields
+    ),
+    searchRatingsBookQuery: getSubSearchQuery(
+      req.query.book,
+      'title',
+      exactFields
+    ),
   };
 };

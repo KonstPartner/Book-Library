@@ -5,13 +5,14 @@ import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
 import HighlightText from '@/components/HighlightText';
 import RippleEffect from '@/components/RippleEffect';
+import { SearchBookFieldsType } from '@/types/SearchFieldsType';
 
 const BookCard = ({
   book,
   search,
 }: {
   book: BookType;
-  search?: Partial<BookType>;
+  search?: SearchBookFieldsType;
 }) => {
   const { id, title, author, image, publishedDate, category } =
     getBookValues(book);
@@ -34,7 +35,7 @@ const BookCard = ({
             <h2 className="text-lg font-semibold line-clamp-2">
               <HighlightText
                 text={title}
-                searchText={search?.title}
+                searchText={search?.title.field}
                 highlightClass="bg-yellow-300 dark:bg-yellow-500"
               />
             </h2>
@@ -42,7 +43,7 @@ const BookCard = ({
               By:{' '}
               <HighlightText
                 text={author}
-                searchText={search?.author}
+                searchText={search?.author.field}
                 highlightClass="bg-yellow-300 dark:bg-yellow-500"
               />
             </p>
@@ -53,7 +54,7 @@ const BookCard = ({
               <p className="text-orange-400 bg-gray-800/70 rounded-md px-2 py-1 text-xs font-medium mx-auto">
                 <HighlightText
                   text={category}
-                  searchText={search?.category}
+                  searchText={search?.category.field}
                   highlightClass="bg-yellow-300 dark:bg-yellow-500"
                 />
               </p>

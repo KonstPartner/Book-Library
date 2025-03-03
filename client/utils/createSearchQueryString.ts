@@ -1,15 +1,19 @@
 import { searchPageCardsLimit } from '@/constants/cardsLimit';
-import BookType from '@/types/BookType';
-import RatingType from '@/types/RatingType';
+import {
+  SearchBookFieldsType,
+  SearchRatingFieldsType,
+} from '@/types/SearchFieldsType';
 
 const createSearchQueryString = (
-  search: Partial<BookType> | Partial<RatingType>,
-  fields: (keyof Partial<BookType> | keyof Partial<RatingType>)[]
+  search: SearchBookFieldsType | SearchRatingFieldsType,
+  fields: (keyof SearchBookFieldsType | keyof SearchRatingFieldsType)[]
 ) => {
   const params = new URLSearchParams();
 
   for (const field of fields) {
-    const value = (search as Partial<BookType> & Partial<RatingType>)[field];
+    const value = (search as SearchBookFieldsType & SearchRatingFieldsType)[
+      field
+    ].field;
     if (value?.toString().trim())
       params.append(field, value?.toString().trim());
   }

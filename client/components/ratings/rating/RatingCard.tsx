@@ -6,6 +6,7 @@ import RatingType from '@/types/RatingType';
 import getRatingValues from '@/utils/getRatingValues';
 import RatingStars from '@/components/ratings/RatingStars';
 import HighlightText from '@/components/HighlightText';
+import { SearchRatingFieldsType } from '@/types/SearchFieldsType';
 
 const RatingCard = ({
   rating,
@@ -14,7 +15,7 @@ const RatingCard = ({
 }: {
   rating: RatingType;
   contextType: 'book' | 'user';
-  search?: Partial<RatingType>;
+  search?: Partial<SearchRatingFieldsType>;
 }) => {
   const { id, bookId, userId, user, book, reviewSummary, reviewScore } =
     getRatingValues(rating);
@@ -51,7 +52,7 @@ const RatingCard = ({
               <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100 hover:underline">
                 <HighlightText
                   text={user}
-                  searchText={search?.user}
+                  searchText={search?.user?.field}
                   highlightClass="bg-yellow-200 dark:bg-yellow-600"
                 />
               </h3>
@@ -65,7 +66,7 @@ const RatingCard = ({
               <p className="font-bold text-lg text-gray-800 dark:text-gray-200 hover:underline">
                 <HighlightText
                   text={book}
-                  searchText={search?.book}
+                  searchText={search?.book?.field}
                   highlightClass="bg-yellow-200 dark:bg-yellow-600"
                 />
               </p>
@@ -80,7 +81,7 @@ const RatingCard = ({
           <p className="text-gray-700 dark:text-gray-300 text-pretty text-sm sm:text-base">
             <HighlightText
               text={reviewSummary}
-              searchText={search?.reviewSummary}
+              searchText={search?.reviewSummary?.field}
               highlightClass="bg-yellow-200 dark:bg-yellow-600"
             />
           </p>

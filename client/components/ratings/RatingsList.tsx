@@ -1,6 +1,7 @@
 import React from 'react';
 import RatingType from '@/types/RatingType';
 import RatingCard from './rating/RatingCard';
+import { SearchRatingFieldsType } from '@/types/SearchFieldsType';
 
 const RatingsList = ({
   ratings,
@@ -9,7 +10,7 @@ const RatingsList = ({
 }: {
   ratings: RatingType[];
   contextType: 'book' | 'user';
-  search?: Partial<RatingType>;
+  search?: SearchRatingFieldsType;
 }) => {
   return (
     <>

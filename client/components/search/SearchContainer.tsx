@@ -5,6 +5,7 @@ import SearchFieldsPreview from '@/components/search/SearchFieldsPreview';
 import SearchInputFields from '@/components/search/SearchInputFields';
 import Spinner from '@/components/Spinner';
 import PaginationBar from '@/components/PaginationBar';
+import MetadataType from '@/types/MetadataType';
 
 interface SearchContainerProps<T> {
   title: string;
@@ -13,12 +14,7 @@ interface SearchContainerProps<T> {
   isLoading: boolean;
   data: {
     data: any[];
-    metadata: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      perPage: number;
-    };
+    metadata: MetadataType;
   };
   isClosedInputs: boolean;
   setIsClosedInputs: (value: boolean) => void;

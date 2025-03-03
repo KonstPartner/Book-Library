@@ -10,6 +10,7 @@ import useSearchWithPagination from '@/hooks/useSearchWithPagination';
 import { BooksType } from '@/types/FetchDataTypes';
 import BooksIcons from '@/components/BooksIcons';
 import defaultFetchData from '@/constants/defaultFetchData';
+import { SearchBookFieldsType } from '@/types/SearchFieldsType';
 
 const SearchBooksList = () => {
   const {
@@ -21,7 +22,7 @@ const SearchBooksList = () => {
     setIsClosedInputs,
     handleSearch,
     handlePageChange,
-  } = useSearchWithPagination<Partial<BookType>, BookType>(
+  } = useSearchWithPagination<SearchBookFieldsType, BookType>(
     bookDataFields,
     booksInputFields,
     ALL_BOOKS_URL,

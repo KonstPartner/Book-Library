@@ -5,14 +5,21 @@ import updateSearchParams from '@/utils/updateSearchParams';
 import createSearchQueryString from '@/utils/createSearchQueryString';
 import validateSearch from '@/utils/validateSearch';
 import MetadataType from '@/types/MetadataType';
+import {
+  SearchBookFieldsType,
+  SearchRatingFieldsType,
+} from '@/types/SearchFieldsType';
+import getSearchQueries from '@/utils/getSearchQueries';
 
-type SearchDataType = Record<string, string | number | null>;
 type FetchResponseType<T> = {
   data: T[];
   metadata: MetadataType;
 };
 
-const useSearchWithPagination = <T extends SearchDataType, R>(
+const useSearchWithPagination = <
+  T extends SearchBookFieldsType | SearchRatingFieldsType,
+  R
+>(
   initialSearch: T,
   inputFields: string[],
   baseUrl: string,
@@ -27,6 +34,8 @@ const useSearchWithPagination = <T extends SearchDataType, R>(
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  const { searchFields } = getSearchQueries(initialSearch);
 
   const fetchDataWithOffset = useCallback(
     async (offset: number = 0, searchQuery = search) => {
@@ -45,14 +54,25 @@ const useSearchWithPagination = <T extends SearchDataType, R>(
   useEffect(() => {
     if (isFirstLoad.current) {
       const params = Object.fromEntries(searchParams.entries());
+
+      const paramsObject = Object.fromEntries(
+        Object.entries(params).filter(
+          ([key]) => key in searchFields && key !== 'page'
+        )
+      );
+
+      const searchParamsObject = Object.fromEntries(
+        Object.entries(paramsObject).map(([key, value]) => [
+          key,
+          { field: value, isExact: false },
+        ])
+      );
+
       const newSearch = {
         ...initialSearch,
-        ...Object.fromEntries(
-          Object.entries(params).filter(
-            ([key]) => key in initialSearch && key !== 'page'
-          )
-        ),
+        ...searchParamsObject,
       };
+
       setSearch(newSearch);
       const page = parseInt(searchParams.get('page') || '1', 10);
       const offset = (page - 1) * defaultData.metadata.perPage;
@@ -65,6 +85,7 @@ const useSearchWithPagination = <T extends SearchDataType, R>(
       isFirstLoad.current = false;
     }
   }, [
+    searchFields,
     searchParams,
     defaultData.metadata.perPage,
     initialSearch,
@@ -75,8 +96,9 @@ const useSearchWithPagination = <T extends SearchDataType, R>(
     if (!validateSearch(search)) return;
     const page = 1;
     const offset = (page - 1) * data.metadata.perPage;
+    const { searchFields } = getSearchQueries(search);
     updateSearchParams(
-      { ...search, page: page.toString() },
+      { ...searchFields, page: page.toString() },
       { searchParams, router, pathname }
     );
     setIsClosedInputs(true);
@@ -93,8 +115,9 @@ const useSearchWithPagination = <T extends SearchDataType, R>(
   const handlePageChange = useCallback(
     (page: number) => {
       const offset = (page - 1) * data.metadata.perPage;
+      const { searchFields } = getSearchQueries(search);
       updateSearchParams(
-        { ...search, page: page.toString() },
+        { ...searchFields, page: page.toString() },
         { searchParams, router, pathname }
       );
       fetchDataWithOffset(offset);
