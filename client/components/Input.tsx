@@ -2,12 +2,12 @@ import React, { ChangeEvent, InputHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  value: string;
+  value?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input = ({
-  value,
+  value = '',
   onChange,
   placeholder,
   className,

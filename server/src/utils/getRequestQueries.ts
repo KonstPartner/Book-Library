@@ -76,7 +76,7 @@ export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
 
   const limit = Number(req.query.limit) || defaultLimit;
   const offset = Number(req.query.offset) || defaultOffset;
-  const exactFields = (req.query.exactFields as string)?.split(',') || [];
+  const exactFields = (req.query.exact as string)?.split(',') || [];
 
   return {
     limit,

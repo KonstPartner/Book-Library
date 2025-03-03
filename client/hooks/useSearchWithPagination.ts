@@ -57,14 +57,19 @@ const useSearchWithPagination = <
 
       const paramsObject = Object.fromEntries(
         Object.entries(params).filter(
-          ([key]) => key in searchFields && key !== 'page'
+          ([key]) => key in searchFields && key !== 'page' && key !== 'exact'
         )
       );
 
       const searchParamsObject = Object.fromEntries(
         Object.entries(paramsObject).map(([key, value]) => [
           key,
-          { field: value, isExact: false },
+          {
+            field: value,
+            isExact: params?.exact?.split(',').some((el) => el === key)
+              ? true
+              : false,
+          },
         ])
       );
 
@@ -96,9 +101,9 @@ const useSearchWithPagination = <
     if (!validateSearch(search)) return;
     const page = 1;
     const offset = (page - 1) * data.metadata.perPage;
-    const { searchFields } = getSearchQueries(search);
+    const { searchFields, searchExactFields } = getSearchQueries(search);
     updateSearchParams(
-      { ...searchFields, page: page.toString() },
+      { ...searchFields, exact: searchExactFields, page: page.toString() },
       { searchParams, router, pathname }
     );
     setIsClosedInputs(true);
@@ -115,9 +120,9 @@ const useSearchWithPagination = <
   const handlePageChange = useCallback(
     (page: number) => {
       const offset = (page - 1) * data.metadata.perPage;
-      const { searchFields } = getSearchQueries(search);
+      const { searchFields, searchExactFields } = getSearchQueries(search);
       updateSearchParams(
-        { ...searchFields, page: page.toString() },
+        { ...searchFields, exact: searchExactFields, page: page.toString() },
         { searchParams, router, pathname }
       );
       fetchDataWithOffset(offset);

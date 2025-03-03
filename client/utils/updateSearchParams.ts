@@ -6,6 +6,7 @@ import RatingType from '@/types/RatingType';
 const updateSearchParams = (
   newParams: Partial<Partial<BookType> | Partial<RatingType>> & {
     page?: string;
+    exact?: string;
   },
   {
     searchParams,
@@ -20,9 +21,7 @@ const updateSearchParams = (
   const params = new URLSearchParams(searchParams);
 
   Object.entries(newParams).forEach(([key, value]) => {
-    if (key === 'page' && value) {
-      params.set('page', value.toString());
-    } else if (value?.toString().trim()) {
+    if (value?.toString().trim()) {
       params.set(key, value.toString());
     } else {
       params.delete(key);

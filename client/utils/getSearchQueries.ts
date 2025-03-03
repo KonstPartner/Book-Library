@@ -10,13 +10,13 @@ const getSearchQueries = (
     Object.entries(search).map(([key, { field }]) => [key, field])
   );
 
-  const searchExactFields: string[] = [];
+  const exactFieldsArray: string[] = [];
 
   Object.entries(search).forEach(([key, { isExact }]) => {
-    if (isExact) searchExactFields.push(key);
+    if (isExact) exactFieldsArray.push(key);
   });
 
-  return { searchFields, searchExactFields };
+  return { searchFields, searchExactFields: exactFieldsArray.toString() };
 };
 
 export default getSearchQueries;
