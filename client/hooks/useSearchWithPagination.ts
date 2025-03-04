@@ -8,8 +8,10 @@ import MetadataType from '@/types/MetadataType';
 import {
   SearchBookFieldsType,
   SearchRatingFieldsType,
+  SearchFieldType,
 } from '@/types/SearchFieldsType';
 import getSearchQueries from '@/utils/getSearchQueries';
+import createSearchFromParams from '@/utils/createSearchFromParams';
 
 type FetchResponseType<T> = {
   data: T[];
@@ -17,7 +19,8 @@ type FetchResponseType<T> = {
 };
 
 const useSearchWithPagination = <
-  T extends SearchBookFieldsType | SearchRatingFieldsType,
+  T extends Record<keyof T, SearchFieldType> &
+    (SearchBookFieldsType | SearchRatingFieldsType),
   R
 >(
   initialSearch: T,
@@ -35,107 +38,82 @@ const useSearchWithPagination = <
   const router = useRouter();
   const pathname = usePathname();
 
-  const { searchFields } = getSearchQueries(initialSearch);
-
   const fetchDataWithOffset = useCallback(
-    async (offset: number = 0, searchQuery = search) => {
+    async (offset: number = 0, searchQuery: T = search) => {
       setIsLoading(true);
-      const query = createSearchQueryString(searchQuery, inputFields as any);
-      const url = `${baseUrl}?${query}&offset=${offset}`;
-      const response = await fetchData(url);
-      if (response?.data) {
-        setData(response.data);
+      try {
+        const query = createSearchQueryString(
+          searchQuery,
+          inputFields as (
+            | keyof SearchBookFieldsType
+            | keyof SearchRatingFieldsType
+          )[]
+        );
+        const url = `${baseUrl}?${query}&offset=${offset}`;
+        const response = await fetchData(url);
+        if (response?.data) {
+          setData(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     },
     [search, baseUrl, inputFields]
   );
 
-  useEffect(() => {
-    if (isFirstLoad.current) {
-      const params = Object.fromEntries(searchParams.entries());
-
-      const exactFields = params.exact ? params.exact.split(',') : [];
-
-      const paramsObject = Object.fromEntries(
-        Object.entries(params).filter(
-          ([key]) => key in searchFields && key !== 'page' && key !== 'exact'
-        )
-      );
-
-      const searchParamsObject = Object.fromEntries(
-        inputFields.map((field) => [
-          field,
-          {
-            field: paramsObject[field] || initialSearch[field as keyof T].field,
-            isExact: exactFields.includes(field) && inputFields.includes(field),
-          },
-        ])
-      );
-
-      const newSearch = {
-        ...initialSearch,
-        ...searchParamsObject,
-      };
-
-      setSearch(newSearch);
-      const page = parseInt(searchParams.get('page') || '1', 10);
-      const offset = (page - 1) * defaultData.metadata.perPage;
-      setData((prev) => ({
-        ...prev,
-        metadata: { ...prev.metadata, currentPage: page },
-      }));
-      fetchDataWithOffset(offset, newSearch);
-
-      isFirstLoad.current = false;
-    }
-  }, [
-    searchFields,
-    searchParams,
-    defaultData.metadata.perPage,
-    initialSearch,
-    fetchDataWithOffset,
-    inputFields,
-  ]);
-
-  const handleSearch = useCallback(async () => {
-    if (!validateSearch(search)) return;
-    const page = 1;
-    const offset = (page - 1) * data.metadata.perPage;
-    const { searchFields, searchExactFields } = getSearchQueries(search);
-    updateSearchParams(
-      { ...searchFields, exact: searchExactFields, page: page.toString() },
-      { searchParams, router, pathname }
-    );
-    setIsClosedInputs(true);
-    await fetchDataWithOffset(offset);
-  }, [
-    fetchDataWithOffset,
-    pathname,
-    router,
-    search,
-    searchParams,
-    data.metadata.perPage,
-  ]);
-
-  const handlePageChange = useCallback(
-    (page: number) => {
+  const updateUrlAndFetch = useCallback(
+    (page: number, searchQuery: T) => {
       const offset = (page - 1) * data.metadata.perPage;
-      const { searchFields, searchExactFields } = getSearchQueries(search);
+      const { searchFields, searchExactFields } = getSearchQueries(searchQuery);
       updateSearchParams(
         { ...searchFields, exact: searchExactFields, page: page.toString() },
         { searchParams, router, pathname }
       );
-      fetchDataWithOffset(offset);
+      fetchDataWithOffset(offset, searchQuery);
     },
-    [
-      fetchDataWithOffset,
-      pathname,
-      router,
-      search,
-      searchParams,
-      data.metadata.perPage,
-    ]
+    [fetchDataWithOffset, data.metadata.perPage, searchParams, router, pathname]
+  );
+
+  useEffect(() => {
+    if (!isFirstLoad.current) return;
+
+    const newSearch = createSearchFromParams(
+      initialSearch,
+      inputFields,
+      searchParams
+    );
+    setSearch(newSearch);
+
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const offset = (page - 1) * defaultData.metadata.perPage;
+    setData((prev) => ({
+      ...prev,
+      metadata: { ...prev.metadata, currentPage: page },
+    }));
+    fetchDataWithOffset(offset, newSearch);
+
+    isFirstLoad.current = false;
+  }, [
+    searchParams,
+    initialSearch,
+    inputFields,
+    defaultData.metadata.perPage,
+    fetchDataWithOffset,
+  ]);
+
+  const handleSearch = useCallback(async () => {
+    if (!validateSearch(search)) return;
+    setIsClosedInputs(true);
+    updateUrlAndFetch(1, search);
+  }, [search, updateUrlAndFetch]);
+
+  const handlePageChange = useCallback(
+    (page: number) => {
+      updateUrlAndFetch(page, search);
+    },
+    [search, updateUrlAndFetch]
   );
 
   return {

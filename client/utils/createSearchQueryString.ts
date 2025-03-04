@@ -8,19 +8,16 @@ import getSearchQueries from './getSearchQueries';
 const createSearchQueryString = (
   search: SearchBookFieldsType | SearchRatingFieldsType,
   fields: (keyof SearchBookFieldsType | keyof SearchRatingFieldsType)[]
-) => {
+): string => {
   const params = new URLSearchParams();
+  const { searchFields, searchExactFields } = getSearchQueries(search);
 
-  const { searchExactFields } = getSearchQueries(search);
-
-  for (const field of fields) {
-    const value = (search as SearchBookFieldsType & SearchRatingFieldsType)[
-      field
-    ].field;
-
-    if (value?.toString().trim())
-      params.append(field, value?.toString().trim());
-  }
+  fields.forEach((field) => {
+    const value = searchFields[field]?.trim();
+    if (value) {
+      params.append(field, value);
+    }
+  });
 
   if (searchExactFields) {
     params.append('exact', searchExactFields);

@@ -1,62 +1,57 @@
 import React, { ChangeEvent, useMemo } from 'react';
-import BookType from '@/types/BookType';
-import RatingType from '@/types/RatingType';
 import {
   SearchBookFieldsType,
   SearchRatingFieldsType,
+  SearchFieldType,
 } from '@/types/SearchFieldsType';
 
-const SearchScoreField = ({
+interface SearchScoreFieldProps<
+  T extends SearchBookFieldsType | SearchRatingFieldsType
+> {
+  setSearch: (value: T) => void;
+  search: T;
+  field: keyof SearchRatingFieldsType;
+}
+
+const SearchScoreField = <
+  T extends SearchBookFieldsType | SearchRatingFieldsType
+>({
   setSearch,
   search,
-}: {
-  setSearch: (value: SearchBookFieldsType | SearchRatingFieldsType) => void;
-  search: SearchBookFieldsType | SearchRatingFieldsType;
-  field: keyof (BookType | RatingType);
-}) => {
-
-  const fieldValue =
-    ((search as SearchRatingFieldsType).reviewScore.field as string) || '';
+  field,
+}: SearchScoreFieldProps<T>) => {
+  const reviewScore = (search as SearchRatingFieldsType)[field];
+  const fieldValue = reviewScore.field || '';
   const [whole, decimal] = fieldValue.split('.');
 
   const handleWholeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newWhole = e.target.value;
-    if (!newWhole) {
-      setSearch({
-        ...search,
-        reviewScore: {
-          field: '',
-          isExact: (search as SearchRatingFieldsType).reviewScore.isExact,
-        },
-      } as SearchBookFieldsType | SearchRatingFieldsType);
-    } else {
-      setSearch({
-        ...search,
-        reviewScore: {
-          field: `${newWhole}.${decimal || '0'}`,
-          isExact: (search as SearchRatingFieldsType).reviewScore.isExact,
-        },
-      } as SearchBookFieldsType | SearchRatingFieldsType);
-    }
+    setSearch({
+      ...search,
+      [field]: {
+        field: newWhole ? `${newWhole}.${decimal || '0'}` : '',
+        isExact: reviewScore.isExact,
+      } as SearchFieldType,
+    } as T);
   };
 
   const handleDecimalChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newDecimal = e.target.value;
     setSearch({
       ...search,
-      reviewScore: {
+      [field]: {
         field: `${whole || '0'}.${newDecimal || '0'}`,
-        isExact: (search as SearchRatingFieldsType).reviewScore.isExact,
-      },
-    } as SearchBookFieldsType | SearchRatingFieldsType);
+        isExact: reviewScore.isExact,
+      } as SearchFieldType,
+    } as T);
   };
 
   const wholeOptions = useMemo(
-    () => ['', ...Array.from({ length: 5 }, (_, i) => ++i)],
+    () => ['', ...Array.from({ length: 5 }, (_, i) => String(i + 1))],
     []
   );
   const decimalOptions = useMemo(
-    () => ['', ...Array.from({ length: 10 }, (_, i) => i)],
+    () => ['', ...Array.from({ length: 10 }, (_, i) => String(i))],
     []
   );
 

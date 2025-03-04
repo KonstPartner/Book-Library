@@ -9,7 +9,6 @@ import RatingType from '@/types/RatingType';
 import { ratingDataFields, ratingsInputFields } from '@/constants/searchFields';
 import SearchContainer from '@/components/search/SearchContainer';
 import useSearchWithPagination from '@/hooks/useSearchWithPagination';
-import { RatingsType } from '@/types/FetchDataTypes';
 import defaultFetchData from '@/constants/defaultFetchData';
 import { SearchRatingFieldsType } from '@/types/SearchFieldsType';
 
@@ -51,12 +50,12 @@ const SearchRatingsList = ({
       search={search}
       setSearch={setSearch}
       isLoading={isLoading}
-      data={data as RatingsType}
+      data={data}
       isClosedInputs={isClosedInputs}
       setIsClosedInputs={setIsClosedInputs}
       handleSearch={handleSearch}
       handlePageChange={handlePageChange}
-      inputFields={inputFields}
+      inputFields={inputFields as (keyof SearchRatingFieldsType)[]}
       initialSearch={initialSearch}
       containerClassName="flex flex-col text-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto"
     >

@@ -7,27 +7,40 @@ import Spinner from '@/components/Spinner';
 import PaginationBar from '@/components/PaginationBar';
 import MetadataType from '@/types/MetadataType';
 import ExactMenu from './ExactMenu';
+import {
+  SearchBookFieldsType,
+  SearchRatingFieldsType,
+  SearchFieldType,
+} from '@/types/SearchFieldsType';
+import BookType from '@/types/BookType';
+import RatingType from '@/types/RatingType';
 
-interface SearchContainerProps<T> {
+interface SearchContainerProps<
+  T extends Record<keyof T, SearchFieldType> &
+    (SearchBookFieldsType | SearchRatingFieldsType)
+> {
   title: string;
   search: T;
   setSearch: (value: T) => void;
   isLoading: boolean;
   data: {
-    data: any[];
+    data: BookType[] | RatingType[];
     metadata: MetadataType;
   };
   isClosedInputs: boolean;
   setIsClosedInputs: (value: boolean) => void;
   handleSearch: () => void;
   handlePageChange: (page: number) => void;
-  inputFields: string[];
+  inputFields: Array<keyof T>;
   initialSearch: T;
   children: React.ReactNode;
   containerClassName?: string;
 }
 
-const SearchContainer = <T,>({
+const SearchContainer = <
+  T extends Record<keyof T, SearchFieldType> &
+    (SearchBookFieldsType | SearchRatingFieldsType)
+>({
   title,
   search,
   setSearch,
@@ -49,8 +62,8 @@ const SearchContainer = <T,>({
       </h1>
 
       {isClosedInputs ? (
-        <div className={`${isClosedInputs ? 'w-fit' : 'w-fill'} bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20`}>
-          <SearchFieldsPreview search={search as any} />
+        <div className="w-fit bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20">
+          <SearchFieldsPreview search={search} />
           <div className="flex justify-center items-center gap-4 mt-4">
             <Button
               className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-purple-600"
@@ -75,11 +88,15 @@ const SearchContainer = <T,>({
       ) : (
         <div className="flex flex-col w-full bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20 gap-5">
           <SearchInputFields
-            inputFields={inputFields as any}
-            search={search as any}
-            setSearch={(value) => setSearch(value as T)}
+            inputFields={inputFields}
+            search={search}
+            setSearch={setSearch}
           />
-          <ExactMenu search={search as any} setSearch={setSearch as any} inputFields={inputFields as any} />
+          <ExactMenu
+            search={search}
+            setSearch={setSearch}
+            inputFields={inputFields}
+          />
           <div className="flex flex-wrap justify-center gap-4">
             <Button
               onClick={() => setSearch(initialSearch)}

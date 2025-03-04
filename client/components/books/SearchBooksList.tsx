@@ -7,7 +7,6 @@ import { bookDataFields, booksInputFields } from '@/constants/searchFields';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import SearchContainer from '@/components/search/SearchContainer';
 import useSearchWithPagination from '@/hooks/useSearchWithPagination';
-import { BooksType } from '@/types/FetchDataTypes';
 import BooksIcons from '@/components/BooksIcons';
 import defaultFetchData from '@/constants/defaultFetchData';
 import { SearchBookFieldsType } from '@/types/SearchFieldsType';
@@ -38,12 +37,12 @@ const SearchBooksList = () => {
         search={search}
         setSearch={setSearch}
         isLoading={isLoading}
-        data={data as BooksType}
+        data={data}
         isClosedInputs={isClosedInputs}
         setIsClosedInputs={setIsClosedInputs}
         handleSearch={handleSearch}
         handlePageChange={handlePageChange}
-        inputFields={booksInputFields}
+        inputFields={booksInputFields as (keyof SearchBookFieldsType)[]}
         initialSearch={bookDataFields}
         containerClassName="relative z-10 flex flex-col items-center text-center w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10"
       >

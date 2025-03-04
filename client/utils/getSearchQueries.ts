@@ -3,20 +3,26 @@ import {
   SearchRatingFieldsType,
 } from '@/types/SearchFieldsType';
 
+interface SearchFieldsResult {
+  searchFields: Record<string, string>;
+  searchExactFields: string;
+}
+
 const getSearchQueries = (
   search: SearchBookFieldsType | SearchRatingFieldsType
-) => {
+): SearchFieldsResult => {
   const searchFields = Object.fromEntries(
     Object.entries(search).map(([key, { field }]) => [key, field])
   );
 
-  const exactFieldsArray: string[] = [];
+  const exactFieldsArray = Object.entries(search)
+    .filter(([, { isExact }]) => isExact)
+    .map(([key]) => key);
 
-  Object.entries(search).forEach(([key, { isExact }]) => {
-    if (isExact) exactFieldsArray.push(key);
-  });
-
-  return { searchFields, searchExactFields: exactFieldsArray.toString() };
+  return {
+    searchFields,
+    searchExactFields: exactFieldsArray.join(','),
+  };
 };
 
 export default getSearchQueries;

@@ -50,11 +50,15 @@ const RatingCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100 hover:underline">
-                <HighlightText
-                  text={user}
-                  searchText={search?.user?.field}
-                  highlightClass="bg-yellow-200 dark:bg-yellow-600"
-                />
+                {search?.user?.isExact ? (
+                  user
+                ) : (
+                  <HighlightText
+                    text={user}
+                    searchText={search?.user?.field}
+                    highlightClass="bg-yellow-300 dark:bg-yellow-500"
+                  />
+                )}
               </h3>
             </Link>
           ) : (
@@ -64,11 +68,15 @@ const RatingCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <p className="font-bold text-lg text-gray-800 dark:text-gray-200 hover:underline">
-                <HighlightText
-                  text={book}
-                  searchText={search?.book?.field}
-                  highlightClass="bg-yellow-200 dark:bg-yellow-600"
-                />
+                {search?.book?.isExact ? (
+                  book
+                ) : (
+                  <HighlightText
+                    text={book}
+                    searchText={search?.book?.field}
+                    highlightClass="bg-yellow-300 dark:bg-yellow-500"
+                  />
+                )}
               </p>
             </Link>
           )}
@@ -79,11 +87,15 @@ const RatingCard = ({
             <RatingStars rating={Number(reviewScore)} />
           </div>
           <p className="text-gray-700 dark:text-gray-300 text-pretty text-sm sm:text-base">
-            <HighlightText
-              text={reviewSummary}
-              searchText={search?.reviewSummary?.field}
-              highlightClass="bg-yellow-200 dark:bg-yellow-600"
-            />
+            {search?.reviewSummary?.isExact ? (
+              reviewSummary
+            ) : (
+              <HighlightText
+                text={reviewSummary}
+                searchText={search?.reviewSummary?.field}
+                highlightClass="bg-yellow-300 dark:bg-yellow-500"
+              />
+            )}
           </p>
         </div>
       </div>

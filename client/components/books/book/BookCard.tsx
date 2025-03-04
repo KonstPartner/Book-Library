@@ -33,30 +33,42 @@ const BookCard = ({
 
           <div className="mt-3 flex flex-col gap-2 text-white">
             <h2 className="text-lg font-semibold line-clamp-2">
-              <HighlightText
-                text={title}
-                searchText={search?.title.field}
-                highlightClass="bg-yellow-300 dark:bg-yellow-500"
-              />
+              {search?.title.isExact ? (
+                title
+              ) : (
+                <HighlightText
+                  text={title}
+                  searchText={search?.title.field}
+                  highlightClass="bg-yellow-300 dark:bg-yellow-500"
+                />
+              )}
             </h2>
             <p className="text-sm opacity-90 min-h-[20px]">
               By:{' '}
-              <HighlightText
-                text={author}
-                searchText={search?.author.field}
-                highlightClass="bg-yellow-300 dark:bg-yellow-500"
-              />
+              {search?.author.isExact ? (
+                author
+              ) : (
+                <HighlightText
+                  text={author}
+                  searchText={search?.author.field}
+                  highlightClass="bg-yellow-300 dark:bg-yellow-500"
+                />
+              )}
             </p>
             <p className="text-sm opacity-80 min-h-[20px]">
               Published: {publishedDate}
             </p>
             {category && (
               <p className="text-orange-400 bg-gray-800/70 rounded-md px-2 py-1 text-xs font-medium mx-auto">
+                {search?.category.isExact ? (
+                category
+              ) : (
                 <HighlightText
                   text={category}
                   searchText={search?.category.field}
                   highlightClass="bg-yellow-300 dark:bg-yellow-500"
                 />
+              )}
               </p>
             )}
           </div>

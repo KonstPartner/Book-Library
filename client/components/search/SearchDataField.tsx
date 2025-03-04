@@ -1,19 +1,25 @@
 import React from 'react';
 import Input from '@/components/Input';
-import BookType from '@/types/BookType';
 import {
   SearchBookFieldsType,
   SearchRatingFieldsType,
+  SearchFieldType,
 } from '@/types/SearchFieldsType';
 
-const SearchDataField = ({
+interface SearchDataFieldProps<
+  T extends SearchBookFieldsType | SearchRatingFieldsType
+> {
+  setSearch: (value: T) => void;
+  search: T;
+}
+
+const SearchDataField = <
+  T extends SearchBookFieldsType | SearchRatingFieldsType
+>({
   setSearch,
   search,
-}: {
-  setSearch: (value: SearchBookFieldsType | SearchRatingFieldsType) => void;
-  search: SearchBookFieldsType | SearchRatingFieldsType;
-}) => {
-  const { publishedDate } = search as SearchBookFieldsType;
+}: SearchDataFieldProps<T>) => {
+  const publishedDate = (search as SearchBookFieldsType).publishedDate;
   const [year, month, day] = (publishedDate.field || '').split('-') || [
     '',
     '',
@@ -22,37 +28,38 @@ const SearchDataField = ({
 
   const dateFields = [
     {
-      type: 'year',
+      type: 'year' as const,
       placeholder: 'YYYY',
       value: year,
       maxLength: 4,
       width: 'w-20 sm:w-22',
     },
     {
-      type: 'month',
+      type: 'month' as const,
       placeholder: 'MM',
       value: month,
       maxLength: 2,
       width: 'w-14 sm:w-16',
     },
     {
-      type: 'day',
+      type: 'day' as const,
       placeholder: 'DD',
       value: day,
       maxLength: 2,
       width: 'w-14 sm:w-16',
     },
-  ] as const;
+  ];
 
   const handleDateChange = (type: 'year' | 'month' | 'day', value: string) => {
-    const limits = { year: 3000, month: 12, day: 31 };
+    const limits: Record<string, number> = { year: 3000, month: 12, day: 31 };
     const cleanedValue = value.replace(/\D/g, '');
 
     if (
       cleanedValue &&
       (Number(cleanedValue) > limits[type] || Number(cleanedValue) < 1)
-    )
+    ) {
       return;
+    }
 
     const newDate = {
       year: type === 'year' ? cleanedValue : year || '',
@@ -60,21 +67,21 @@ const SearchDataField = ({
       day: type === 'day' ? cleanedValue : day || '',
     };
 
-    const newPublishedDate =
-      [newDate.year, newDate.month, newDate.day].filter(Boolean).join('-') ||
-      '';
+    const newPublishedDate = [newDate.year, newDate.month, newDate.day]
+      .filter(Boolean)
+      .join('-');
 
     setSearch({
       ...search,
       publishedDate: {
         field: newPublishedDate,
-        isExact: (search as SearchBookFieldsType).publishedDate.isExact,
-      },
-    } as SearchBookFieldsType);
+        isExact: publishedDate.isExact,
+      } as SearchFieldType,
+    } as T);
   };
 
   return (
-    <div className="flex items-center w-fit mx-auto">
+    <div className="flex items-center w-fit mx-auto gap-1">
       {dateFields.map(
         ({ type, placeholder, value, maxLength, width }, index) => (
           <div key={type} className="flex items-center">
@@ -82,13 +89,13 @@ const SearchDataField = ({
               className={`${width} text-center text-sm sm:text-base bg-transparent border-white/20`}
               type="text"
               placeholder={placeholder}
-              value={value || ''}
+              value={value}
               onChange={(e) => handleDateChange(type, e.target.value)}
               maxLength={maxLength}
             />
             {index < dateFields.length - 1 && (
               <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base mx-1">
-                {'-'}
+                -
               </span>
             )}
           </div>
