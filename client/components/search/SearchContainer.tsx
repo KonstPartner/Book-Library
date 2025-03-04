@@ -6,6 +6,7 @@ import SearchInputFields from '@/components/search/SearchInputFields';
 import Spinner from '@/components/Spinner';
 import PaginationBar from '@/components/PaginationBar';
 import MetadataType from '@/types/MetadataType';
+import ExactMenu from './ExactMenu';
 
 interface SearchContainerProps<T> {
   title: string;
@@ -72,13 +73,14 @@ const SearchContainer = <T,>({
           </div>
         </div>
       ) : (
-        <div className="w-full bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20">
+        <div className="flex flex-col w-full bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20 gap-5">
           <SearchInputFields
             inputFields={inputFields as any}
             search={search as any}
             setSearch={(value) => setSearch(value as T)}
           />
-          <div className="flex flex-wrap justify-center gap-4 mt-6">
+          <ExactMenu search={search as any} setSearch={setSearch as any} inputFields={inputFields as any} />
+          <div className="flex flex-wrap justify-center gap-4">
             <Button
               onClick={() => setSearch(initialSearch)}
               className="px-4 py-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-lg shadow-md transition-all duration-300 flex items-center gap-2"

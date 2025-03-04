@@ -55,6 +55,8 @@ const useSearchWithPagination = <
     if (isFirstLoad.current) {
       const params = Object.fromEntries(searchParams.entries());
 
+      const exactFields = params.exact ? params.exact.split(',') : [];
+
       const paramsObject = Object.fromEntries(
         Object.entries(params).filter(
           ([key]) => key in searchFields && key !== 'page' && key !== 'exact'
@@ -62,13 +64,11 @@ const useSearchWithPagination = <
       );
 
       const searchParamsObject = Object.fromEntries(
-        Object.entries(paramsObject).map(([key, value]) => [
-          key,
+        inputFields.map((field) => [
+          field,
           {
-            field: value,
-            isExact: params?.exact?.split(',').some((el) => el === key)
-              ? true
-              : false,
+            field: paramsObject[field] || initialSearch[field as keyof T].field,
+            isExact: exactFields.includes(field) && inputFields.includes(field),
           },
         ])
       );
@@ -95,6 +95,7 @@ const useSearchWithPagination = <
     defaultData.metadata.perPage,
     initialSearch,
     fetchDataWithOffset,
+    inputFields,
   ]);
 
   const handleSearch = useCallback(async () => {

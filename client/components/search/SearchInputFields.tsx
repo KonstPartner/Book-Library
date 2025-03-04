@@ -27,13 +27,6 @@ const SearchInputFields = ({
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
       {inputFields.map((inputField) => (
         <div key={inputField} className="flex sm:items-center gap-3 sm:gap-2">
-            <Input type='checkbox' className='w-fit' checked={(search as any)[inputField as any].isExact} onChange={() => setSearch({
-                    ...search,
-                    [inputField]: {
-                      field: (search as any)[inputField as any].field,
-                      isExact: !(search as any)[inputField as any].isExact,
-                    },
-                  } as SearchBookFieldsType | SearchRatingFieldsType)} />
           <div className="flex-1 min-w-0">
             {inputField === 'publishedDate' ? (
               <SearchDataField
