@@ -11,6 +11,7 @@ import SearchContainer from '@/components/search/SearchContainer';
 import useSearchWithPagination from '@/hooks/useSearchWithPagination';
 import defaultFetchData from '@/constants/defaultFetchData';
 import { SearchRatingFieldsType } from '@/types/SearchFieldsType';
+import RatingsIcons from '../RatingsIcons';
 
 const SearchRatingsList = ({
   contextType,
@@ -43,46 +44,49 @@ const SearchRatingsList = ({
     baseUrl,
     defaultFetchData
   );
-
+  
   return (
-    <SearchContainer
-      title="Search Ratings"
-      search={search}
-      setSearch={setSearch}
-      isLoading={isLoading}
-      data={data}
-      isClosedInputs={isClosedInputs}
-      setIsClosedInputs={setIsClosedInputs}
-      handleSearch={handleSearch}
-      handlePageChange={handlePageChange}
-      inputFields={inputFields as (keyof SearchRatingFieldsType)[]}
-      initialSearch={initialSearch}
-      containerClassName="flex flex-col text-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto"
-    >
-      <>
-        <p className="text-lg text-gray-700 dark:text-gray-300">
-          For {isBook ? 'book' : 'user'}:
-        </p>
-        {data.data.length > 0 && (
-          <p className="text-lg font-bold text-gray-700 dark:text-gray-300 hover:underline">
-            {isBook ? (
-              <Link href={`/books/${data.data[0].bookId}`}>
-                {data.data[0].book}
-              </Link>
-            ) : (
-              <Link href={`/users/${data.data[0].userId}`}>
-                {data.data[0].user}
-              </Link>
-            )}
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950 backdrop-blur-md overflow-hidden relative">
+      <RatingsIcons />
+      <SearchContainer
+        title="Search Ratings"
+        search={search}
+        setSearch={setSearch}
+        isLoading={isLoading}
+        data={data}
+        isClosedInputs={isClosedInputs}
+        setIsClosedInputs={setIsClosedInputs}
+        handleSearch={handleSearch}
+        handlePageChange={handlePageChange}
+        inputFields={inputFields as (keyof SearchRatingFieldsType)[]}
+        initialSearch={initialSearch}
+        containerClassName="flex flex-col text-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto"
+      >
+        <>
+          <p className="text-lg text-gray-700 dark:text-gray-300">
+            For {isBook ? 'book' : 'user'}:
           </p>
-        )}
-        <RatingsList
-          contextType={contextType}
-          ratings={data.data}
-          search={search}
-        />
-      </>
-    </SearchContainer>
+          {data.data.length > 0 && (
+            <p className="text-lg font-bold text-gray-700 dark:text-gray-300 hover:underline">
+              {isBook ? (
+                <Link href={`/books/${data.data[0].bookId}`}>
+                  {data.data[0].book}
+                </Link>
+              ) : (
+                <Link href={`/users/${data.data[0].userId}`}>
+                  {data.data[0].user}
+                </Link>
+              )}
+            </p>
+          )}
+          <RatingsList
+            contextType={contextType}
+            ratings={data.data}
+            search={search}
+          />
+        </>
+      </SearchContainer>
+    </div>
   );
 };
 

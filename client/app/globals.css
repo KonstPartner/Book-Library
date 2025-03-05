@@ -80,3 +80,20 @@ body {
 .animate-scale {
   animation: scale 5s ease-in-out infinite;
 }
+
+@keyframes fall {
+  0% {
+    transform: translateY(0vh);
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(400vh);
+    opacity: 0;
+  }
+}
+.animate-fall {
+  animation: fall 110s linear infinite;
+}

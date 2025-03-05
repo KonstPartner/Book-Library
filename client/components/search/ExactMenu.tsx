@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Info } from 'lucide-react';
 import {
   SearchBookFieldsType,
   SearchRatingFieldsType,
@@ -70,7 +70,7 @@ const ExactMenu = <
               <span className="absolute right-0 bottom-full mb-1 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out pointer-events-none">
                 Toggle exact search for precise matching
               </span>
-              <h3 className="text-md font-semibold text-white">Exact Fields</h3>
+              <h3 className="text-md font-semibold text-white flex justify-center gap-2 items-center">Exact Fields <Info size={16} /></h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {inputFields.map((inputField) => (
