@@ -9,6 +9,7 @@ import {
   SearchRatingFieldsType,
   SearchFieldType,
 } from '@/types/SearchFieldsType';
+import getPrettyField from '@/utils/getPrettyField';
 
 interface SearchInputFieldsProps<
   T extends Record<keyof T, SearchFieldType> &
@@ -56,15 +57,13 @@ const SearchInputFields = <
                     },
                   })
                 }
-                placeholder={`Enter ${String(inputField)
-                  .replace(/([A-Z])/g, ' $1')
-                  .toLowerCase()}`}
+                placeholder={`Enter ${getPrettyField(String(inputField))}`}
               />
             )}
           </div>
           {search[inputField].field && (
             <Button
-              className="flex-shrink-0 px-3 py-2 sm:px-4 sm:py-3 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-lg shadow-md transition-all duration-300"
+              className="flex-shrink-0 px-3 py-2 sm:px-3 sm:py-3 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-lg shadow-md transition-all duration-300"
               onClick={() =>
                 setSearch({
                   ...search,

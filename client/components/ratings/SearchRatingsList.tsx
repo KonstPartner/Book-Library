@@ -46,7 +46,7 @@ const SearchRatingsList = ({
   );
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950 backdrop-blur-md overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950 backdrop-blur-md overflow-hidden relative px-5">
       <RatingsIcons />
       <SearchContainer
         title="Search Ratings"
@@ -60,7 +60,7 @@ const SearchRatingsList = ({
         handlePageChange={handlePageChange}
         inputFields={inputFields as (keyof SearchRatingFieldsType)[]}
         initialSearch={initialSearch}
-        containerClassName="flex flex-col text-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto"
+        containerClassName="flex flex-col text-center w-full sm:w-3/4 md:w-2/3 lg:w-2/3 mx-auto"
       >
         <>
           <p className="text-lg text-gray-700 dark:text-gray-300">

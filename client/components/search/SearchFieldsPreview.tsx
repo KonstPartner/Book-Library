@@ -6,6 +6,7 @@ import {
   SearchFieldType,
 } from '@/types/SearchFieldsType';
 import getSearchQueries from '@/utils/getSearchQueries';
+import getPrettyField from '@/utils/getPrettyField';
 
 interface SearchFieldsPreviewProps<
   T extends Record<keyof T, SearchFieldType> &
@@ -47,7 +48,7 @@ const SearchFieldsPreview = <
           </div>
           <p className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent m-0 text-lg font-bold">
             <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text font-normal">
-              {key}:
+              {getPrettyField(key)}:
             </span>{' '}
             {searchFields[key]}
           </p>

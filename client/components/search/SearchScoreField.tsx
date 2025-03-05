@@ -4,6 +4,7 @@ import {
   SearchRatingFieldsType,
   SearchFieldType,
 } from '@/types/SearchFieldsType';
+import getPrettyField from '@/utils/getPrettyField';
 
 interface SearchScoreFieldProps<
   T extends SearchBookFieldsType | SearchRatingFieldsType
@@ -56,13 +57,13 @@ const SearchScoreField = <
   );
 
   return (
-    <div className="flex items-center gap-2 sm:gap-3 bg-white/10 dark:bg-gray-800/10 backdrop-blur-sm border border-white/20 rounded-lg p-3 sm:p-4 w-full">
-      <p className="text-gray-600 dark:text-gray-300 font-medium text-sm sm:text-base whitespace-nowrap">
-        Rating:
+    <div className="flex items-center gap-2 sm:gap-0 md:gap-3 bg-white/10 dark:bg-gray-800/10 backdrop-blur-sm border border-white/20 rounded-lg p-1.5 w-full">
+      <p className="sm:text-xs text-gray-600 sm:text-gray-500 dark:text-gray-300 sm:dark:text-gray-400 font-medium text-sm whitespace-nowrap">
+        {getPrettyField(field)}:
       </p>
-      <div className="flex items-center gap-2 sm:gap-3 flex-1">
+      <div className="flex items-center gap-1 flex-1">
         <select
-          className="py-2 px-3 w-full sm:w-20 bg-white/5 dark:bg-gray-900/5 border border-white/20 rounded-lg text-sm sm:text-base text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+          className="py-2 px-3 sm:px-0 w-full bg-white/5 dark:bg-gray-900/5 border border-gray-400 rounded-lg text-sm sm:text-base text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
           value={whole || ''}
           onChange={handleWholeChange}
         >
@@ -80,7 +81,7 @@ const SearchScoreField = <
           .
         </span>
         <select
-          className="py-2 px-3 w-full sm:w-20 bg-white/5 dark:bg-gray-900/5 border border-white/20 rounded-lg text-sm sm:text-base text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
+          className="py-2 px-3 sm:px-0 w-full bg-white/5 dark:bg-gray-900/5 border border-gray-400 rounded-lg text-sm sm:text-base text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 disabled:opacity-50"
           value={decimal || ''}
           onChange={handleDecimalChange}
           disabled={!whole}

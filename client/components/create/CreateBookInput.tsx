@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import Input from '@/components/Input';
 import { bookInputFields } from '@/constants/createFields';
+import getPrettyField from '@/utils/getPrettyField';
 
 const CreateBookInput = ({
   field,
@@ -15,7 +16,7 @@ const CreateBookInput = ({
     return (
       <textarea
         className="p-2 my-2 border rounded-sm dark:bg-transparent dark:border-gray-400"
-        placeholder="Description"
+        placeholder={getPrettyField(field)}
         maxLength={500}
         value={value}
         onChange={onChange}
@@ -38,7 +39,7 @@ const CreateBookInput = ({
           className="p-2 mb-2 dark:border-gray-400 rounded-sm"
           value={value}
           onChange={onChange}
-          placeholder={field}
+          placeholder={getPrettyField(field)}
         />
       </>
     );
@@ -49,7 +50,7 @@ const CreateBookInput = ({
       className="p-2 my-2 dark:border-gray-400 rounded-sm"
       value={value}
       onChange={onChange}
-      placeholder={field}
+      placeholder={getPrettyField(field)}
     />
   );
 };
