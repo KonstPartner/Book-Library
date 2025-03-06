@@ -1,5 +1,5 @@
-import RandomBooksList from '@/components/books/RandomBooksList';
+import MainScreen from '@/components/books/MainScreen';
 
 export default function Home() {
-  return <RandomBooksList />;
+  return <MainScreen />;
 }

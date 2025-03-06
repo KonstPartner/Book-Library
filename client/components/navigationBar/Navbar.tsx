@@ -6,8 +6,8 @@ import NavMenu from './NavMenu';
 import NavLinks from './NavLinks';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Random' },
-  { href: '/books', label: 'Search' },
+  { href: '/', label: 'Main' },
+  { href: '/books', label: 'Books' },
   { href: '/books/create', label: 'Create' },
 ];
 

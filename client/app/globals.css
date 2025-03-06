@@ -98,19 +98,56 @@ body {
   animation: fall 110s linear infinite;
 }
 
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+.animate-shine {
+  animation: shine 2s infinite linear;
+}
+
 @keyframes gradient-x {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
 }
 .animate-gradient-x {
   background-size: 300% 100%;
   animation: gradient-x 6s infinite linear;
 }
 
-@keyframes shine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+@keyframes slide-in-from-right {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
-.animate-shine {
-  animation: shine 2s infinite linear;
+.animate-slide-in-from-right {
+  animation: slide-in-from-right 1.5s ease-out forwards;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.2);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-float {
+  animation: float 2s ease-in-out infinite;
 }
