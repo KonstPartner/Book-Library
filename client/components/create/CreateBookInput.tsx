@@ -12,10 +12,13 @@ const CreateBookInput = ({
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }) => {
+  const baseInputStyles =
+    'w-full p-3 bg-white/50 dark:bg-gray-900/50 border border-gray-300/50 dark:border-gray-600/50 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500';
+
   if (field === 'description') {
     return (
       <textarea
-        className="p-2 my-2 border rounded-sm dark:bg-transparent dark:border-gray-400"
+        className={`${baseInputStyles} h-32 resize-y`}
         placeholder={getPrettyField(field)}
         maxLength={500}
         value={value}
@@ -26,9 +29,9 @@ const CreateBookInput = ({
 
   if (field === 'image') {
     return (
-      <>
+      <div className="flex flex-col gap-2">
         <a
-          className="p-1 pb-0 rounded-sm text-blue-600 dark:text-blue-400  hover:underline"
+          className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors duration-200"
           href="https://search.worldcat.org/"
           target="_blank"
           rel="noopener noreferrer"
@@ -36,18 +39,18 @@ const CreateBookInput = ({
           You can find image link here
         </a>
         <Input
-          className="p-2 mb-2 dark:border-gray-400 rounded-sm"
+          className={baseInputStyles}
           value={value}
           onChange={onChange}
           placeholder={getPrettyField(field)}
         />
-      </>
+      </div>
     );
   }
 
   return (
     <Input
-      className="p-2 my-2 dark:border-gray-400 rounded-sm"
+      className={baseInputStyles}
       value={value}
       onChange={onChange}
       placeholder={getPrettyField(field)}

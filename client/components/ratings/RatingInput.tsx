@@ -13,11 +13,12 @@ const RatingInput = ({
 }) => {
   return (
     <div key={field} className="m-auto">
-      <p className="text-center text-gray-500">Select rating:</p>
+      <p className="text-center text-gray-500 dark:text-gray-400">Select rating:</p>
       <div className="flex items-center space-x-2">
         {[1, 2, 3, 4, 5].map((star) => (
           <FaStar
             key={star}
+            size={30}
             onClick={() =>
               setDataFields({
                 ...dataFields,
@@ -26,7 +27,7 @@ const RatingInput = ({
             }
             className={`cursor-pointer text-xl transition-all ${
               star <= Number(dataFields[field as keyof FieldsType])
-                ? 'text-yellow-300'
+                ? 'text-amber-400'
                 : 'text-gray-400'
             }`}
           />

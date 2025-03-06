@@ -35,19 +35,25 @@ const RatingsPreview = ({
   }, [id, isBook]);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-700 md:p-3 rounded-lg px-1">
-      <div className="flex justify-between">
-        <p className="p-1">Reviews ({ratingsCount})</p>
+    <div className="relative bg-gradient-to-br from-white/20 to-gray-100/20 dark:from-gray-800/20 dark:to-gray-900/20 backdrop-blur-xl rounded-xl shadow-lg border border-white/40 dark:border-gray-700/40 p-4 xs:p-6 md:p-8 transition-all duration-300 hover:shadow-2xl overflow-hidden">
+      <span className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient-x" />
+
+      <div className="flex justify-between items-center mb-4">
+        <p className="text-lg xs:text-xl md:text-2xl font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          Reviews ({ratingsCount})
+        </p>
         {ratingsCount && ratingsCount > 5 && (
           <Link href={`/${isBook ? 'books' : 'users'}/${id}/ratings`}>
-            <p className="text-blue-600 text-lg text-center w-fit m-auto p-1 rounded-md dark:text-gray-200 dark:bg-blue-500 hover:underline">
+            <p className="text-md xs:text-base md:text-lg text-white bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-3 py-1 rounded-lg shadow-md hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 hover:shadow-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
               Show All
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 animate-shine" />
             </p>
           </Link>
         )}
       </div>
+
       {isLoading ? (
-        <Spinner className="mx-auto my-16" />
+        <Spinner className="mx-auto my-12 w-10 h-10 text-blue-500 animate-spin" />
       ) : (
         <RatingsList contextType={contextType} ratings={ratings} />
       )}

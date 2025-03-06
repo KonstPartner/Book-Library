@@ -29,17 +29,25 @@ const SingleBook = () => {
   }, [id, fetchBook]);
 
   if (isLoading) {
-    return <Spinner className="mx-auto my-16" />;
+    return (
+      <div className="min-h-screen bg-gradient-to-tl from-blue-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950  p-4 overflow-hidden relative">
+        <Spinner className="mx-auto my-16" />
+      </div>
+    );
   }
 
   if (!book) {
-    return <p>No book found with id {id}</p>;
+    return (
+      <div className="min-h-screen bg-gradient-to-tl from-blue-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950  p-4 overflow-hidden relative">
+        <p>No book found with id {id}</p>
+      </div>
+    );
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-tl from-blue-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950  p-4 overflow-hidden relative">
       <Button
-      className='border-none shadow-none hover:underline text-gray-400 hover:text-gray-500 mr-0 ml-auto p-0'
+        className="border-none shadow-none hover:underline text-gray-400 hover:text-gray-500 mr-0 ml-auto p-1"
         disabled={isLoading}
         onClick={() => {
           setIsLoading(true);
@@ -49,7 +57,7 @@ const SingleBook = () => {
         <RefreshCcw />
       </Button>
       <BookInfo book={book} />
-    </>
+    </div>
   );
 };
 
