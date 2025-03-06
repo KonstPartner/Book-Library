@@ -97,3 +97,20 @@ body {
 .animate-fall {
   animation: fall 110s linear infinite;
 }
+
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.animate-gradient-x {
+  background-size: 300% 100%;
+  animation: gradient-x 6s infinite linear;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shine {
+  animation: shine 2s infinite linear;
+}
