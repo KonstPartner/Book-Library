@@ -50,6 +50,26 @@ const getSubSearchQuery = (
   return undefined;
 };
 
+const getSortQueries = (req: Request, fields: string[] = []) => {
+  let sortBy = fields.includes(String(req.query.sortBy))
+    ? String(req.query.sortBy)
+    : undefined;
+
+  const fieldMapping: { [key: string]: string } = {
+    user: 'name',
+    book: 'title',
+  };
+
+  if (sortBy && fieldMapping[sortBy]) {
+    sortBy = fieldMapping[sortBy];
+  }
+
+  const sortOrder =
+    (req.query.sortOrder as string)?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+
+  return { sortBy, sortOrder };
+};
+
 const getBooksQueries = (req: Request) => {
   const searchableFields = [
     'title',
@@ -58,7 +78,11 @@ const getBooksQueries = (req: Request) => {
     'publisher',
     'publishedDate',
   ];
-  return getSearchQueries(req, searchableFields);
+  const sortFields = ['title', 'publishedDate'];
+  return {
+    searchQueries: getSearchQueries(req, searchableFields),
+    sortBy: getSortQueries(req, sortFields).sortBy,
+  };
 };
 
 const getRatingsQueries = (req: Request) => {
@@ -68,7 +92,13 @@ const getRatingsQueries = (req: Request) => {
     'reviewSummary',
     'reviewText',
   ];
-  return getSearchQueries(req, searchableFields);
+  const sortFields = ['reviewScore'];
+  const subSortFields = ['user', 'book'];
+  return {
+    searchQueries: getSearchQueries(req, searchableFields),
+    sortBy: getSortQueries(req, sortFields).sortBy,
+    subSortBy: getSortQueries(req, subSortFields).sortBy,
+  };
 };
 
 export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
@@ -81,8 +111,12 @@ export default (req: Request, defaultQueries: DefaultQueriesType = {}) => {
   return {
     limit,
     offset,
-    searchBooksQueries: getBooksQueries(req),
-    searchRatingsQueries: getRatingsQueries(req),
+    sortBooksBy: getBooksQueries(req).sortBy,
+    sortRatingsBy: getRatingsQueries(req).sortBy,
+    sortRatingsUsersOrBooksBy: getRatingsQueries(req).subSortBy,
+    sortOrder: getSortQueries(req).sortOrder,
+    searchBooksQueries: getBooksQueries(req).searchQueries,
+    searchRatingsQueries: getRatingsQueries(req).searchQueries,
     searchQueryName: getSearchQueries(req, ['name']),
     searchBooksCategoryQuery: getSubSearchQuery(
       req.query.category,

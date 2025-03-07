@@ -15,7 +15,7 @@ import { WhereOptions } from 'sequelize';
 const findAllRatingsRequest = async (
   limit: number,
   offset: number,
-  searchQueries: WhereOptions<RatingAttributes> | undefined,
+  searchQueries: WhereOptions<RatingAttributes> | undefined
 ) =>
   await Rating.findAll({
     limit,
@@ -57,7 +57,9 @@ const createRatingRequest = async (
     userId = user.id;
   }
 
-  const existinRating = await Rating.findOne({ where: { bookId: data.bookId, userId } });
+  const existinRating = await Rating.findOne({
+    where: { bookId: data.bookId, userId },
+  });
   if (existinRating) {
     throw {
       code: 400,
@@ -97,6 +99,9 @@ const findAllBookRatingsRequest = async (
   BookId: string,
   limit: number,
   offset: number,
+  sortRatingsBy: string | undefined,
+  sortRatingsUsersOrBooksBy: string | undefined,
+  sortOrder: string,
   searchQueries: WhereOptions<RatingAttributes> | undefined,
   searchUserQuery: WhereOptions<UserAttributes> | undefined
 ) =>
@@ -104,7 +109,11 @@ const findAllBookRatingsRequest = async (
     where: { ...{ ...searchQueries, bookId: BookId } },
     limit,
     offset,
-    order: [['id', 'ASC']],
+    ...(sortRatingsUsersOrBooksBy === 'name'
+      ? { order: [[{ model: User, as: 'user' }, 'name', sortOrder]] }
+      : {
+          order: [[sortRatingsBy || 'reviewScore', sortOrder]],
+        }),
     include: [
       {
         model: Book,
@@ -124,6 +133,9 @@ const findAllUserRatingsRequest = async (
   UserId: string,
   limit: number,
   offset: number,
+  sortRatingsBy: string | undefined,
+  sortRatingsUsersOrBooksBy: string | undefined,
+  sortOrder: string,
   searchQueries: WhereOptions<RatingAttributes> | undefined,
   searchBookQuery: WhereOptions<BookAttributes> | undefined
 ) =>
@@ -131,6 +143,11 @@ const findAllUserRatingsRequest = async (
     where: { ...{ ...searchQueries, userId: UserId } },
     limit,
     offset,
+    ...(sortRatingsUsersOrBooksBy === 'title'
+      ? { order: [[{ model: Book, as: 'book' }, 'title', sortOrder]] }
+      : {
+          order: [[sortRatingsBy || 'reviewScore', sortOrder]],
+        }),
     include: [
       {
         model: Book,
@@ -154,9 +171,7 @@ const destroyRatingRequest = async (RatingId: string) => {
   return await Rating.destroy({ where: { id: RatingId } });
 };
 
-const updateRatingRequest = async (
-  data: Partial<RatingAttributes>
-) => {
+const updateRatingRequest = async (data: Partial<RatingAttributes>) => {
   const { id, ...updates } = data;
 
   const rating = await Rating.findByPk(id);

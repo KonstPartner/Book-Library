@@ -10,13 +10,15 @@ import {
 const findAllBooksRequest = async (
   limit: number,
   offset: number,
+  sortBooksBy: string | undefined,
+  sortOrder: string,
   searchQueries: WhereOptions<BookAttributes> | undefined,
   searchCategoryQuery: WhereOptions<CategoryAttributes> | undefined
 ) =>
   await Book.findAndCountAll({
     limit,
     offset,
-    order: [['title', 'ASC']],
+    order: [[sortBooksBy || 'title', sortOrder]],
     where: searchQueries,
     include: [
       {

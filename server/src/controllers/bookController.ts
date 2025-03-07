@@ -19,12 +19,20 @@ import { findAllBookRatingsRequest } from '../services/ratingsServices.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
-    const { limit, offset, searchBooksQueries, searchBooksCategoryQuery } =
-      getRequestQueries(req);
+    const {
+      limit,
+      offset,
+      sortBooksBy,
+      sortOrder,
+      searchBooksQueries,
+      searchBooksCategoryQuery,
+    } = getRequestQueries(req);
 
     const { count, rows: books } = await findAllBooksRequest(
       limit,
       offset,
+      sortBooksBy,
+      sortOrder,
       searchBooksQueries,
       searchBooksCategoryQuery
     );
@@ -77,14 +85,23 @@ const getBookById = async (req: Request, res: Response) => {
 
 const getAllBookRatings = async (req: Request, res: Response) => {
   const BookId = req.params.id;
-  const { limit, offset, searchRatingsQueries, searchRatingsUserQuery } =
-    getRequestQueries(req);
-
+  const {
+    limit,
+    offset,
+    sortRatingsBy,
+    sortRatingsUsersOrBooksBy,
+    sortOrder,
+    searchRatingsQueries,
+    searchRatingsUserQuery,
+  } = getRequestQueries(req);
   try {
     const { count, rows: ratings } = await findAllBookRatingsRequest(
       BookId,
       limit,
       offset,
+      sortRatingsBy,
+      sortRatingsUsersOrBooksBy,
+      sortOrder,
       searchRatingsQueries,
       searchRatingsUserQuery
     );

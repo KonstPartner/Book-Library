@@ -55,13 +55,23 @@ const getUserById = async (req: Request, res: Response) => {
 
 const getAllUserRatings = async (req: Request, res: Response) => {
   const UserId = req.params.id;
-  const { limit, offset, searchRatingsQueries, searchRatingsBookQuery } =
-    getRequestQueries(req);
+  const {
+    limit,
+    offset,
+    searchRatingsQueries,
+    sortRatingsBy,
+    sortRatingsUsersOrBooksBy,
+    sortOrder,
+    searchRatingsBookQuery,
+  } = getRequestQueries(req);
   try {
     const { count, rows: ratings } = await findAllUserRatingsRequest(
       UserId,
       limit,
       offset,
+      sortRatingsBy,
+      sortRatingsUsersOrBooksBy,
+      sortOrder,
       searchRatingsQueries,
       searchRatingsBookQuery
     );
