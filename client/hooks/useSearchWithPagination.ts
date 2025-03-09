@@ -12,6 +12,7 @@ import {
 } from '@/types/SearchFieldsType';
 import getSearchQueries from '@/utils/getSearchQueries';
 import createSearchFromParams from '@/utils/createSearchFromParams';
+import { SortOptionsType, SortOrderType } from '@/types/SortOptionsType';
 
 type FetchResponseType<T> = {
   data: T[];
@@ -24,11 +25,16 @@ const useSearchWithPagination = <
   R
 >(
   initialSearch: T,
-  inputFields: string[],
+  initialSort: SortOptionsType,
+  inputFields: Array<keyof T>,
   baseUrl: string,
   defaultData: FetchResponseType<R>
 ) => {
   const [search, setSearch] = useState<T>(initialSearch);
+  const [sortOptions, setSortOptions] = useState<SortOptionsType>({
+    sortBy: 'title',
+    sortOrder: 'ASC',
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<FetchResponseType<R>>(defaultData);
   const [isClosedInputs, setIsClosedInputs] = useState(false);
@@ -39,15 +45,17 @@ const useSearchWithPagination = <
   const pathname = usePathname();
 
   const fetchDataWithOffset = useCallback(
-    async (offset: number = 0, searchQuery: T = search) => {
+    async (
+      offset: number = 0,
+      searchQuery: T = search,
+      sortQuery: SortOptionsType = sortOptions
+    ) => {
       setIsLoading(true);
       try {
         const query = createSearchQueryString(
           searchQuery,
-          inputFields as (
-            | keyof SearchBookFieldsType
-            | keyof SearchRatingFieldsType
-          )[]
+          sortQuery,
+          inputFields
         );
         const url = `${baseUrl}?${query}&offset=${offset}`;
         const response = await fetchData(url);
@@ -60,20 +68,37 @@ const useSearchWithPagination = <
         setIsLoading(false);
       }
     },
-    [search, baseUrl, inputFields]
+    [search, baseUrl, inputFields, sortOptions]
   );
 
   const updateUrlAndFetch = useCallback(
-    (page: number, searchQuery: T) => {
+    (
+      page: number,
+      searchQuery: T,
+      sortQuery: SortOptionsType = sortOptions
+    ) => {
       const offset = (page - 1) * data.metadata.perPage;
       const { searchFields, searchExactFields } = getSearchQueries(searchQuery);
       updateSearchParams(
-        { ...searchFields, exact: searchExactFields, page: page.toString() },
+        {
+          ...searchFields,
+          exact: searchExactFields,
+          page: page.toString(),
+          ...(sortQuery.sortBy && { sortBy: sortQuery.sortBy }),
+          ...(sortQuery.sortOrder && { sortOrder: sortQuery.sortOrder }),
+        },
         { searchParams, router, pathname }
       );
-      fetchDataWithOffset(offset, searchQuery);
+      fetchDataWithOffset(offset, searchQuery, sortQuery);
     },
-    [fetchDataWithOffset, data.metadata.perPage, searchParams, router, pathname]
+    [
+      fetchDataWithOffset,
+      data.metadata.perPage,
+      searchParams,
+      router,
+      pathname,
+      sortOptions,
+    ]
   );
 
   useEffect(() => {
@@ -86,18 +111,27 @@ const useSearchWithPagination = <
     );
     setSearch(newSearch);
 
+    const sortBy = searchParams.get('sortBy') || initialSort.sortBy;
+    const sortOrder =
+      (searchParams.get('sortOrder') as SortOrderType) ||
+      sortBy === 'reviewScore'
+      ? 'DESC'
+      : initialSort.sortOrder
+    setSortOptions({ sortBy, sortOrder });
+
     const page = parseInt(searchParams.get('page') || '1', 10);
     const offset = (page - 1) * defaultData.metadata.perPage;
     setData((prev) => ({
       ...prev,
       metadata: { ...prev.metadata, currentPage: page },
     }));
-    fetchDataWithOffset(offset, newSearch);
+    fetchDataWithOffset(offset, newSearch, { sortBy, sortOrder });
 
     isFirstLoad.current = false;
   }, [
     searchParams,
     initialSearch,
+    initialSort,
     inputFields,
     defaultData.metadata.perPage,
     fetchDataWithOffset,
@@ -106,19 +140,21 @@ const useSearchWithPagination = <
   const handleSearch = useCallback(async () => {
     if (!validateSearch(search)) return;
     setIsClosedInputs(true);
-    updateUrlAndFetch(1, search);
-  }, [search, updateUrlAndFetch]);
+    updateUrlAndFetch(1, search, sortOptions);
+  }, [search, sortOptions, updateUrlAndFetch]);
 
   const handlePageChange = useCallback(
     (page: number) => {
-      updateUrlAndFetch(page, search);
+      updateUrlAndFetch(page, search, sortOptions);
     },
-    [search, updateUrlAndFetch]
+    [search, sortOptions, updateUrlAndFetch]
   );
 
   return {
     search,
     setSearch,
+    sortOptions,
+    setSortOptions,
     isLoading,
     data,
     isClosedInputs,

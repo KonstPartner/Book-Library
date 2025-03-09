@@ -7,6 +7,7 @@ import Spinner from '@/components/Spinner';
 import PaginationBar from '@/components/PaginationBar';
 import MetadataType from '@/types/MetadataType';
 import ExactMenu from './ExactMenu';
+import SortMenu from './SortMenu';
 import {
   SearchBookFieldsType,
   SearchRatingFieldsType,
@@ -14,6 +15,7 @@ import {
 } from '@/types/SearchFieldsType';
 import BookType from '@/types/BookType';
 import RatingType from '@/types/RatingType';
+import { SortOptionsType } from '@/types/SortOptionsType';
 
 interface SearchContainerProps<
   T extends Record<keyof T, SearchFieldType> &
@@ -22,11 +24,10 @@ interface SearchContainerProps<
   title: string;
   search: T;
   setSearch: (value: T) => void;
+  sortOptions: SortOptionsType;
+  setSortOptions: (options: SortOptionsType) => void;
   isLoading: boolean;
-  data: {
-    data: BookType[] | RatingType[];
-    metadata: MetadataType;
-  };
+  data: { data: BookType[] | RatingType[]; metadata: MetadataType };
   isClosedInputs: boolean;
   setIsClosedInputs: (value: boolean) => void;
   handleSearch: () => void;
@@ -35,6 +36,7 @@ interface SearchContainerProps<
   initialSearch: T;
   children: React.ReactNode;
   containerClassName?: string;
+  sortByOptions?: string[];
 }
 
 const SearchContainer = <
@@ -44,6 +46,8 @@ const SearchContainer = <
   title,
   search,
   setSearch,
+  sortOptions,
+  setSortOptions,
   isLoading,
   data,
   isClosedInputs,
@@ -54,6 +58,7 @@ const SearchContainer = <
   initialSearch,
   children,
   containerClassName = 'flex flex-col items-center text-center w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8',
+  sortByOptions = ['book', 'user', 'reviewScore'],
 }: SearchContainerProps<T>) => {
   return (
     <div className={`${containerClassName} py-6 sm:py-8 lg:py-10`}>
@@ -92,11 +97,18 @@ const SearchContainer = <
             search={search}
             setSearch={setSearch}
           />
-          <ExactMenu
-            search={search}
-            setSearch={setSearch}
-            inputFields={inputFields}
-          />
+          <div className="flex flex-col sm:flex-row items-center justify-around gap-4 md:gap-10">
+            <ExactMenu
+              search={search}
+              setSearch={setSearch}
+              inputFields={inputFields}
+            />
+            <SortMenu
+              sortOptions={sortOptions}
+              setSortOptions={setSortOptions}
+              sortByOptions={sortByOptions}
+            />
+          </div>
           <div className="flex flex-wrap justify-center gap-4">
             <Button
               onClick={() => setSearch(initialSearch)}

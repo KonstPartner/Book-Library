@@ -1,20 +1,28 @@
 'use client';
 
 import React from 'react';
-import BookType from '@/types/BookType';
-import BooksList from '@/components/books/BooksList';
-import { bookDataFields, booksInputFields } from '@/constants/searchFields';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
+import BooksList from './BooksList';
+import BookType from '@/types/BookType';
+import { bookDataFields, booksInputFields } from '@/constants/searchFields';
 import SearchContainer from '@/components/search/SearchContainer';
 import useSearchWithPagination from '@/hooks/useSearchWithPagination';
-import BooksIcons from '@/components/BooksIcons';
 import defaultFetchData from '@/constants/defaultFetchData';
 import { SearchBookFieldsType } from '@/types/SearchFieldsType';
+import BooksIcons from '../BooksIcons';
+import { defaultBooksOrder } from '@/constants/sortOrder';
 
 const SearchBooksList = () => {
+  const initialSearch = { ...bookDataFields };
+  const initialSort = { ...defaultBooksOrder };
+  const inputFields = booksInputFields as Array<keyof SearchBookFieldsType>;
+  const baseUrl = ALL_BOOKS_URL;
+
   const {
     search,
     setSearch,
+    sortOptions,
+    setSortOptions,
     isLoading,
     data,
     isClosedInputs,
@@ -22,31 +30,35 @@ const SearchBooksList = () => {
     handleSearch,
     handlePageChange,
   } = useSearchWithPagination<SearchBookFieldsType, BookType>(
-    bookDataFields,
-    booksInputFields,
-    ALL_BOOKS_URL,
+    initialSearch,
+    initialSort,
+    inputFields,
+    baseUrl,
     defaultFetchData
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950 backdrop-blur-md overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950 backdrop-blur-md overflow-hidden relative px-5">
       <BooksIcons />
 
       <SearchContainer
         title="Search Books"
         search={search}
         setSearch={setSearch}
+        sortOptions={sortOptions}
+        setSortOptions={setSortOptions}
         isLoading={isLoading}
         data={data}
         isClosedInputs={isClosedInputs}
         setIsClosedInputs={setIsClosedInputs}
         handleSearch={handleSearch}
         handlePageChange={handlePageChange}
-        inputFields={booksInputFields as (keyof SearchBookFieldsType)[]}
-        initialSearch={bookDataFields}
-        containerClassName="relative z-10 flex flex-col items-center text-center w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10"
+        inputFields={inputFields}
+        initialSearch={initialSearch}
+        containerClassName="flex flex-col text-center w-full sm:w-3/4 md:w-2/3 lg:w-2/3 mx-auto"
+        sortByOptions={['title', 'publishedDate']}
       >
-        <BooksList books={data.data} search={search} />
+        <BooksList books={data.data} />
       </SearchContainer>
     </div>
   );

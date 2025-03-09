@@ -6,6 +6,7 @@ import {
   SearchFieldType,
 } from '@/types/SearchFieldsType';
 import getPrettyField from '@/utils/getPrettyField';
+import Button from '../Button';
 
 interface ExactMenuProps<
   T extends Record<keyof T, SearchFieldType> &
@@ -37,11 +38,10 @@ const ExactMenu = <
   };
 
   return (
-    <div className="relative w-fit mx-auto">
-      <button
-        type="button"
+    <div className="relative w-fit">
+      <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-lg rounded-lg shadow-lg transition-all duration-300 z-50"
+        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm md:text-lg rounded-lg shadow-lg transition-all duration-300 z-50"
       >
         <span className="inline-block transition-transform duration-300 ease-in-out">
           <ChevronDown
@@ -51,12 +51,16 @@ const ExactMenu = <
           />
         </span>
         <span>Exact Fields</span>
-      </button>
+      </Button>
 
       <div
-        className={`absolute top-12 right-0 w-80 sm:w-96 bg-gradient-to-br from-blue-600 to-purple-600 border border-white/30 rounded-lg shadow-lg p-4 z-50 
+        className={`absolute top-12 -left-24 sm:left-0 w-80 sm:w-96 bg-gradient-to-br from-blue-600 to-purple-600 border border-white/30 rounded-lg shadow-lg p-4 z-50 
           transition-all duration-300 ease-in-out origin-top 
-          ${isOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'}`}
+          ${
+            isOpen
+              ? 'opacity-100 scale-y-100'
+              : 'opacity-0 scale-y-0 pointer-events-none'
+          }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative group mb-3">
@@ -88,10 +92,7 @@ const ExactMenu = <
       </div>
 
       {isOpen && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setIsOpen(false)}
-        />
+        <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
       )}
     </div>
   );

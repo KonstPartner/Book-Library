@@ -77,6 +77,10 @@ Rating.init(
         unique: false,
         fields: ['userId'],
       },
+      {
+        unique: false,
+        fields: ['reviewScore'],
+      },
     ],
   }
 );
