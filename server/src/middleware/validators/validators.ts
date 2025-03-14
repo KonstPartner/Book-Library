@@ -37,7 +37,7 @@ const validateGetAllRatings = [
 const validatePostBook = createBookRules;
 const validatePostRating = createRatingRules;
 const validatePostUser = createUserRules;
-const validatePostRegisterUser = [
+const validateAuthUser = [
   ...createUserRules,
   ...createRegisterUserRules,
 ];
@@ -62,5 +62,5 @@ export {
   validatePatchBook,
   validatePatchRating,
   validatePatchUser,
-  validatePostRegisterUser,
+  validateAuthUser,
 };

@@ -9,14 +9,14 @@ import {
   postUser,
 } from '../controllers/userController.ts';
 import {
+  validateAuthUser,
   validateGetAllRatings,
   validateIdString,
   validateLimitAndOffset,
   validatePatchUser,
-  validatePostRegisterUser,
   validatePostUser,
 } from '../middleware/validators/validators.ts';
-import { registerUser } from '../controllers/authController.ts';
+import { loginUser, registerUser } from '../controllers/authController.ts';
 
 const router = express.Router();
 
@@ -33,7 +33,9 @@ router.get(
 
 router.post('/', validatePostUser, validationErrorHandler, postUser);
 
-router.post('/register', validatePostRegisterUser, validationErrorHandler, registerUser);
+router.post('/register', validateAuthUser, validationErrorHandler, registerUser);
+
+router.post('/login', validateAuthUser, validationErrorHandler, loginUser);
 
 router.delete('/:id', validateIdString, validationErrorHandler, deleteUserById);
 

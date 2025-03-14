@@ -1,4 +1,11 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const PORT = process.env.PORT as string || 3000;
+const PORT = process.env.PORT || 3000;
+
+const authConfig = {
+  jwtSecret: process.env.JWT_SECRET || 'please-set-a-secret-in-env',
+  jwtExpiresIn: '1h',
+};
+
+export { PORT, authConfig };

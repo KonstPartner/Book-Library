@@ -3,9 +3,9 @@ import {
   handleSuccessResponse,
   handleErrorResponse,
 } from '../utils/handleResponse.ts';
-import { createRegisteredUserRequest } from '../services/authServices.ts';
+import { createRegisteredUserRequest, loginUserRequest } from '../services/authServices.ts';
 
-export const registerUser = async (req: Request, res: Response) => {
+const registerUser = async (req: Request, res: Response) => {
   try {
     const { name, password } = req.body;
 
@@ -23,3 +23,24 @@ export const registerUser = async (req: Request, res: Response) => {
     });
   }
 };
+
+const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { name, password } = req.body;
+
+    if (!name || !password) {
+      throw { code: 400, message: 'Name and password are required.' };
+    }
+
+    const { token, user } = await loginUserRequest(name, password);
+    handleSuccessResponse(res, { token, user });
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to login.',
+    });
+  }
+};
+
+export { registerUser, loginUser };
