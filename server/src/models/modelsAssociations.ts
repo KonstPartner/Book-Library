@@ -2,6 +2,7 @@ import Category from './Category.ts';
 import Book from './Book.ts';
 import Rating from './Rating.ts';
 import User from './User.ts';
+import RegisteredUser from './RegisteredUser.ts';
 
 Category.hasMany(Book, {
   foreignKey: 'categoryId',
@@ -30,6 +31,16 @@ User.hasMany(Rating, {
 
 Rating.belongsTo(User, {
   foreignKey: 'userId',
+  as: 'user',
+});
+
+User.hasMany(RegisteredUser, {
+  foreignKey: 'users_id',
+  as: 'registeredUsers',
+});
+
+RegisteredUser.belongsTo(User, {
+  foreignKey: 'users_id',
   as: 'user',
 });
 

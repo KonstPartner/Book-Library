@@ -30,4 +30,10 @@ interface UserAttributes {
   name: string;
 }
 
-export { BookAttributes, CategoryAttributes, RatingAttributes, UserAttributes };
+interface RegisteredUserAttributes {
+  id: string;
+  users_id: string;
+  password: string;
+}
+
+export { BookAttributes, CategoryAttributes, RatingAttributes, UserAttributes, RegisteredUserAttributes };
