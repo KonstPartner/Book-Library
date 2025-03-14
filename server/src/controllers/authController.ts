@@ -3,7 +3,11 @@ import {
   handleSuccessResponse,
   handleErrorResponse,
 } from '../utils/handleResponse.ts';
-import { createRegisteredUserRequest, loginUserRequest } from '../services/authServices.ts';
+import {
+  createRegisteredUserRequest,
+  loginUserRequest,
+  refreshTokenRequest,
+} from '../services/authServices.ts';
 
 const registerUser = async (req: Request, res: Response) => {
   try {
@@ -32,8 +36,11 @@ const loginUser = async (req: Request, res: Response) => {
       throw { code: 400, message: 'Name and password are required.' };
     }
 
-    const { token, user } = await loginUserRequest(name, password);
-    handleSuccessResponse(res, { token, user });
+    const { accessToken, refreshToken, user } = await loginUserRequest(
+      name,
+      password
+    );
+    handleSuccessResponse(res, { accessToken, refreshToken, user });
   } catch (error) {
     handleErrorResponse({
       res,
@@ -43,4 +50,22 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export { registerUser, loginUser };
+const refreshToken = async (req: Request, res: Response) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      throw { code: 400, message: 'Refresh token is required.' };
+    }
+
+    const tokens = await refreshTokenRequest(refreshToken);
+    handleSuccessResponse(res, tokens);
+  } catch (error) {
+    handleErrorResponse({
+      res,
+      error,
+      message: 'Failed to refresh token.',
+    });
+  }
+};
+
+export { registerUser, loginUser, refreshToken };

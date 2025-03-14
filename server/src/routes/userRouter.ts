@@ -15,8 +15,9 @@ import {
   validateLimitAndOffset,
   validatePatchUser,
   validatePostUser,
+  validateRefreshToken,
 } from '../middleware/validators/validators.ts';
-import { loginUser, registerUser } from '../controllers/authController.ts';
+import { loginUser, refreshToken, registerUser } from '../controllers/authController.ts';
 
 const router = express.Router();
 
@@ -36,6 +37,8 @@ router.post('/', validatePostUser, validationErrorHandler, postUser);
 router.post('/register', validateAuthUser, validationErrorHandler, registerUser);
 
 router.post('/login', validateAuthUser, validationErrorHandler, loginUser);
+
+router.post('/refresh', validateRefreshToken, validationErrorHandler, refreshToken);
 
 router.delete('/:id', validateIdString, validationErrorHandler, deleteUserById);
 

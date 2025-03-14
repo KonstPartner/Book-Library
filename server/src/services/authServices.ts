@@ -48,13 +48,38 @@ const loginUserRequest = async (name: string, password: string) => {
     throw authError;
   }
 
-  const token = jwt.sign(
+  const accessToken = jwt.sign(
     { id: user.id, name: user.name },
     authConfig.jwtSecret,
-    { expiresIn: authConfig.jwtExpiresIn }
+    {
+      expiresIn: authConfig.jwtExpiresIn,
+    }
   );
+  const refreshToken = jwt.sign({ id: user.id }, authConfig.jwtSecret, {
+    expiresIn: authConfig.refreshExpiresIn,
+  });
 
-  return { token, user: { id: user.id, name: user.name } };
+  return { accessToken, refreshToken, user: { id: user.id, name: user.name } };
 };
 
-export { createRegisteredUserRequest, loginUserRequest };
+const refreshTokenRequest = async (refreshToken: string) => {
+  try {
+    const decoded = jwt.verify(refreshToken, authConfig.jwtSecret) as {
+      id: string;
+    };
+
+    const newAccessToken = jwt.sign({ id: decoded.id }, authConfig.jwtSecret, {
+      expiresIn: authConfig.jwtExpiresIn,
+    });
+
+    const newRefreshToken = jwt.sign({ id: decoded.id }, authConfig.jwtSecret, {
+      expiresIn: authConfig.refreshExpiresIn,
+    });
+
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+  } catch (error) {
+    throw { code: 401, message: 'Invalid or expired refresh token.' };
+  }
+};
+
+export { createRegisteredUserRequest, loginUserRequest, refreshTokenRequest };

@@ -14,6 +14,7 @@ import {
   postCategoryRule,
   ratingIdRule,
   ratingsSearchQueriesRules,
+  refreshTokenRule,
 } from './validationRules.ts';
 
 const validateLimit = limitRule;
@@ -22,6 +23,7 @@ const validateLimitAndOffset = [...limitRule, ...offsetRule];
 const validateIdInt = idIntRule;
 const validateIdString = idStringRule;
 const validateIdIntAndRatingId = [...idIntRule, ...ratingIdRule];
+const validateRefreshToken = refreshTokenRule;
 
 const validateGetAllBooks = [
   ...limitRule,
@@ -63,4 +65,5 @@ export {
   validatePatchRating,
   validatePatchUser,
   validateAuthUser,
+  validateRefreshToken,
 };

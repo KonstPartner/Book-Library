@@ -206,6 +206,15 @@ const createRegisterUserRules = [
   ),
 ];
 
+const refreshTokenRule = [
+  createStringValidation(
+    'refreshToken',
+    1,
+    1000,
+    'Refresh token is required'
+  ),
+];
+
 const postCategoryRule = [
   createStringValidation(
     'name',
@@ -235,4 +244,5 @@ export {
   patchRatingRules,
   patchUserRules,
   createRegisterUserRules,
+  refreshTokenRule,
 };
