@@ -1,8 +1,9 @@
 import { WhereOptions } from 'sequelize';
+import { ulid } from 'ulid';
 import sequelize from '../config/database.ts';
 import User from '../models/User.ts';
 import { UserAttributes } from '../models/modelsInterfaces.ts';
-import { ulid } from 'ulid';
+import { existingUser } from './servicesUtils.ts';
 
 const findAllUsersRequest = async (
   limit: number,
@@ -30,16 +31,6 @@ const findByPkUserRequest = async (UserId: string) =>
       ],
     },
   });
-
-const existingUser = async (name: string) => {
-  const existingUser = await User.findOne({ where: { name } });
-  if (existingUser) {
-    throw {
-      code: 400,
-      message: 'User already exists.',
-    };
-  }
-};
 
 const createUserRequest = async (data: UserAttributes) => {
   await existingUser(data.name);

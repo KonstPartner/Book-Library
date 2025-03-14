@@ -2,6 +2,7 @@ import {
   booksSearchQueriesRules,
   createBookRules,
   createRatingRules,
+  createRegisterUserRules,
   createUserRules,
   idIntRule,
   idStringRule,
@@ -36,6 +37,10 @@ const validateGetAllRatings = [
 const validatePostBook = createBookRules;
 const validatePostRating = createRatingRules;
 const validatePostUser = createUserRules;
+const validatePostRegisterUser = [
+  ...createUserRules,
+  ...createRegisterUserRules,
+];
 const validatePostCategory = postCategoryRule;
 
 const validatePatchBook = [...patchBookRules, ...idIntRule];
@@ -57,4 +62,5 @@ export {
   validatePatchBook,
   validatePatchRating,
   validatePatchUser,
+  validatePostRegisterUser,
 };

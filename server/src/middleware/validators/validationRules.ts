@@ -117,11 +117,36 @@ const createBookRules = [
     'Title is required and must be between 2 and 100 characters long.'
   ),
   createStringValidation('description', 2, 500, 'Description is required.'),
-  createStringValidation('author', 2, 100, 'Author is required and must be between 2 and 100 characters long.'),
-  createStringValidation('image', 2, 255, 'Image is required and must be between 2 and 255 characters long.'),
-  createStringValidation('publisher', 2, 100, 'Publisher is required and must be between 2 and 100 characters long.'),
-  createStringValidation('publishedDate', 2, 50, 'PublishedDate is required and must be between 2 and 50 characters long.'),
-  createStringValidation('infoLink', 2, 255, 'InfoLink is required and must be between 2 and 255 characters long.'),
+  createStringValidation(
+    'author',
+    2,
+    100,
+    'Author is required and must be between 2 and 100 characters long.'
+  ),
+  createStringValidation(
+    'image',
+    2,
+    255,
+    'Image is required and must be between 2 and 255 characters long.'
+  ),
+  createStringValidation(
+    'publisher',
+    2,
+    100,
+    'Publisher is required and must be between 2 and 100 characters long.'
+  ),
+  createStringValidation(
+    'publishedDate',
+    2,
+    50,
+    'PublishedDate is required and must be between 2 and 50 characters long.'
+  ),
+  createStringValidation(
+    'infoLink',
+    2,
+    255,
+    'InfoLink is required and must be between 2 and 255 characters long.'
+  ),
   createStringValidation(
     'category',
     1,
@@ -144,9 +169,24 @@ const createRatingRules = [
     255,
     'reviewHelpfulness is required.'
   ),
-  createStringValidation('reviewScore', 1, 3, 'reviewScore is required and must be between 1 and 3 characters long.'),
-  createStringValidation('reviewSummary', 1, 255, 'reviewSummary is required and must be between 1 and 255 characters long.'),
-  createStringValidation('reviewText', 1, 500, 'reviewText is required and must be between 1 and 500 characters long.'),
+  createStringValidation(
+    'reviewScore',
+    1,
+    3,
+    'reviewScore is required and must be between 1 and 3 characters long.'
+  ),
+  createStringValidation(
+    'reviewSummary',
+    1,
+    255,
+    'reviewSummary is required and must be between 1 and 255 characters long.'
+  ),
+  createStringValidation(
+    'reviewText',
+    1,
+    500,
+    'reviewText is required and must be between 1 and 500 characters long.'
+  ),
 ];
 
 const createUserRules = [
@@ -155,6 +195,15 @@ const createUserRules = [
     .withMessage(
       'Name can only contain letters, spaces, _, @, -, and cannot have multiple special characters in a row.'
     ),
+];
+
+const createRegisterUserRules = [
+  createStringValidation(
+    'password',
+    6,
+    50,
+    'Password is required and must be between 6 and 50 characters long'
+  ),
 ];
 
 const postCategoryRule = [
@@ -185,4 +234,5 @@ export {
   patchBookRules,
   patchRatingRules,
   patchUserRules,
+  createRegisterUserRules,
 };

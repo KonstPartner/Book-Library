@@ -37,6 +37,7 @@ Rating.belongsTo(User, {
 User.hasMany(RegisteredUser, {
   foreignKey: 'users_id',
   as: 'registeredUsers',
+  onDelete: 'CASCADE',
 });
 
 RegisteredUser.belongsTo(User, {

@@ -13,8 +13,10 @@ import {
   validateIdString,
   validateLimitAndOffset,
   validatePatchUser,
+  validatePostRegisterUser,
   validatePostUser,
 } from '../middleware/validators/validators.ts';
+import { registerUser } from '../controllers/authController.ts';
 
 const router = express.Router();
 
@@ -30,6 +32,8 @@ router.get(
 );
 
 router.post('/', validatePostUser, validationErrorHandler, postUser);
+
+router.post('/register', validatePostRegisterUser, validationErrorHandler, registerUser);
 
 router.delete('/:id', validateIdString, validationErrorHandler, deleteUserById);
 
