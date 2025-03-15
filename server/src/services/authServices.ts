@@ -5,6 +5,7 @@ import User from '../models/User.ts';
 import { existingUser } from './servicesUtils.ts';
 import RegisteredUser from '../models/RegisteredUser.ts';
 import { authConfig } from '../config/config.ts';
+import generateJWT from '../utils/generateJWT.ts';
 
 const authError = { code: 401, message: 'Invalid name or password.' };
 
@@ -18,13 +19,15 @@ const createRegisteredUserRequest = async (name: string, password: string) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const registeredUser = await RegisteredUser.create({
+  await RegisteredUser.create({
     id: ulid(),
     users_id: newUser.id,
     password: hashedPassword,
   });
 
-  return { user: newUser, registeredUser };
+  const { accessToken, refreshToken } = generateJWT(newUser);
+
+  return { user: newUser, accessToken, refreshToken };
 };
 
 const loginUserRequest = async (name: string, password: string) => {
@@ -48,16 +51,7 @@ const loginUserRequest = async (name: string, password: string) => {
     throw authError;
   }
 
-  const accessToken = jwt.sign(
-    { id: user.id, name: user.name },
-    authConfig.jwtSecret,
-    {
-      expiresIn: authConfig.jwtExpiresIn,
-    }
-  );
-  const refreshToken = jwt.sign({ id: user.id }, authConfig.jwtSecret, {
-    expiresIn: authConfig.refreshExpiresIn,
-  });
+  const { accessToken, refreshToken } = generateJWT(user);
 
   return { accessToken, refreshToken, user: { id: user.id, name: user.name } };
 };

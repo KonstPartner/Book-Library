@@ -12,13 +12,17 @@ import {
 const registerUser = async (req: Request, res: Response) => {
   try {
     const { name, password } = req.body;
-
-    if (!password) {
-      throw { code: 400, message: 'Password is required.' };
+    if (!name || !password) {
+      throw { code: 400, message: 'Name and password are required.' };
     }
 
-    const { user } = await createRegisteredUserRequest(name, password);
-    handleSuccessResponse(res, { id: user.id, name: user.name });
+    const { user, accessToken, refreshToken } =
+      await createRegisteredUserRequest(name, password);
+    handleSuccessResponse(res, {
+      user: { id: user.id, name: user.name },
+      accessToken,
+      refreshToken,
+    });
   } catch (error) {
     handleErrorResponse({
       res,
@@ -68,4 +72,10 @@ const refreshToken = async (req: Request, res: Response) => {
   }
 };
 
-export { registerUser, loginUser, refreshToken };
+const getProfile = (req: Request, res: Response) => {
+  const user = (req as any).user;
+
+  handleSuccessResponse(res, { id: user.id, name: user.name });
+};
+
+export { registerUser, loginUser, refreshToken, getProfile };

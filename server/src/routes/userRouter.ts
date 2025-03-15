@@ -17,11 +17,19 @@ import {
   validatePostUser,
   validateRefreshToken,
 } from '../middleware/validators/validators.ts';
-import { loginUser, refreshToken, registerUser } from '../controllers/authController.ts';
+import {
+  getProfile,
+  loginUser,
+  refreshToken,
+  registerUser,
+} from '../controllers/authController.ts';
+import authMiddleware from '../middleware/authMiddleware.ts';
 
 const router = express.Router();
 
 router.get('/', validateLimitAndOffset, validationErrorHandler, getAllUsers);
+
+router.get('/profile', authMiddleware, getProfile);
 
 router.get('/:id', validateIdString, validationErrorHandler, getUserById);
 
@@ -34,11 +42,21 @@ router.get(
 
 router.post('/', validatePostUser, validationErrorHandler, postUser);
 
-router.post('/register', validateAuthUser, validationErrorHandler, registerUser);
+router.post(
+  '/register',
+  validateAuthUser,
+  validationErrorHandler,
+  registerUser
+);
 
 router.post('/login', validateAuthUser, validationErrorHandler, loginUser);
 
-router.post('/refresh', validateRefreshToken, validationErrorHandler, refreshToken);
+router.post(
+  '/refresh',
+  validateRefreshToken,
+  validationErrorHandler,
+  refreshToken
+);
 
 router.delete('/:id', validateIdString, validationErrorHandler, deleteUserById);
 
