@@ -59,7 +59,7 @@ const getRatingById = async (req: Request, res: Response) => {
 
 const postRating = async (req: Request, res: Response) => {
   try {
-    const newRating: Rating = (await createRatingRequest(req.body)) as Rating;
+    const newRating: Rating = (await createRatingRequest(req, req.body)) as Rating;
     handleSuccessResponse(res, transformRating(newRating));
   } catch (error) {
     handleErrorResponse({
@@ -72,7 +72,7 @@ const postRating = async (req: Request, res: Response) => {
 
 const deleteRatingById = async (req: Request, res: Response) => {
   try {
-    await destroyRatingRequest(req.params.id);
+    await destroyRatingRequest(req, req.params.id);
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({
@@ -85,7 +85,7 @@ const deleteRatingById = async (req: Request, res: Response) => {
 
 const patchRatingById = async (req: Request, res: Response) => {
   try {
-    const rating = await updateRatingRequest({
+    const rating = await updateRatingRequest(req, {
       id: req.params.id,
       ...req.body,
     });

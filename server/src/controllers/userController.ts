@@ -114,7 +114,7 @@ const postUser = async (req: Request, res: Response) => {
 
 const deleteUserById = async (req: Request, res: Response) => {
   try {
-    await destroyUserRequest(req.params.id);
+    await destroyUserRequest(req, req.params.id);
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({
@@ -127,7 +127,7 @@ const deleteUserById = async (req: Request, res: Response) => {
 
 const patchUserById = async (req: Request, res: Response) => {
   try {
-    const user = await updateUserRequest({
+    const user = await updateUserRequest(req, {
       id: req.params.id,
       ...req.body,
     });

@@ -71,7 +71,7 @@ const refreshTokenRequest = async (refreshToken: string) => {
     });
 
     return { accessToken: newAccessToken, refreshToken: newRefreshToken };
-  } catch (error) {
+  } catch {
     throw { code: 401, message: 'Invalid or expired refresh token.' };
   }
 };

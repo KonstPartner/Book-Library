@@ -40,7 +40,13 @@ router.get(
   getAllUserRatings
 );
 
-router.post('/', validatePostUser, validationErrorHandler, postUser);
+router.post(
+  '/',
+  authMiddleware,
+  validatePostUser,
+  validationErrorHandler,
+  postUser
+);
 
 router.post(
   '/register',
@@ -58,8 +64,20 @@ router.post(
   refreshToken
 );
 
-router.delete('/:id', validateIdString, validationErrorHandler, deleteUserById);
+router.delete(
+  '/:id',
+  authMiddleware,
+  validateIdString,
+  validationErrorHandler,
+  deleteUserById
+);
 
-router.patch('/:id', validatePatchUser, validationErrorHandler, patchUserById);
+router.patch(
+  '/:id',
+  authMiddleware,
+  validatePatchUser,
+  validationErrorHandler,
+  patchUserById
+);
 
 export default router;

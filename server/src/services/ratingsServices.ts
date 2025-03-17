@@ -11,6 +11,7 @@ import { findByPkUserRequest } from './usersServices.ts';
 import User from '../models/User.ts';
 import Book from '../models/Book.ts';
 import { WhereOptions } from 'sequelize';
+import { Request } from 'express';
 
 const findAllRatingsRequest = async (
   limit: number,
@@ -42,20 +43,10 @@ const findByPkRatingRequest = async (RatingId: string) =>
   });
 
 const createRatingRequest = async (
-  data: RatingAttributes & { user?: string }
+  req: Request,
+  data: Omit<RatingAttributes, 'userId'> & { category?: string }
 ) => {
-  let userId = data.userId;
-
-  if (data.user) {
-    const user = await User.findOne({ where: { name: data.user } });
-    if (!user) {
-      throw {
-        code: 400,
-        message: `User with name "${data.user}" not found.`,
-      };
-    }
-    userId = user.id;
-  }
+  const userId = (req as any).user.id;
 
   const existinRating = await Rating.findOne({
     where: { bookId: data.bookId, userId },
@@ -63,7 +54,7 @@ const createRatingRequest = async (
   if (existinRating) {
     throw {
       code: 400,
-      message: 'User already has rating for this book.',
+      message: 'You already have a rating for this book.',
     };
   }
 
@@ -71,8 +62,8 @@ const createRatingRequest = async (
   try {
     const book = await findByPkBookRequest(String(data.bookId));
     const user = await findByPkUserRequest(String(userId));
-    if (!book) throw new Error('Cannot find book');
-    if (!user) throw new Error('Cannot find user');
+    if (!book) throw { code: 404, message: 'Cannot find book' };
+    if (!user) throw { code: 404, message: 'Cannot find user' };
 
     const newRating = await Rating.create(
       {
@@ -163,15 +154,23 @@ const findAllUserRatingsRequest = async (
     ],
   });
 
-const destroyRatingRequest = async (RatingId: string) => {
-  const rating = await Rating.findByPk(RatingId);
+const destroyRatingRequest = async (req: Request, ratingId: string) => {
+  const rating = await Rating.findByPk(ratingId);
   if (!rating) {
-    throw { code: 404, message: `Error: No such rating with id ${RatingId}` };
+    throw { code: 404, message: `Error: No such rating with id ${ratingId}` };
   }
-  return await Rating.destroy({ where: { id: RatingId } });
+
+  if (rating.userId !== (req as any).user.id) {
+    throw { code: 403, message: 'You can only delete your own ratings.' };
+  }
+
+  return await Rating.destroy({ where: { id: ratingId } });
 };
 
-const updateRatingRequest = async (data: Partial<RatingAttributes>) => {
+const updateRatingRequest = async (
+  req: Request,
+  data: Partial<RatingAttributes>
+) => {
   const { id, ...updates } = data;
 
   const rating = await Rating.findByPk(id);
@@ -179,9 +178,13 @@ const updateRatingRequest = async (data: Partial<RatingAttributes>) => {
     throw { code: 404, message: `Error: No such rating with id ${id}` };
   }
 
-  Object.assign(rating, updates);
+  if (rating.userId !== (req as any).user.id) {
+    throw { code: 403, message: 'You can only update your own ratings.' };
+  }
 
+  Object.assign(rating, updates);
   await rating.save();
+
   return rating;
 };
 

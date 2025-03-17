@@ -36,7 +36,7 @@ const validateGetAllRatings = [
   ...ratingsSearchQueriesRules,
 ];
 
-const validatePostBook = [...createBookRules, ...idStringRule];
+const validatePostBook = createBookRules;
 const validatePostRating = createRatingRules;
 const validatePostUser = createUserRules;
 const validateAuthUser = [...createUserRules, ...createRegisterUserRules];

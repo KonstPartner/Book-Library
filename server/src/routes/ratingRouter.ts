@@ -13,6 +13,7 @@ import {
   validatePatchRating,
   validatePostRating,
 } from '../middleware/validators/validators.ts';
+import authMiddleware from '../middleware/authMiddleware.ts';
 
 const router = express.Router();
 
@@ -20,15 +21,28 @@ router.get('/', validateGetAllRatings, validationErrorHandler, getAllRatings);
 
 router.get('/:id', validateIdString, validationErrorHandler, getRatingById);
 
-router.post('/', validatePostRating, validationErrorHandler, postRating);
+router.post(
+  '/',
+  authMiddleware,
+  validatePostRating,
+  validationErrorHandler,
+  postRating
+);
 
 router.delete(
   '/:id',
+  authMiddleware,
   validateIdString,
   validationErrorHandler,
   deleteRatingById
 );
 
-router.patch('/:id', validatePatchRating, validationErrorHandler, patchRatingById);
+router.patch(
+  '/:id',
+  authMiddleware,
+  validatePatchRating,
+  validationErrorHandler,
+  patchRatingById
+);
 
 export default router;

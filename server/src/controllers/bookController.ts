@@ -146,7 +146,7 @@ const getRandomBooks = async (req: Request, res: Response) => {
 
 const postBook = async (req: Request, res: Response) => {
   try {
-    const newBook: Book = (await createBookRequest(req.body)) as Book;
+    const newBook: Book = (await createBookRequest(req, req.body)) as Book;
     handleSuccessResponse(res, transformBook(newBook));
   } catch (error) {
     handleErrorResponse({ res, error, message: 'Failed to create book.' });
@@ -155,7 +155,7 @@ const postBook = async (req: Request, res: Response) => {
 
 const deleteBookById = async (req: Request, res: Response) => {
   try {
-    await destroyBookRequest(req.params.id);
+    await destroyBookRequest(req, req.params.id);
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({
@@ -168,7 +168,7 @@ const deleteBookById = async (req: Request, res: Response) => {
 
 const patchBookById = async (req: Request, res: Response) => {
   try {
-    const book = await updateBookRequest({ id: req.params.id, ...req.body });
+    const book = await updateBookRequest(req, { id: req.params.id, ...req.body });
     handleSuccessResponse(res, book);
   } catch (error) {
     handleErrorResponse({

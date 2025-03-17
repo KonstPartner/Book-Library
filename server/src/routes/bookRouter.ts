@@ -17,6 +17,7 @@ import {
   validatePatchBook,
   validatePostBook,
 } from '../middleware/validators/validators.ts';
+import authMiddleware from '../middleware/authMiddleware.ts';
 
 const router = express.Router();
 
@@ -33,10 +34,28 @@ router.get(
   getAllBookRatings
 );
 
-router.post('/', validatePostBook, validationErrorHandler, postBook);
+router.post(
+  '/',
+  authMiddleware,
+  validatePostBook,
+  validationErrorHandler,
+  postBook
+);
 
-router.delete('/:id', validateIdInt, validationErrorHandler, deleteBookById);
+router.delete(
+  '/:id',
+  authMiddleware,
+  validateIdInt,
+  validationErrorHandler,
+  deleteBookById
+);
 
-router.patch('/:id', validatePatchBook, validationErrorHandler, patchBookById);
+router.patch(
+  '/:id',
+  authMiddleware,
+  validatePatchBook,
+  validationErrorHandler,
+  patchBookById
+);
 
 export default router;
