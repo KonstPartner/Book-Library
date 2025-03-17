@@ -8,6 +8,7 @@ interface BookAttributes {
   publishedDate: string | null;
   infoLink: string | null;
   categoryId: number | null;
+  userId: string | null;
 }
 
 interface CategoryAttributes {

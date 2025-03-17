@@ -17,6 +17,7 @@ class Book
   public publishedDate!: string | null;
   public infoLink!: string | null;
   public categoryId!: number | null;
+  public userId!: string | null;
 }
 
 Book.init(
@@ -62,6 +63,11 @@ Book.init(
       },
       onDelete: 'SET NULL',
       onUpdate: 'CASCADE',
+    },
+    userId: {
+      type: DataTypes.STRING(26),
+      allowNull: true,
+      references: { model: 'users', key: 'id' },
     },
   },
   {

@@ -101,6 +101,7 @@ const createBookRequest = async (
         publishedDate: data.publishedDate || null,
         infoLink: data.infoLink || null,
         categoryId: categoryRecord ? categoryRecord.id : null,
+        userId: data.userId,
       },
       { transaction }
     );

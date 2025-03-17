@@ -36,13 +36,10 @@ const validateGetAllRatings = [
   ...ratingsSearchQueriesRules,
 ];
 
-const validatePostBook = createBookRules;
+const validatePostBook = [...createBookRules, ...idStringRule];
 const validatePostRating = createRatingRules;
 const validatePostUser = createUserRules;
-const validateAuthUser = [
-  ...createUserRules,
-  ...createRegisterUserRules,
-];
+const validateAuthUser = [...createUserRules, ...createRegisterUserRules];
 const validatePostCategory = postCategoryRule;
 
 const validatePatchBook = [...patchBookRules, ...idIntRule];
