@@ -7,4 +7,12 @@ export type AuthStateType = {
   isAuthenticated: boolean;
   user: { id: string; name: string } | null;
   accessToken: string | null;
+  refreshToken: string | null;
+  loading: boolean;
 };
+
+export type AuthPayloadType = {
+  user: { id: string; name: string } | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+}

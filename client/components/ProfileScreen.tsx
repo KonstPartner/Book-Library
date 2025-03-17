@@ -1,14 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import AuthModal from '@/components/auth/AuthModal';
-import { selectAuth } from '@/redux/slices/authSlice';
 import Button from '@/components/Button';
+import useAuth from '@/hooks/useAuth';
 
 const ProfileScreen = () => {
-  const { isAuthenticated } = useSelector(selectAuth);
-  const [isModalOpen, setIsModalOpen] = useState(!isAuthenticated);
+  const { isAuthenticated, loading } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setIsModalOpen(!isAuthenticated && !loading);
+  }, [isAuthenticated, loading]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950">
+        <p className="text-white text-lg">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950">

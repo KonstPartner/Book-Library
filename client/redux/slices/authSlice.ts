@@ -1,11 +1,76 @@
-import { AuthStateType, RootStateType } from '@/types/ReduxTypes';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import fetchData from '@/utils/fetchData';
+import { REFRESH_ACCESS_TOKEN_URL } from '@/constants/apiSources';
+import {
+  AuthPayloadType,
+  AuthStateType,
+  RootStateType,
+} from '@/types/ReduxTypes';
+import fetchProfile from '@/utils/fetchProfile';
 
 const initialState: AuthStateType = {
   isAuthenticated: false,
   user: null,
   accessToken: null,
+  refreshToken: null,
+  loading: false,
 };
+
+const refreshTokens = async (refreshTokenParam: string) => {
+  const response = await fetchData(REFRESH_ACCESS_TOKEN_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ refreshTokenParam }),
+  });
+
+  if (response.data) {
+    const { accessToken, refreshToken } = response.data;
+
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+
+    return { accessToken, refreshToken };
+  }
+  return null;
+};
+
+const initializeAuth = createAsyncThunk<
+  AuthPayloadType,
+  void,
+  { rejectValue: string }
+>('auth/initializeAuth', async (_, { rejectWithValue }) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+
+  if (!accessToken || !refreshToken) {
+    return { user: null, accessToken: null, refreshToken: null };
+  }
+
+  try {
+    const profile = await fetchProfile(accessToken, refreshToken);
+    if (profile) return profile;
+
+    const refreshed = await refreshTokens(refreshToken);
+    if (!refreshed) throw new Error('Token refresh failed');
+
+    const newProfile = await fetchProfile(
+      refreshed.accessToken,
+      refreshed.refreshToken
+    );
+
+    if (newProfile) return newProfile;
+
+    throw new Error('Profile fetch failed after refresh');
+  } catch (error) {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    return rejectWithValue(
+      error instanceof Error ? error.message : 'Unknown error'
+    );
+  }
+});
 
 const authSlice = createSlice({
   name: 'auth',
@@ -15,19 +80,37 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
       state.accessToken = null;
+      state.refreshToken = null;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(initializeAuth.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(initializeAuth.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = !!action.payload.user;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+      })
+      .addCase(initializeAuth.rejected, () => initialState);
+  },
 });
 
-export default authSlice.reducer;
+export { initializeAuth };
 
 export const { setAuth, logout } = authSlice.actions;
 
 export const selectAuth = (state: RootStateType) => state.auth;
+
+export default authSlice.reducer;
