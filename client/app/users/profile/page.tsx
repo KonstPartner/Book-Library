@@ -1,10 +1,13 @@
-import StoreProvider from '@/components/StoreProvider';
+'use client';
+
 import React from 'react';
+import StoreProvider from '@/components/StoreProvider';
+import ProfileScreen from '@/components/ProfileScreen';
 
 const ProfilePage = () => {
   return (
     <StoreProvider>
-      <div>Profile</div>
+      <ProfileScreen />
     </StoreProvider>
   );
 };

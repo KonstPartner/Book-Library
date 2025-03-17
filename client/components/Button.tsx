@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { FormEvent, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 const Button = ({
@@ -9,7 +9,7 @@ const Button = ({
   noLoadingText,
 }: {
   children: ReactNode;
-  onClick: () => void;
+  onClick: (() => void) | ((e: FormEvent) => void);
   disabled?: boolean;
   className?: string;
   noLoadingText?: boolean;
