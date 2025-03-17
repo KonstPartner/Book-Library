@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: '/', label: 'Main' },
   { href: '/books', label: 'Books' },
   { href: '/books/create', label: 'Create' },
+  { href: '/users/profile', label: 'Profile' },
 ];
 
 const Navbar = () => {

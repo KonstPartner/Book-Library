@@ -30,8 +30,8 @@ const CreateRating = ({ id }: { id: number }) => {
   const handleClick = async () => {
     setIsLoading(true);
 
-    if (!formData.user?.trim() || !formData.reviewScore?.trim()) {
-      toast.warn('User and rating are required!');
+    if (!formData.reviewScore?.trim()) {
+      toast.warn('Rating is required!');
       setIsLoading(false);
       return;
     }

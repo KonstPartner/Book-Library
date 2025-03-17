@@ -13,7 +13,6 @@ const bookInputFields = [
 ] as const;
 
 const ratingInputFields = [
-  'user',
   'reviewScore',
   'reviewSummary',
   'reviewText',
@@ -31,7 +30,6 @@ const bookDataFields: Partial<BookType> = {
 }
 
 const ratingDataFields: Partial<RatingType> = {
-  user: '',
   reviewScore: '',
   reviewSummary: '',
   reviewText: '',

@@ -158,12 +158,6 @@ const createBookRules = [
 const createRatingRules = [
   createIntParamValidation('bookId', 1),
   createStringValidation(
-    'userId',
-    2,
-    50,
-    'userId is required and cannot be empty.'
-  ),
-  createStringValidation(
     'reviewHelpfulness',
     1,
     255,
