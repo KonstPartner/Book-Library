@@ -13,6 +13,7 @@ const getBookValues = (book: BookType) => {
     publisher: book.publisher || '-',
     category: book.category || '',
     ratingsCount: book.ratingsCount,
+    userId: book.userId,
   };
 };
 

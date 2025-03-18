@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
 import validateData from '@/utils/validateData';
 
-const SignUpForm = () => {
+const SignUpForm = ({ setIsOpen }: { setIsOpen: (bool: boolean) => void }) => {
   const [formData, setFormData] = useState({
     name: '',
     password: '',
@@ -25,7 +25,7 @@ const SignUpForm = () => {
     try {
       validateData(formData);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : String(error))
+      toast.error(error instanceof Error ? error.message : String(error));
       return;
     }
 
@@ -52,6 +52,7 @@ const SignUpForm = () => {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         toast.success('Registration successful');
+        setIsOpen(false);
       }
     }, setIsLoading);
   };

@@ -9,6 +9,7 @@ import Spinner from '@/components/Spinner';
 import { ALL_RATINGS_URL } from '@/constants/apiSources';
 import RatingType from '@/types/RatingType';
 import fetchData from '@/utils/fetchData';
+import StoreProvider from '@/components/StoreProvider';
 
 const SingleRating = () => {
   const params = useParams();
@@ -56,7 +57,9 @@ const SingleRating = () => {
       >
         <RefreshCcw />
       </Button>
-      <RatingInfo rating={rating} />
+      <StoreProvider>
+        <RatingInfo rating={rating} />
+      </StoreProvider>
     </div>
   );
 };

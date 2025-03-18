@@ -10,10 +10,15 @@ import fetchData from '@/utils/fetchData';
 import { ALL_RATINGS_URL } from '@/constants/apiSources';
 import RatingType from '@/types/RatingType';
 import RatingInput from '../ratings/RatingInput';
+import AuthModal from '../auth/AuthModal';
+import useAuth from '@/hooks/useAuth';
+import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
 const CreateRating = ({ id }: { id: number }) => {
   const router = useRouter();
 
+  const { isAuthenticated, loading: authLoading, accessToken } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [formData, setFormData] =
     useState<Partial<RatingType>>(ratingDataFields);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +33,13 @@ const CreateRating = ({ id }: { id: number }) => {
   };
 
   const handleClick = async () => {
+    if (authLoading) return;
+
+    if (!isAuthenticated) {
+      setIsAuthModalOpen(true);
+      return;
+    }
+
     setIsLoading(true);
 
     if (!formData.reviewScore?.trim()) {
@@ -45,19 +57,21 @@ const CreateRating = ({ id }: { id: number }) => {
         )
       ),
     };
+    fetchDataWrapper(async () => {
+      const data = await fetchData(ALL_RATINGS_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ratingData),
+      });
 
-    const data = await fetchData(ALL_RATINGS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(ratingData),
-    });
-
-    if (data?.data) {
-      toast.success('Rating submitted successfully!');
-      router.push(`/ratings/${data.data.id}`);
-    }
-
-    setIsLoading(false);
+      if (data?.data) {
+        toast.success('Rating submitted successfully!');
+        router.push(`/ratings/${data.data.id}`);
+      }
+    }, setIsLoading);
   };
 
   return (
@@ -113,6 +127,7 @@ const CreateRating = ({ id }: { id: number }) => {
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 animate-shine" />
         </Button>
       </div>
+      <AuthModal isOpen={isAuthModalOpen} setIsOpen={setIsAuthModalOpen} />
     </div>
   );
 };

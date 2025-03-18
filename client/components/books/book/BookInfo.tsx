@@ -5,8 +5,10 @@ import BookType from '@/types/BookType';
 import getBookValues from '@/utils/getBookValues';
 import CreateRating from '@/components/create/CreateRating';
 import DataOptions from '@/components/dataOptions/DataOptions';
+import useAuth from '@/hooks/useAuth';
 
 const BookInfo = ({ book }: { book: BookType }) => {
+  const { user } = useAuth();
   const {
     id,
     title,
@@ -18,6 +20,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
     publisher,
     category,
     ratingsCount,
+    userId,
   } = getBookValues(book);
 
   return (
@@ -91,7 +94,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
           </div>
         </div>
       </div>
-      <DataOptions contextType="book" id={id} />
+      {user && user.id === userId && <DataOptions contextType="book" id={id} />}
     </>
   );
 };

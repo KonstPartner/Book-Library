@@ -9,6 +9,7 @@ import Spinner from '@/components/Spinner';
 import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import BookType from '@/types/BookType';
 import fetchData from '@/utils/fetchData';
+import StoreProvider from '@/components/StoreProvider';
 
 const SingleBook = () => {
   const params = useParams();
@@ -45,19 +46,21 @@ const SingleBook = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tl from-blue-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950  p-4 overflow-hidden relative">
-      <Button
-        className="border-none shadow-none hover:underline text-gray-400 hover:text-gray-500 mr-0 ml-auto p-1"
-        disabled={isLoading}
-        onClick={() => {
-          setIsLoading(true);
-          fetchBook();
-        }}
-      >
-        <RefreshCcw />
-      </Button>
-      <BookInfo book={book} />
-    </div>
+    <StoreProvider>
+      <div className="min-h-screen bg-gradient-to-tl from-blue-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950  p-4 overflow-hidden relative">
+        <Button
+          className="border-none shadow-none hover:underline text-gray-400 hover:text-gray-500 mr-0 ml-auto p-1"
+          disabled={isLoading}
+          onClick={() => {
+            setIsLoading(true);
+            fetchBook();
+          }}
+        >
+          <RefreshCcw />
+        </Button>
+        <BookInfo book={book} />
+      </div>
+    </StoreProvider>
   );
 };
 

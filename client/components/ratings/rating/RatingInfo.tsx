@@ -6,14 +6,16 @@ import RatingType from '@/types/RatingType';
 import getRatingValues from '@/utils/getRatingValues';
 import RatingStars from '@/components/ratings/RatingStars';
 import DataOptions from '@/components/dataOptions/DataOptions';
+import useAuth from '@/hooks/useAuth';
 
 const RatingInfo = ({ rating }: { rating: RatingType }) => {
+  const { user } = useAuth();
   const {
     id,
     bookId,
     userId,
     book,
-    user,
+    user: useName,
     reviewHelpfulness,
     reviewScore,
     reviewSummary,
@@ -32,7 +34,7 @@ const RatingInfo = ({ rating }: { rating: RatingType }) => {
                 <div className="relative">
                   <Image
                     src={userAvatar}
-                    alt={user as string}
+                    alt={useName as string}
                     className="w-12 h-12 xs:w-14 xs:h-14 rounded-full object-cover border-2 border-white/40 dark:border-gray-700/40 transition-all duration-300 group-hover:scale-105 group-hover:border-blue-500 dark:group-hover:border-purple-500 shadow-md"
                   />
                 </div>
@@ -48,7 +50,7 @@ const RatingInfo = ({ rating }: { rating: RatingType }) => {
                   before:scale-x-0 before:origin-center hover:before:scale-x-100 
                   before:transition-transform before:duration-300 before:ease-in-out"
                   >
-                    {user}
+                    {useName}
                   </p>
                 </Link>
                 <div className="flex items-center gap-2">
@@ -82,7 +84,9 @@ const RatingInfo = ({ rating }: { rating: RatingType }) => {
           </p>
         </div>
       </div>
-      <DataOptions contextType="rating" id={id as string} />
+      {user && user.id === userId && (
+        <DataOptions contextType="rating" id={id as string} />
+      )}
     </>
   );
 };

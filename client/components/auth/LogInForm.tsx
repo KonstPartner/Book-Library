@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
 import validateData from '@/utils/validateData';
 
-const LogInForm = () => {
+const LogInForm = ({ setIsOpen }: { setIsOpen: (bool: boolean) => void }) => {
   const [formData, setFormData] = useState({
     name: '',
     password: '',
@@ -43,6 +43,7 @@ const LogInForm = () => {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         toast.success('Login successful');
+        setIsOpen(false);
       }
     }, setIsLoading);
   };

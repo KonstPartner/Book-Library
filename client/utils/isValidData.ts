@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 const VALID_IMAGE_DOMAINS = ['books.google.com', 'coverart.oclc.org'] as const;
 
 const isValidBook = (book: Partial<BookType>, isCreateRequest: boolean) => {
-  console.log('valid');
   const trimmedBook = Object.fromEntries(
     Object.entries(book).map(([key, value]) => [
       key,

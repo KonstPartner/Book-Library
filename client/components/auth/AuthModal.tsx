@@ -14,16 +14,13 @@ interface AuthModalProps {
 const AuthModal = ({ isOpen, setIsOpen }: AuthModalProps) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
 
-  const toggleForm = () => setIsLoginForm(!isLoginForm);
-  const closeModal = () => setIsOpen(false);
-
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4 sm:px-0">
       <div className="relative bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
         <Button
-          onClick={closeModal}
+          onClick={() => setIsOpen(false)}
           className="absolute top-3 right-3 p-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full transition-all duration-300"
           noLoadingText
         >
@@ -34,14 +31,18 @@ const AuthModal = ({ isOpen, setIsOpen }: AuthModalProps) => {
           Please, {isLoginForm ? 'log in' : 'sign up'} to continue
         </h2>
 
-        {isLoginForm ? <LogInForm /> : <SignUpForm />}
+        {isLoginForm ? (
+          <LogInForm setIsOpen={(bool: boolean) => setIsOpen(bool)} />
+        ) : (
+          <SignUpForm setIsOpen={(bool: boolean) => setIsOpen(bool)} />
+        )}
 
         <p className="mt-4 text-center text-gray-600 text-sm">
           {isLoginForm ? (
             <>
               Don’t have an account?{' '}
               <span
-                onClick={toggleForm}
+                onClick={() => setIsLoginForm(!isLoginForm)}
                 className="text-blue-600 hover:text-blue-700 cursor-pointer underline transition-all duration-300"
               >
                 Sign Up
@@ -51,7 +52,7 @@ const AuthModal = ({ isOpen, setIsOpen }: AuthModalProps) => {
             <>
               Already have an account?{' '}
               <span
-                onClick={toggleForm}
+                onClick={() => setIsLoginForm(!isLoginForm)}
                 className="text-blue-600 hover:text-blue-700 cursor-pointer underline transition-all duration-300"
               >
                 Login

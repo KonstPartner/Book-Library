@@ -9,6 +9,7 @@ import UserInfo from '@/components/users/user/UserInfo';
 import { ALL_USERS_URL } from '@/constants/apiSources';
 import UserType from '@/types/UserType';
 import fetchData from '@/utils/fetchData';
+import StoreProvider from '@/components/StoreProvider';
 
 const SingleUser = () => {
   const params = useParams();
@@ -56,7 +57,9 @@ const SingleUser = () => {
       >
         <RefreshCcw />
       </Button>
-      <UserInfo user={user} />
+      <StoreProvider>
+        <UserInfo user={user} />
+      </StoreProvider>
     </div>
   );
 };

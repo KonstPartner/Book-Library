@@ -16,7 +16,7 @@ const SortMenu = ({
   const handleSortByChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSortOptions({ ...sortOptions, sortBy: e.target.value });
   };
-  console.log(sortOptions);
+
   const toggleSortOrder = () => {
     const newOrder = sortOptions.sortOrder === 'ASC' ? 'DESC' : 'ASC';
     setSortOptions({ ...sortOptions, sortOrder: newOrder });
