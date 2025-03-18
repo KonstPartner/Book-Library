@@ -8,6 +8,8 @@ import { LOGIN_USER_URL } from '@/constants/apiSources';
 import fetchData from '@/utils/fetchData';
 import { setAuth } from '@/redux/slices/authSlice';
 import { toast } from 'react-toastify';
+import fetchDataWrapper from '@/utils/fetchDataWrapper';
+import validateData from '@/utils/validateData';
 
 const LogInForm = () => {
   const [formData, setFormData] = useState({
@@ -19,25 +21,30 @@ const LogInForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    const data = await fetchData(LOGIN_USER_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (data?.data) {
-      const { user, accessToken, refreshToken } = data.data;
-      dispatch(setAuth({ user, accessToken, refreshToken }));
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-      toast.success('Login successful');
+    try {
+      validateData(formData);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error));
+      return;
     }
 
-    setIsLoading(false);
+    fetchDataWrapper(async () => {
+      const data = await fetchData(LOGIN_USER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (data?.data) {
+        const { user, accessToken, refreshToken } = data.data;
+        dispatch(setAuth({ user, accessToken, refreshToken }));
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        toast.success('Login successful');
+      }
+    }, setIsLoading);
   };
 
   return (
@@ -51,8 +58,7 @@ const LogInForm = () => {
             name: e.target.value,
           })
         }
-        className="w-full"
-        disabled={isLoading}
+        className="w-full border-gray-300"
       />
       <Input
         type="password"
@@ -64,12 +70,11 @@ const LogInForm = () => {
             password: e.target.value,
           })
         }
-        className="w-full"
-        disabled={isLoading}
+        className="w-full border-gray-300"
       />
       <Button
         onClick={handleSubmit}
-        className="mt-2 w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md"
+        className="mt-2 mx-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md"
         disabled={isLoading}
       >
         Login

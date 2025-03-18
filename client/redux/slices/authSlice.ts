@@ -14,24 +14,24 @@ const initialState: AuthStateType = {
   accessToken: null,
   refreshToken: null,
   loading: false,
+  hasInitialized: false,
 };
 
-const refreshTokens = async (refreshTokenParam: string) => {
+const refreshTokens = async (refreshToken: string) => {
   const response = await fetchData(REFRESH_ACCESS_TOKEN_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ refreshTokenParam }),
+    body: JSON.stringify({ refreshToken }),
   });
 
   if (response.data) {
-    const { accessToken, refreshToken } = response.data;
-
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-
-    return { accessToken, refreshToken };
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+      response.data;
+    localStorage.setItem('accessToken', newAccessToken);
+    localStorage.setItem('refreshToken', newRefreshToken);
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   }
   return null;
 };
@@ -81,12 +81,14 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+      state.hasInitialized = true;
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
       state.accessToken = null;
       state.refreshToken = null;
+      state.hasInitialized = true;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
@@ -98,6 +100,7 @@ const authSlice = createSlice({
       })
       .addCase(initializeAuth.fulfilled, (state, action) => {
         state.loading = false;
+        state.hasInitialized = true;
         state.isAuthenticated = !!action.payload.user;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;

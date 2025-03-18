@@ -8,6 +8,8 @@ import { REGISTER_USER_URL } from '@/constants/apiSources';
 import fetchData from '@/utils/fetchData';
 import { setAuth } from '@/redux/slices/authSlice';
 import { toast } from 'react-toastify';
+import fetchDataWrapper from '@/utils/fetchDataWrapper';
+import validateData from '@/utils/validateData';
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -20,33 +22,38 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      validateData(formData);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error))
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
 
-    setIsLoading(true);
+    fetchDataWrapper(async () => {
+      const data = await fetchData(REGISTER_USER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          password: formData.password,
+        }),
+      });
 
-    const data = await fetchData(REGISTER_USER_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        password: formData.password,
-      }),
-    });
-
-    if (data?.data) {
-      const { user, accessToken, refreshToken } = data.data;
-      dispatch(setAuth({ user, accessToken, refreshToken }));
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-      toast.success('Registration successful');
-    }
-
-    setIsLoading(false);
+      if (data?.data) {
+        const { user, accessToken, refreshToken } = data.data;
+        dispatch(setAuth({ user, accessToken, refreshToken }));
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        toast.success('Registration successful');
+      }
+    }, setIsLoading);
   };
 
   return (
@@ -60,8 +67,7 @@ const SignUpForm = () => {
             name: e.target.value,
           })
         }
-        className="w-full"
-        disabled={isLoading}
+        className="w-full border-gray-300"
       />
       <Input
         type="password"
@@ -73,8 +79,7 @@ const SignUpForm = () => {
             password: e.target.value,
           })
         }
-        className="w-full"
-        disabled={isLoading}
+        className="w-full border-gray-300"
       />
       <Input
         type="password"
@@ -86,15 +91,14 @@ const SignUpForm = () => {
             confirmPassword: e.target.value,
           })
         }
-        className="w-full"
-        disabled={isLoading}
+        className="w-full border-gray-300"
       />
       <Button
         onClick={handleSubmit}
-        className="mt-2 w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md"
+        className="mt-2 mx-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md"
         disabled={isLoading}
       >
-        Register
+        Sign Up
       </Button>
     </form>
   );

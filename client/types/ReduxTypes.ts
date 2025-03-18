@@ -9,6 +9,7 @@ export type AuthStateType = {
   accessToken: string | null;
   refreshToken: string | null;
   loading: boolean;
+  hasInitialized: boolean;
 };
 
 export type AuthPayloadType = {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { initializeAuth, selectAuth } from '@/redux/slices/authSlice';
 import { AppDispatchType } from '@/types/ReduxTypes';
@@ -8,14 +8,12 @@ import { AppDispatchType } from '@/types/ReduxTypes';
 const useAuth = () => {
   const dispatch = useDispatch<AppDispatchType>();
   const authState = useSelector(selectAuth);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    if (!isInitialized) {
+    if (!authState.hasInitialized && !authState.loading) {
       dispatch(initializeAuth());
-      setIsInitialized(true);
     }
-  }, [dispatch, isInitialized]);
+  }, [dispatch, authState.hasInitialized, authState.loading]);
 
   return authState;
 };

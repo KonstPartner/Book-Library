@@ -31,7 +31,7 @@ const AuthModal = ({ isOpen, setIsOpen }: AuthModalProps) => {
         </Button>
 
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          {isLoginForm ? 'Login' : 'Register'}
+          Please, {isLoginForm ? 'log in' : 'sign up'} to continue
         </h2>
 
         {isLoginForm ? <LogInForm /> : <SignUpForm />}
@@ -44,7 +44,7 @@ const AuthModal = ({ isOpen, setIsOpen }: AuthModalProps) => {
                 onClick={toggleForm}
                 className="text-blue-600 hover:text-blue-700 cursor-pointer underline transition-all duration-300"
               >
-                Register
+                Sign Up
               </span>
             </>
           ) : (

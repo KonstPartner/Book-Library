@@ -2,7 +2,7 @@
 
 import React from 'react';
 import StoreProvider from '@/components/StoreProvider';
-import ProfileScreen from '@/components/ProfileScreen';
+import ProfileScreen from '@/components/profile/ProfileScreen';
 
 const ProfilePage = () => {
   return (
