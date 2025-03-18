@@ -8,6 +8,8 @@ import {
 } from '@/constants/apiSources';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
 import useAuth from './useAuth';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/redux/slices/authSlice';
 
 const getApiUrl = (
   contextType: 'book' | 'rating' | 'user',
@@ -28,6 +30,7 @@ export const useDataActions = (
 ) => {
   const router = useRouter();
   const { accessToken } = useAuth();
+  const dispatch = useDispatch();
 
   const handleDelete = async () => {
     fetchDataWrapper(
@@ -40,6 +43,9 @@ export const useDataActions = (
         });
         if (deletedData) {
           toast.success(`${contextType} deleted successfully!`);
+          if (contextType === 'user') {
+            dispatch(logout());
+          }
           router.back();
         } else {
           toast.error(`Failed to delete ${contextType}`);

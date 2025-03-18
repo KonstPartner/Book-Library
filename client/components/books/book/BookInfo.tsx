@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import RatingsPreview from '@/components/ratings/RatingsPreview';
 import BookType from '@/types/BookType';
@@ -6,9 +6,11 @@ import getBookValues from '@/utils/getBookValues';
 import CreateRating from '@/components/create/CreateRating';
 import DataOptions from '@/components/dataOptions/DataOptions';
 import useAuth from '@/hooks/useAuth';
+import AuthModal from '@/components/auth/AuthModal';
 
 const BookInfo = ({ book }: { book: BookType }) => {
   const { user } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const {
     id,
     title,
@@ -90,11 +92,12 @@ const BookInfo = ({ book }: { book: BookType }) => {
               id={id}
               ratingsCount={ratingsCount}
             />
-            <CreateRating id={id} />
+            <CreateRating id={id} setIsAuthModalOpen={setIsAuthModalOpen} />
           </div>
         </div>
       </div>
       {user && user.id === userId && <DataOptions contextType="book" id={id} />}
+      <AuthModal isOpen={isAuthModalOpen} setIsOpen={setIsAuthModalOpen} />
     </>
   );
 };

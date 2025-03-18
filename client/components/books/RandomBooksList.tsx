@@ -8,6 +8,7 @@ import { RANDOM_BOOKS_URL } from '@/constants/apiSources';
 import Spinner from '@/components/Spinner';
 import BookType from '@/types/BookType';
 import { randomBooksCardsLimit } from '@/constants/cardsLimit';
+import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
 const RandomBooksList = () => {
   const [books, setBooks] = useState<BookType[] | []>([]);
@@ -18,14 +19,14 @@ const RandomBooksList = () => {
   }, []);
 
   const fetchRandomBooks = async () => {
-    setIsLoading(true);
-    const data = await fetchData(
-      `${RANDOM_BOOKS_URL}?limit=${randomBooksCardsLimit}`
-    );
-    if (data?.data) {
-      setBooks(data.data);
-    }
-    setIsLoading(false);
+    fetchDataWrapper(async () => {
+      const data = await fetchData(
+        `${RANDOM_BOOKS_URL}?limit=${randomBooksCardsLimit}`
+      );
+      if (data?.data) {
+        setBooks(data.data);
+      }
+    }, setIsLoading);
   };
 
   return (

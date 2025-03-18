@@ -10,15 +10,19 @@ import fetchData from '@/utils/fetchData';
 import { ALL_RATINGS_URL } from '@/constants/apiSources';
 import RatingType from '@/types/RatingType';
 import RatingInput from '../ratings/RatingInput';
-import AuthModal from '../auth/AuthModal';
 import useAuth from '@/hooks/useAuth';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
-const CreateRating = ({ id }: { id: number }) => {
+const CreateRating = ({
+  id,
+  setIsAuthModalOpen,
+}: {
+  id: number;
+  setIsAuthModalOpen: (value: boolean) => void;
+}) => {
   const router = useRouter();
 
   const { isAuthenticated, loading: authLoading, accessToken } = useAuth();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [formData, setFormData] =
     useState<Partial<RatingType>>(ratingDataFields);
   const [isLoading, setIsLoading] = useState(false);
@@ -127,7 +131,6 @@ const CreateRating = ({ id }: { id: number }) => {
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 animate-shine" />
         </Button>
       </div>
-      <AuthModal isOpen={isAuthModalOpen} setIsOpen={setIsAuthModalOpen} />
     </div>
   );
 };

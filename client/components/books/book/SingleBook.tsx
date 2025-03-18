@@ -10,6 +10,7 @@ import { ALL_BOOKS_URL } from '@/constants/apiSources';
 import BookType from '@/types/BookType';
 import fetchData from '@/utils/fetchData';
 import StoreProvider from '@/components/StoreProvider';
+import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
 const SingleBook = () => {
   const params = useParams();
@@ -18,9 +19,10 @@ const SingleBook = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchBook = useCallback(async () => {
-    const data = await fetchData(`${ALL_BOOKS_URL}/${id}`);
-    if (data?.data) setBook(data.data);
-    setIsLoading(false);
+    fetchDataWrapper(async () => {
+      const data = await fetchData(`${ALL_BOOKS_URL}/${id}`);
+      if (data?.data) setBook(data.data);
+    }, setIsLoading);
   }, [id]);
 
   useEffect(() => {

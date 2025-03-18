@@ -5,9 +5,10 @@ import { userAvatar } from '@/constants/images';
 import RatingsPreview from '@/components/ratings/RatingsPreview';
 import DataOptions from '@/components/dataOptions/DataOptions';
 import useAuth from '@/hooks/useAuth';
+import ProfileMenu from '../profile/ProfileMenu';
 
 const UserInfo = ({ user }: { user: UserType }) => {
-  const {user: authUser} = useAuth();
+  const { user: authUser } = useAuth();
   const { id, name, ratingsCount } = user;
 
   return (
@@ -38,7 +39,12 @@ const UserInfo = ({ user }: { user: UserType }) => {
           />
         </div>
       </div>
-      {authUser && authUser.id === id && <DataOptions contextType="user" id={id} />}
+      {authUser && authUser.id === id && (
+        <div>
+          <DataOptions contextType="user" id={id} />
+          <ProfileMenu />
+        </div>
+      )}
     </>
   );
 };

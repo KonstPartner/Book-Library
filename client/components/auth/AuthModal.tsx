@@ -6,12 +6,13 @@ import { X } from 'lucide-react';
 import SignUpForm from './SignUpForm';
 import LogInForm from './LogInForm';
 
-interface AuthModalProps {
+const AuthModal = ({
+  isOpen,
+  setIsOpen,
+}: {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-}
-
-const AuthModal = ({ isOpen, setIsOpen }: AuthModalProps) => {
+}) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
 
   if (!isOpen) return null;

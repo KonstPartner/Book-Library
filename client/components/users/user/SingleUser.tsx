@@ -10,6 +10,7 @@ import { ALL_USERS_URL } from '@/constants/apiSources';
 import UserType from '@/types/UserType';
 import fetchData from '@/utils/fetchData';
 import StoreProvider from '@/components/StoreProvider';
+import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
 const SingleUser = () => {
   const params = useParams();
@@ -18,9 +19,10 @@ const SingleUser = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = useCallback(async () => {
-    const data = await fetchData(`${ALL_USERS_URL}/${id}`);
-    if (data?.data) setUser(data.data);
-    setIsLoading(false);
+    fetchDataWrapper(async () => {
+      const data = await fetchData(`${ALL_USERS_URL}/${id}`);
+      if (data?.data) setUser(data.data);
+    }, setIsLoading);
   }, [id]);
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import RatingsList from '@/components/ratings/RatingsList';
 import fetchData from '@/utils/fetchData';
 import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
 import Spinner from '../Spinner';
+import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
 const RatingsPreview = ({
   id,
@@ -20,14 +21,14 @@ const RatingsPreview = ({
 
   useEffect(() => {
     const fetchRatings = async () => {
-      const data = await fetchData(
-        `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`
-      );
-
-      if (data?.data?.data) {
-        setRatings(data.data.data);
-      }
-      setIsLoading(false);
+      fetchDataWrapper(async () => {
+        const data = await fetchData(
+          `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`
+        );
+        if (data?.data?.data) {
+          setRatings(data.data.data);
+        }
+      }, setIsLoading);
     };
 
     setIsLoading(true);

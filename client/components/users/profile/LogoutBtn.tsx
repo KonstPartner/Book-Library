@@ -3,18 +3,15 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/redux/slices/authSlice';
-import { useRouter } from 'next/navigation';
-import Button from '../Button';
+import Button from '../../Button';
 import { toast } from 'react-toastify';
 
 const LogoutBtn = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const handleLogout = () => {
     dispatch(logout());
     toast.success('You successfully logged out!');
-    router.push('/');
   };
 
   return (

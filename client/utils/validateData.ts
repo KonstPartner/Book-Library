@@ -1,5 +1,4 @@
 const validateData = (data: Record<string, unknown>): void => {
-
   if ('name' in data) {
     const name = data.name as string;
     if (!name || name.trim() === '') {
@@ -23,14 +22,21 @@ const validateData = (data: Record<string, unknown>): void => {
     if (!password || password.trim() === '') {
       throw new Error('Password is required');
     }
-    if (password.length < 6) {
-      throw new Error('Password must be at least 6 characters long');
+    if (password.length < 8) {
+      throw new Error('Password must be at least 8 characters long');
     }
     if (password.length > 50) {
       throw new Error('Password must not exceed 50 characters');
     }
-    if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
-      throw new Error('Password must contain both letters and numbers');
+    if (!/[a-z]/.test(password)) {
+      throw new Error('Password must contain at least one lowercase letter');
+    }
+    if (!/[0-9]/.test(password)) {
+      throw new Error('Password must contain at least one number');
+    }
+
+    if (/^(.)\1+$/.test(password)) {
+      throw new Error('Password cannot consist of repeating characters');
     }
   }
 };

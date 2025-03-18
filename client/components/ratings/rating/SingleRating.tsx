@@ -10,6 +10,7 @@ import { ALL_RATINGS_URL } from '@/constants/apiSources';
 import RatingType from '@/types/RatingType';
 import fetchData from '@/utils/fetchData';
 import StoreProvider from '@/components/StoreProvider';
+import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
 const SingleRating = () => {
   const params = useParams();
@@ -18,9 +19,10 @@ const SingleRating = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchRating = useCallback(async () => {
-    const data = await fetchData(`${ALL_RATINGS_URL}/${id}`);
-    if (data?.data) setRating(data.data);
-    setIsLoading(false);
+    fetchDataWrapper(async () => {
+      const data = await fetchData(`${ALL_RATINGS_URL}/${id}`);
+      if (data?.data) setRating(data.data);
+    }, setIsLoading);
   }, [id]);
 
   useEffect(() => {
