@@ -50,6 +50,7 @@ const initializeAuth = createAsyncThunk<
 
   try {
     const profile = await fetchProfile(accessToken, refreshToken);
+
     if (profile) return profile;
 
     const refreshed = await refreshTokens(refreshToken);
