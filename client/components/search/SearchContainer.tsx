@@ -67,9 +67,9 @@ const SearchContainer = <
       {isClosedInputs ? (
         <div className="search-preview-container sm:p-6">
           <SearchFieldsPreview search={search} />
-          <div className="flex justify-center items-center gap-4 mt-4">
+          <div className="flex justify-center items-center gap-4">
             <Button
-              className="submit-button px-6 py-2 font-medium shadow-md"
+              className="submit-button px-6 font-medium shadow-md"
               onClick={handleSearch}
               disabled={isLoading}
             >
@@ -126,7 +126,7 @@ const SearchContainer = <
 
       {!isClosedInputs && (
         <Button
-          className="submit-button mt-8 font-medium shadow-lg"
+          className="submit-button my-10 font-medium shadow-lg"
           onClick={handleSearch}
           disabled={isLoading}
         >

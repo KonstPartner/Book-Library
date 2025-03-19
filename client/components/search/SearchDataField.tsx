@@ -32,21 +32,21 @@ const SearchDataField = <
       placeholder: 'YYYY',
       value: year,
       maxLength: 4,
-      width: 'w-20 sm:w-22',
+      width: 'w-20',
     },
     {
       type: 'month' as const,
       placeholder: 'MM',
       value: month,
       maxLength: 2,
-      width: 'w-14 sm:w-16',
+      width: 'w-16',
     },
     {
       type: 'day' as const,
       placeholder: 'DD',
       value: day,
       maxLength: 2,
-      width: 'w-14 sm:w-16',
+      width: 'w-16',
     },
   ];
 
@@ -81,9 +81,9 @@ const SearchDataField = <
   };
 
   return (
-    <div className="flex items-center w-fit mx-auto gap-1">
+    <div className="flex items-center gap-1">
       {dateFields.map(
-        ({ type, placeholder, value, maxLength, width }, index) => (
+        ({ type, placeholder, value, maxLength }, index,width) => (
           <div key={type} className="flex items-center">
             <Input
               className={`${width} text-center text-sm sm:text-base bg-transparent border-white/20`}
@@ -94,7 +94,7 @@ const SearchDataField = <
               maxLength={maxLength}
             />
             {index < dateFields.length - 1 && (
-              <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base mx-1">
+              <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base ml-1">
                 -
               </span>
             )}

@@ -41,7 +41,7 @@ const ExactMenu = <
     <div className="relative w-fit">
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm md:text-lg rounded-lg shadow-lg transition-all duration-300 z-50"
+        className="flex items-center gap-2 px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm md:text-lg rounded-lg shadow-lg transition-all duration-300 z-50"
       >
         <span className="inline-block transition-transform duration-300 ease-in-out">
           <ChevronDown

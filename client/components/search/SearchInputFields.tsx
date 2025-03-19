@@ -37,7 +37,9 @@ const SearchInputFields = <
         >
           <div className="flex-1 min-w-0">
             {inputField === 'publishedDate' ? (
-              <SearchDataField setSearch={setSearch} search={search} />
+              <div className='lg:w-60 mx-auto'>
+                <SearchDataField setSearch={setSearch} search={search} />
+              </div>
             ) : inputField === 'reviewScore' ? (
               <SearchScoreField
                 setSearch={setSearch}

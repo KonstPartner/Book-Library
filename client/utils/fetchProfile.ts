@@ -11,15 +11,12 @@ const fetchProfile = async (accessToken: string, refreshToken: string) => {
       },
     });
 
-    if (response.data) {
-      return {
-        user: { ...response.data },
-        accessToken,
-        refreshToken,
-      };
-    }
+    return {
+      user: { ...response.data },
+      accessToken,
+      refreshToken,
+    };
   } catch {
-  } finally {
     return null;
   }
 };
