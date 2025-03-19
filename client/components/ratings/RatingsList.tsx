@@ -13,7 +13,7 @@ const RatingsList = ({
   search?: SearchRatingFieldsType;
 }) => {
   return (
-    <>
+    <div className='w-[90%] sm:w-[80%] mx-auto'>
       {!!ratings.length &&
         ratings.map((rating) => (
           <RatingCard
@@ -23,7 +23,7 @@ const RatingsList = ({
             search={search}
           />
         ))}
-    </>
+    </div>
   );
 };
 

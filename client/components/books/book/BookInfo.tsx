@@ -26,9 +26,9 @@ const BookInfo = ({ book }: { book: BookType }) => {
   } = getBookValues(book);
 
   return (
-    <>
+    <div>
       <div className="max-w-3xl w-full mx-auto p-6 bg-gradient-to-br from-white/20 to-gray-100/20 dark:from-gray-800/20 dark:to-gray-900/20 backdrop-blur-2xl rounded-2xl shadow-xl border border-white/40 dark:border-gray-700/40 transition-all duration-500 hover:shadow-2xl  relative overflow-hidden">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 mb-7">
           <div className="relative group w-fit mx-auto">
             <Image
               src={image}
@@ -40,7 +40,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h1 className="text-2xl xs:text-3xl sm:text-4xl font-extrabold text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl font-extrabold text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent relative py-2">
               {title}
             </h1>
 
@@ -92,13 +92,15 @@ const BookInfo = ({ book }: { book: BookType }) => {
               id={id}
               ratingsCount={ratingsCount}
             />
-            <CreateRating id={id} setIsAuthModalOpen={setIsAuthModalOpen} />
+            {(!user || user?.id !== userId) && (
+              <CreateRating id={id} setIsAuthModalOpen={setIsAuthModalOpen} />
+            )}
           </div>
         </div>
       </div>
       {user && user.id === userId && <DataOptions contextType="book" id={id} />}
       <AuthModal isOpen={isAuthModalOpen} setIsOpen={setIsAuthModalOpen} />
-    </>
+    </div>
   );
 };
 

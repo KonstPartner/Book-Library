@@ -91,7 +91,7 @@ const SearchContainer = <
           </div>
         </div>
       ) : (
-        <div className="flex flex-col w-full bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20 gap-5">
+        <div className="flex flex-col w-full md:w-[80%] mx-auto bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20 gap-5">
           <SearchInputFields
             inputFields={inputFields}
             search={search}

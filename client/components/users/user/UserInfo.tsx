@@ -10,6 +10,7 @@ import ProfileMenu from '../profile/ProfileMenu';
 const UserInfo = ({ user }: { user: UserType }) => {
   const { user: authUser } = useAuth();
   const { id, name, ratingsCount } = user;
+  const isCurrentUser = authUser && authUser.id === id;
 
   return (
     <>
@@ -38,13 +39,9 @@ const UserInfo = ({ user }: { user: UserType }) => {
             ratingsCount={ratingsCount as number}
           />
         </div>
+        {isCurrentUser && <ProfileMenu />}
       </div>
-      {authUser && authUser.id === id && (
-        <div>
-          <DataOptions contextType="user" id={id} />
-          <ProfileMenu />
-        </div>
-      )}
+      {isCurrentUser && <DataOptions contextType="user" id={id} />}
     </>
   );
 };

@@ -26,7 +26,7 @@ const Modal = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-5 rounded-md shadow-lg dark:bg-gray-800 w-3/4 max-h-[98%] overflow-y-auto">
+      <div className="bg-white p-5 rounded-md shadow-lg dark:bg-gray-800 w-[90%] md:w-2/3 lg:w-2/4 max-h-[98%] overflow-y-auto">
         <h2 className="text-2xl font-bold text-center mb-4">{title}</h2>
         <div>{children}</div>
         <div className="flex justify-end gap-2 mt-4">

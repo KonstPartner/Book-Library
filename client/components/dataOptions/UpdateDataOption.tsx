@@ -40,10 +40,12 @@ const UpdateDataOptions = ({
   id: string | number;
   contextType: ContextType;
 }) => {
-  const [updateFields, setUpdateFields] = useState<FieldsType>(initialFields[contextType]);
+  const [updateFields, setUpdateFields] = useState<FieldsType>(
+    initialFields[contextType]
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { handleUpdate } = useDataActions(id, contextType);
-  
+  const { handleUpdate, isLoading } = useDataActions(id, contextType);
+
   return (
     <div className="my-2 flex justify-end">
       <Button
@@ -65,6 +67,7 @@ const UpdateDataOptions = ({
         title={`Update ${contextType}`}
         confirmText="Update"
         confirmClassName="bg-green-600 hover:bg-green-700 text-white"
+        isLoading={isLoading}
       >
         <UpdateDataInputs
           contextType={contextType}

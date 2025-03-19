@@ -70,7 +70,7 @@ const SearchRatingsList = ({
         handlePageChange={handlePageChange}
         inputFields={inputFields}
         initialSearch={initialSearch}
-        containerClassName="flex flex-col text-center w-full sm:w-3/4 md:w-2/3 lg:w-2/3 mx-auto"
+        containerClassName="flex flex-col text-center w-full mx-auto"
         sortByOptions={
           isBook ? ['user', 'reviewScore'] : ['book', 'reviewScore']
         }

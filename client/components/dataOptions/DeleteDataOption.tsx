@@ -14,7 +14,7 @@ const DeleteDataOptions = ({
   contextType: ContextType;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { handleDelete } = useDataActions(id, contextType);
+  const { handleDelete, isLoading } = useDataActions(id, contextType);
 
   return (
     <div className="my-2 flex justify-end">
@@ -32,6 +32,7 @@ const DeleteDataOptions = ({
         title={`Delete ${contextType}`}
         confirmText="Delete"
         confirmClassName="bg-red-600 hover:bg-red-700 text-white"
+        isLoading={isLoading}
       >
         <p className="mb-4 text-lg">
           Are you sure you want to delete this {contextType}?

@@ -4,8 +4,8 @@ const validateData = (data: Record<string, unknown>): void => {
     if (!name || name.trim() === '') {
       throw new Error('Name is required');
     }
-    if (name.length < 3) {
-      throw new Error('Name must be at least 3 characters long');
+    if (name.length < 2) {
+      throw new Error('Name must be at least 2 characters long');
     }
     if (name.length > 20) {
       throw new Error('Name must not exceed 20 characters');

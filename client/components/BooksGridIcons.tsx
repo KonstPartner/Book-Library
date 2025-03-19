@@ -76,7 +76,7 @@ const BooksGridIcons = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-4 sm:grid-cols-5 gap-6 my-16">
+    <div className="lg:w-[70%] grid grid-cols-4 sm:grid-cols-5 gap-6 my-16 mx-auto">
       {bookIcons.map((Icon, index) => (
         <Icon
           key={index}

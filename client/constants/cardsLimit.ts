@@ -1,5 +1,5 @@
-const searchPageCardsLimit = 12;
+const searchPageCardsLimit = 20;
 
-const randomBooksCardsLimit = 6;
+const randomBooksCardsLimit = 20;
 
 export { searchPageCardsLimit, randomBooksCardsLimit };

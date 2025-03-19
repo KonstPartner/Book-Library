@@ -68,7 +68,7 @@ const CreateBook = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-lg mx-auto mt-10 p-6 bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-2xl border border-white/20 dark:border-gray-700/20 transition-all duration-300 hover:shadow-3xl">
+      <div className="w-full md:w-[90%] lg:w-[70%] mx-auto mt-10 p-6 bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-2xl border border-white/20 dark:border-gray-700/20 transition-all duration-300 hover:shadow-3xl">
         <h1 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Create a Book
         </h1>

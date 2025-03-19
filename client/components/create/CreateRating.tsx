@@ -80,7 +80,7 @@ const CreateRating = ({
 
   return (
     <div className="w-full mx-auto mt-6 p-6 bg-gradient-to-br from-white/20 to-gray-100/20 dark:from-gray-900/20 dark:to-blue-950/20 backdrop-blur-2xl rounded-2xl shadow-xl border border-white/40 dark:border-gray-700/40 relative overflow-hidden">
-      <span className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient-x" />
+      <span className="absolute top-0 left-0 w-full h-1 bg-[linear-gradient(to_right,#8b5cf6,#ec4899,#8b5cf6,#3b82f6)] animate-gradient-x" />
 
       <h2 className="text-xl xs:text-2xl md:text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
         Share Your Opinion
