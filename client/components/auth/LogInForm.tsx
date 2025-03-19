@@ -75,7 +75,7 @@ const LogInForm = ({ setIsOpen }: { setIsOpen: (bool: boolean) => void }) => {
       />
       <Button
         onClick={handleSubmit}
-        className="mt-2 mx-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md"
+        className="gradient-button"
         disabled={isLoading}
       >
         Login

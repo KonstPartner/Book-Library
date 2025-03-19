@@ -24,13 +24,13 @@ const SortMenu = ({
 
   return (
     <div className="relative w-fit">
-      <div className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 border border-white/20 rounded-xl shadow-md p-2.5 transition-all duration-300">
+      <div className="sort-menu-container">
         <div className="flex items-center gap-2">
           <p className="text-white text-sm md:text-base font-medium">Sort:</p>
           <select
             value={sortOptions.sortBy}
             onChange={handleSortByChange}
-            className="bg-transparent text-white w-fit font-medium border-none focus:outline-none focus:ring-2 focus:ring-white/30 rounded-md cursor-pointer py-1 px-2 transition-all duration-300 hover:bg-white/10 text-sm md:text-base"
+            className="sort-select"
           >
             {sortByOptions.map((option) => (
               <option

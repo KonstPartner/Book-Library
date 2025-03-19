@@ -79,10 +79,10 @@ const CreateRating = ({
   };
 
   return (
-    <div className="w-full mx-auto mt-6 p-6 bg-gradient-to-br from-white/20 to-gray-100/20 dark:from-gray-900/20 dark:to-blue-950/20 backdrop-blur-2xl rounded-2xl shadow-xl border border-white/40 dark:border-gray-700/40 relative overflow-hidden">
+    <div className="w-full mx-auto mt-6 gradient-blur-container p-2">
       <span className="absolute top-0 left-0 w-full h-1 bg-[linear-gradient(to_right,#8b5cf6,#ec4899,#8b5cf6,#3b82f6)] animate-gradient-x" />
 
-      <h2 className="text-xl xs:text-2xl md:text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
+      <h2 className="text-xl xs:text-2xl md:text-3xl gradient-title text-center mb-6 relative">
         Share Your Opinion
         <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
       </h2>
@@ -96,7 +96,7 @@ const CreateRating = ({
                 value={formData[field as keyof RatingType] as string}
                 onChange={handleChange}
                 placeholder="Your review"
-                className="w-full p-3 bg-white/30 dark:bg-gray-900/30 border border-white/40 dark:border-gray-700/40 rounded-lg shadow-sm backdrop-blur-md text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-white/40 dark:hover:bg-gray-900/40 h-32 resize-y"
+                className="form-textarea"
               />
             ) : field === 'reviewScore' ? (
               <RatingInput
@@ -112,7 +112,7 @@ const CreateRating = ({
                 value={formData[field as keyof RatingType] as string}
                 onChange={handleChange}
                 placeholder={field === 'user' ? 'User Name' : field}
-                className="w-full p-2 bg-white/30 dark:bg-gray-900/30 border border-white/40 dark:border-gray-700/40 rounded-lg shadow-sm backdrop-blur-md text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                className="form-input"
               />
             )}
 
@@ -125,7 +125,7 @@ const CreateRating = ({
         <Button
           onClick={handleClick}
           disabled={isLoading}
-          className="mt-4 mx-auto px-6 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-lg hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 hover:shadow-xl hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-500 disabled:hover:via-purple-500 disabled:hover:to-pink-600 relative overflow-hidden"
+          className="rating-submit-button"
         >
           Send
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 animate-shine" />

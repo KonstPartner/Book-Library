@@ -12,13 +12,10 @@ const CreateBookInput = ({
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }) => {
-  const baseInputStyles =
-    'w-full p-3 bg-white/50 dark:bg-gray-900/50 border border-gray-300/50 dark:border-gray-600/50 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500';
-
   if (field === 'description') {
     return (
       <textarea
-        className={`${baseInputStyles} h-32 resize-y`}
+        className="form-textarea"
         placeholder={getPrettyField(field)}
         maxLength={500}
         value={value}
@@ -39,7 +36,7 @@ const CreateBookInput = ({
           You can find image link here
         </a>
         <Input
-          className={baseInputStyles}
+          className="form-input"
           value={value}
           onChange={onChange}
           placeholder={getPrettyField(field)}
@@ -50,7 +47,7 @@ const CreateBookInput = ({
 
   return (
     <Input
-      className={baseInputStyles}
+      className="form-input"
       value={value}
       onChange={onChange}
       placeholder={getPrettyField(field)}

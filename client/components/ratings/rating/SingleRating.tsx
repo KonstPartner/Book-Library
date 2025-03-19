@@ -33,7 +33,7 @@ const SingleRating = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-tl from-blue-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950 p-4 overflow-hidden relative">
+      <div className="gradient-page-bg">
         <Spinner className="mx-auto my-16" />
       </div>
     );
@@ -41,14 +41,14 @@ const SingleRating = () => {
 
   if (!rating) {
     return (
-      <div className="min-h-screen bg-gradient-to-tl from-blue-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950 p-4 overflow-hidden relative">
+      <div className="gradient-page-bg">
         <p>No rating found with id {id}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tl from-blue-200 via-purple-200 to-pink-200 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950 p-4 overflow-hidden relative">
+    <div className="gradient-page-bg">
       <Button
         className="border-none shadow-none hover:underline text-gray-400 hover:text-gray-500 mr-0 ml-auto p-1"
         disabled={isLoading}

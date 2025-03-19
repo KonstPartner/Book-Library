@@ -29,7 +29,7 @@ const SearchInputFields = <
   setSearch,
 }: SearchInputFieldsProps<T>) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+    <div className="search-input-grid">
       {inputFields.map((inputField) => (
         <div
           key={inputField as string}
@@ -63,7 +63,7 @@ const SearchInputFields = <
           </div>
           {search[inputField].field && (
             <Button
-              className="flex-shrink-0 px-3 py-2 sm:px-3 sm:py-3 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-lg shadow-md transition-all duration-300"
+              className="clear-button sm:px-3 sm:py-3"
               onClick={() =>
                 setSearch({
                   ...search,

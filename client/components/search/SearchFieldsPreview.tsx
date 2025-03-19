@@ -30,7 +30,7 @@ const SearchFieldsPreview = <
   if (!filteredKeys.length) return null;
 
   return (
-    <div className="border border-white/20 text-left p-5 m-auto my-5 bg-white/5 backdrop-blur-sm rounded-lg">
+    <div className="search-fields-preview">
       {filteredKeys.map((key, index) => (
         <div key={index} className="flex items-center gap-2">
           <div className="relative group">

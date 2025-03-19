@@ -57,21 +57,19 @@ const SearchContainer = <
   inputFields,
   initialSearch,
   children,
-  containerClassName = 'flex flex-col items-center text-center w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8',
+  containerClassName = 'search-container',
   sortByOptions = ['book', 'user', 'reviewScore'],
 }: SearchContainerProps<T>) => {
   return (
     <div className={`${containerClassName} py-6 sm:py-8 lg:py-10`}>
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 w-full text-gray-900 dark:text-gray-100 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-        {title}
-      </h1>
+      <h1 className="search-title sm:text-3xl sm:mb-8"> {title}</h1>
 
       {isClosedInputs ? (
-        <div className="w-fit bg-white/10 dark:bg-gray-800/10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 border border-white/20 mx-auto">
+        <div className="search-preview-container sm:p-6">
           <SearchFieldsPreview search={search} />
           <div className="flex justify-center items-center gap-4 mt-4">
             <Button
-              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-purple-600"
+              className="submit-button px-6 py-2 font-medium shadow-md"
               onClick={handleSearch}
               disabled={isLoading}
             >
@@ -128,7 +126,7 @@ const SearchContainer = <
 
       {!isClosedInputs && (
         <Button
-          className="mt-8 mx-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-purple-600"
+          className="submit-button mt-8 font-medium shadow-lg"
           onClick={handleSearch}
           disabled={isLoading}
         >
@@ -142,9 +140,7 @@ const SearchContainer = <
         ) : data.data.length ? (
           <div className="w-full">{children}</div>
         ) : (
-          <p className="mt-10 text-gray-500 dark:text-gray-400 text-center text-lg bg-white/10 backdrop-blur-sm rounded-lg py-4">
-            No items found.
-          </p>
+          <p className="no-items-text">No items found.</p>
         )}
       </div>
 

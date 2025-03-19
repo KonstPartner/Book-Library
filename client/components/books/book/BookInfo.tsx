@@ -27,7 +27,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
 
   return (
     <div>
-      <div className="max-w-3xl w-full mx-auto p-6 bg-gradient-to-br from-white/20 to-gray-100/20 dark:from-gray-800/20 dark:to-gray-900/20 backdrop-blur-2xl rounded-2xl shadow-xl border border-white/40 dark:border-gray-700/40 transition-all duration-500 hover:shadow-2xl  relative overflow-hidden">
+      <div className="max-w-3xl w-full mx-auto p-6 gradient-blur-container">
         <div className="flex flex-col gap-6 mb-7">
           <div className="relative group w-fit mx-auto">
             <Image
@@ -40,7 +40,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h1 className="text-2xl xs:text-3xl sm:text-4xl font-extrabold text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent relative py-2">
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl gradient-title text-center">
               {title}
             </h1>
 
@@ -51,10 +51,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
                 { label: 'Published Date', value: publishedDate },
                 { label: 'Category', value: category || '-' },
               ].map(({ label, value }) => (
-                <div
-                  key={label}
-                  className="flex justify-between items-center px-3 py-2 bg-gradient-to-r from-white/30 to-gray-100/30 dark:from-gray-900/30 dark:to-gray-800/30 backdrop-blur-md rounded-lg shadow-md border border-white/40 dark:border-gray-700/40 transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-purple-500/20 hover:shadow-lg"
-                >
+                <div key={label} className="info-item">
                   <span className="font-semibold text-gray-700 dark:text-gray-300">
                     {label}:
                   </span>
@@ -65,7 +62,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
               ))}
             </div>
 
-            <div className="relative bg-gradient-to-br from-white/30 to-gray-100/30 dark:from-gray-900/30 dark:to-gray-800/30 backdrop-blur-md py-4 px-3 rounded-lg shadow-md border border-white/40 dark:border-gray-700/40 transition-all duration-300 hover:shadow-lg hover:bg-gradient-to-br hover:from-blue-500/20 hover:to-purple-500/20">
+            <div className="description-block">
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-3 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
                 Description:
               </h2>
@@ -79,7 +76,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
                 href={infoLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-fit mx-auto px-4 py-2 text-sm sm:text-lg text-white bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 relative overflow-hidden"
+                className="action-button"
               >
                 More Info
               </a>

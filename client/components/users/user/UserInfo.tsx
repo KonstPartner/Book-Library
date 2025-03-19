@@ -14,10 +14,10 @@ const UserInfo = ({ user }: { user: UserType }) => {
 
   return (
     <>
-      <div className="max-w-3xl w-full mx-auto p-6 bg-gradient-to-br from-white/20 to-gray-100/20 dark:from-gray-800/20 dark:to-gray-900/20 backdrop-blur-2xl rounded-2xl shadow-xl border border-white/40 dark:border-gray-700/40 transition-all duration-500 hover:shadow-2xl relative overflow-hidden">
+      <div className="user-info-container">
         <div className="flex flex-col gap-6">
           <div className="relative group w-fit mx-auto">
-            <div className="relative bg-white/10 dark:bg-gray-900/10 backdrop-blur-md rounded-full shadow-lg p-2 border border-white/30 dark:border-gray-700/30 overflow-hidden">
+            <div className="avatar-container">
               <Image
                 src={userAvatar}
                 width={200}

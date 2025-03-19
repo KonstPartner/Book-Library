@@ -54,13 +54,11 @@ const ExactMenu = <
       </Button>
 
       <div
-        className={`absolute top-12 -left-24 sm:left-0 w-80 sm:w-96 bg-gradient-to-br from-blue-600 to-purple-600 border border-white/30 rounded-lg shadow-lg p-4 z-50 
-          transition-all duration-300 ease-in-out origin-top 
-          ${
-            isOpen
-              ? 'opacity-100 scale-y-100'
-              : 'opacity-0 scale-y-0 pointer-events-none'
-          }`}
+        className={`dropdown-menu top-12 -left-24 sm:left-0 w-80 sm:w-96 ${
+          isOpen
+            ? 'opacity-100 scale-y-100'
+            : 'opacity-0 scale-y-0 pointer-events-none'
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative group mb-3">
@@ -81,7 +79,7 @@ const ExactMenu = <
                 type="checkbox"
                 checked={search[inputField].isExact}
                 onChange={() => toggleExact(inputField)}
-                className="cursor-pointer appearance-none w-7 h-7 bg-transparent border-2 border-gradient-to-r from-blue-400 to-purple-500 rounded-md checked:bg-transparent transition-all duration-200 ease-in-out relative before:content-[''] before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-400 before:to-purple-500 before:scale-0 before:rounded-sm checked:before:scale-75 before:transition-transform before:duration-200 before:ease-in-out"
+                className="checkbox-custom"
               />
               <span className="text-md">
                 {getPrettyField(String(inputField))}

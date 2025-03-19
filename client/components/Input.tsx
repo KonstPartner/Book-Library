@@ -27,15 +27,11 @@ const Input = ({
   };
 
   return (
-    <div className="relative w-full">
+    <div className="input-container">
       <input
         type={inputType}
         className={twMerge(
-          'w-full px-4 py-3 bg-white/10 dark:bg-gray-800/10 border border-white/20 rounded-lg',
-          'backdrop-blur-sm focus:border-transparent',
-          'text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400',
-          'transition-all duration-300 shadow-sm hover:shadow-md',
-          'text-sm sm:text-base',
+          'input-field',
           initialType === 'password' ? 'pr-10' : '',
           className
         )}
@@ -48,7 +44,7 @@ const Input = ({
         <button
           type="button"
           onClick={togglePasswordVisibility}
-          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200"
+          className="toggle-password-button"
           aria-label={isPasswordVisible ? 'Hide password' : 'Show password'}
         >
           {isPasswordVisible ? <EyeOff /> : <Eye />}

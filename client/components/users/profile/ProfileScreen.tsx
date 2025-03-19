@@ -24,14 +24,14 @@ const ProfileScreen = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950">
+      <div className="auth-screen-bg">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-200 to-blue-200 dark:from-gray-900 dark:to-blue-950">
+    <div className="auth-screen-bg">
       {!isAuthenticated && (
         <>
           <AuthModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
