@@ -4,6 +4,7 @@ import {
   handleErrorResponse,
 } from '../utils/handleResponse.ts';
 import {
+  changePasswordRequest,
   createRegisteredUserRequest,
   loginUserRequest,
   refreshTokenRequest,
@@ -78,4 +79,17 @@ const getProfile = (req: Request, res: Response) => {
   handleSuccessResponse(res, { id: user.id, name: user.name });
 };
 
-export { registerUser, loginUser, refreshToken, getProfile };
+const changePassword = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user.id;
+    const { oldPassword, newPassword } = req.body;
+
+    await changePasswordRequest(userId, oldPassword, newPassword);
+
+    handleSuccessResponse(res, { message: 'Password changed successfully.' });
+  } catch (error) {
+    handleErrorResponse({ res, error, message: 'Failed to change password.' });
+  }
+};
+
+export { registerUser, loginUser, refreshToken, getProfile, changePassword };

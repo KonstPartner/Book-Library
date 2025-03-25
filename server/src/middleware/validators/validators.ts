@@ -1,5 +1,6 @@
 import {
   booksSearchQueriesRules,
+  changePasswordRules,
   createBookRules,
   createRatingRules,
   createRegisterUserRules,
@@ -46,6 +47,8 @@ const validatePatchBook = [...patchBookRules, ...idIntRule];
 const validatePatchRating = [...patchRatingRules, ...idStringRule];
 const validatePatchUser = [...patchUserRules, ...idStringRule];
 
+const validateChangePassword = changePasswordRules;
+
 export {
   validateLimit,
   validateLimitAndOffset,
@@ -63,4 +66,5 @@ export {
   validatePatchUser,
   validateAuthUser,
   validateRefreshToken,
+  validateChangePassword,
 };

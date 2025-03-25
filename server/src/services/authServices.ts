@@ -76,4 +76,30 @@ const refreshTokenRequest = async (refreshToken: string) => {
   }
 };
 
-export { createRegisteredUserRequest, loginUserRequest, refreshTokenRequest };
+const changePasswordRequest = async (
+  userId: string,
+  oldPassword: string,
+  newPassword: string
+) => {
+  const registeredUser = await RegisteredUser.findOne({
+    where: { users_id: userId },
+  });
+  if (!registeredUser) {
+    throw { code: 404, message: 'User not found.' };
+  }
+
+  const isMatch = await bcrypt.compare(oldPassword, registeredUser.password);
+  if (!isMatch) {
+    throw { code: 400, message: 'Incorrect old password.' };
+  }
+
+  const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+  await registeredUser.update({ password: hashedNewPassword });
+};
+
+export {
+  createRegisteredUserRequest,
+  loginUserRequest,
+  refreshTokenRequest,
+  changePasswordRequest,
+};

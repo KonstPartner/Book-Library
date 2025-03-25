@@ -201,12 +201,7 @@ const createRegisterUserRules = [
 ];
 
 const refreshTokenRule = [
-  createStringValidation(
-    'refreshToken',
-    1,
-    1000,
-    'Refresh token is required'
-  ),
+  createStringValidation('refreshToken', 1, 1000, 'Refresh token is required'),
 ];
 
 const postCategoryRule = [
@@ -215,6 +210,16 @@ const postCategoryRule = [
     1,
     100,
     'Name is required and must be between 1 and 100 characters long.'
+  ),
+];
+
+const changePasswordRules = [
+  createStringValidation('oldPassword', 6, 50, 'Old password is required'),
+  createStringValidation(
+    'newPassword',
+    6,
+    50,
+    'New password must be at least 6 characters long'
   ),
 ];
 
@@ -239,4 +244,5 @@ export {
   patchUserRules,
   createRegisterUserRules,
   refreshTokenRule,
+  changePasswordRules,
 };

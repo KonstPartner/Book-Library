@@ -10,6 +10,7 @@ import {
 } from '../controllers/userController.ts';
 import {
   validateAuthUser,
+  validateChangePassword,
   validateGetAllRatings,
   validateIdString,
   validateLimitAndOffset,
@@ -18,6 +19,7 @@ import {
   validateRefreshToken,
 } from '../middleware/validators/validators.ts';
 import {
+  changePassword,
   getProfile,
   loginUser,
   refreshToken,
@@ -62,6 +64,14 @@ router.post(
   validateRefreshToken,
   validationErrorHandler,
   refreshToken
+);
+
+router.post(
+  '/change-password',
+  authMiddleware,
+  validateChangePassword,
+  validationErrorHandler,
+  changePassword
 );
 
 router.delete(
