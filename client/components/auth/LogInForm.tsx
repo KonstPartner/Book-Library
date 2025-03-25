@@ -49,7 +49,7 @@ const LogInForm = ({ setIsOpen }: { setIsOpen: (bool: boolean) => void }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4">
       <Input
         placeholder="Name"
         value={formData.name}

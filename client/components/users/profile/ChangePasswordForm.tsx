@@ -6,6 +6,7 @@ import fetchData from '@/utils/fetchData';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
+import validateData from '@/utils/validateData';
 
 const ChangePasswordForm = () => {
   const { accessToken } = useAuth();
@@ -27,6 +28,14 @@ const ChangePasswordForm = () => {
       oldPassword: currentPassword,
       newPassword,
     };
+
+    try {
+          validateData({password: formData.oldPassword});
+          validateData({password: formData.newPassword});
+        } catch (error) {
+          toast.error(error instanceof Error ? error.message : String(error));
+          return;
+        }
 
     await fetchDataWrapper(async () => {
       await fetchData(CHANGE_PASSWORD_URL, {
@@ -80,7 +89,7 @@ const ChangePasswordForm = () => {
           <Button
             onClick={handleSubmit}
             disabled={isLoading}
-            className="w-full text-md py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-fit mx-auto text-md py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Change Password
           </Button>

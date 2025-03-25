@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 import { RefreshCcw } from 'lucide-react';
 import Button from '@/components/Button';
 import Spinner from '@/components/Spinner';
@@ -12,11 +13,23 @@ import fetchData from '@/utils/fetchData';
 import StoreProvider from '@/components/StoreProvider';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
-const SingleUser = () => {
+const SingleUser = ({
+  initialUser,
+  fetchError,
+}: {
+  initialUser: UserType | null;
+  fetchError: string | null;
+}) => {
   const params = useParams();
   const { id } = params as { id: string };
-  const [user, setUser] = useState<UserType | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<UserType | null>(initialUser);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (fetchError) {
+      toast.error(fetchError);
+    }
+  }, [fetchError]);
 
   const fetchUser = useCallback(async () => {
     fetchDataWrapper(async () => {
@@ -24,12 +37,6 @@ const SingleUser = () => {
       if (data?.data) setUser(data.data);
     }, setIsLoading);
   }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      fetchUser();
-    }
-  }, [id, fetchUser]);
 
   if (isLoading) {
     return (
@@ -42,7 +49,7 @@ const SingleUser = () => {
   if (!user) {
     return (
       <div className="gradient-page-bg">
-        <p>No user found with id {id}</p>
+        <p>{fetchError || `No user found with id ${id}`}</p>
       </div>
     );
   }

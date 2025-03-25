@@ -9,14 +9,23 @@ import Spinner from '@/components/Spinner';
 import BookType from '@/types/BookType';
 import { randomBooksCardsLimit } from '@/constants/cardsLimit';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
+import { toast } from 'react-toastify';
 
-const RandomBooksList = () => {
-  const [books, setBooks] = useState<BookType[] | []>([]);
+const RandomBooksList = ({
+  initialBooks,
+  fetchError,
+}: {
+  initialBooks: BookType[] | null;
+  fetchError: string | null;
+}) => {
+  const [books, setBooks] = useState<BookType[] | []>(initialBooks || []);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchRandomBooks();
-  }, []);
+    if (fetchError) {
+      toast.error(fetchError);
+    }
+  }, [fetchError]);
 
   const fetchRandomBooks = async () => {
     fetchDataWrapper(async () => {

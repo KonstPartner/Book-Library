@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 import { RefreshCcw } from 'lucide-react';
 import Button from '@/components/Button';
 import RatingInfo from '@/components/ratings/rating/RatingInfo';
@@ -12,11 +13,23 @@ import fetchData from '@/utils/fetchData';
 import StoreProvider from '@/components/StoreProvider';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
-const SingleRating = () => {
+const SingleRating = ({
+  initialRating,
+  fetchError,
+}: {
+  initialRating: RatingType | null;
+  fetchError: string | null;
+}) => {
   const params = useParams();
   const { id } = params as { id: string };
-  const [rating, setRating] = useState<RatingType | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [rating, setRating] = useState<RatingType | null>(initialRating);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+      if (fetchError) {
+        toast.error(fetchError);
+      }
+    }, [fetchError]);
 
   const fetchRating = useCallback(async () => {
     fetchDataWrapper(async () => {
@@ -24,12 +37,6 @@ const SingleRating = () => {
       if (data?.data) setRating(data.data);
     }, setIsLoading);
   }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      fetchRating();
-    }
-  }, [id, fetchRating]);
 
   if (isLoading) {
     return (
@@ -42,7 +49,7 @@ const SingleRating = () => {
   if (!rating) {
     return (
       <div className="gradient-page-bg">
-        <p>No rating found with id {id}</p>
+        <p>{fetchError || `No rating found with id ${id}`}</p>
       </div>
     );
   }

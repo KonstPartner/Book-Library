@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 import { RefreshCcw } from 'lucide-react';
 import BookInfo from '@/components/books/book/BookInfo';
 import Button from '@/components/Button';
@@ -12,11 +13,23 @@ import fetchData from '@/utils/fetchData';
 import StoreProvider from '@/components/StoreProvider';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
 
-const SingleBook = () => {
+const SingleBook = ({
+  initialBook,
+  fetchError,
+}: {
+  initialBook: BookType | null;
+  fetchError: string | null;
+}) => {
   const params = useParams();
   const { id } = params as { id: string };
-  const [book, setBook] = useState<BookType | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [book, setBook] = useState<BookType | null>(initialBook);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (fetchError) {
+      toast.error(fetchError);
+    }
+  }, [fetchError]);
 
   const fetchBook = useCallback(async () => {
     fetchDataWrapper(async () => {
@@ -24,12 +37,6 @@ const SingleBook = () => {
       if (data?.data) setBook(data.data);
     }, setIsLoading);
   }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      fetchBook();
-    }
-  }, [id, fetchBook]);
 
   if (isLoading) {
     return (
@@ -42,7 +49,7 @@ const SingleBook = () => {
   if (!book) {
     return (
       <div className="gradient-page-bg">
-        <p>No book found with id {id}</p>
+        <p>{fetchError || `No book found with id ${id}`}</p>
       </div>
     );
   }

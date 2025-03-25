@@ -1,19 +1,28 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
 import React from 'react';
-import Button from '../Button';
-import { FaArrowRight } from 'react-icons/fa6';
 import BooksGridIcons from '../BooksGridIcons';
 import RandomBooksList from './RandomBooksList';
+import StartBtn from './StartBtn';
+import { RANDOM_BOOKS_URL } from '@/constants/apiSources';
+import { randomBooksCardsLimit } from '@/constants/cardsLimit';
+import fetchData from '@/utils/fetchData';
+import BookType from '@/types/BookType';
 
-const MainScreen = () => {
-  const router = useRouter();
-
-  const handleStartClick = () => {
-    router.push('/books');
-  };
-
+const MainScreen = async () => {
+  
+    let books: BookType[] | null = null;
+    let error: string | null = null;
+  
+    try {
+      const response = await fetchData(`${RANDOM_BOOKS_URL}?limit=${randomBooksCardsLimit}`);
+      books = response?.data ?? null;
+  
+      if (books === null) {
+        error = 'No books found';
+      }
+    } catch (err) {
+      error = err instanceof Error ? err.message : 'Failed to fetch book';
+    }
+  
   return (
     <div className="min-h-screen bg-gradient-to-tl from-indigo-300 via-gray-200 to-teal-300 dark:from-indigo-900 dark:via-gray-800 dark:to-teal-900 p-6 overflow-hidden relative">
       <div className="flex flex-col max-w-5xl md:w-[90%] mx-auto relative">
@@ -27,18 +36,12 @@ const MainScreen = () => {
               favorites, and share your thoughts with a vibrant community of
               readers.
             </p>
-            <Button
-              className="mt-6 white-button flex items-center gap-2 mx-auto"
-              onClick={handleStartClick}
-            >
-              Start
-              <FaArrowRight className="text-black" />
-            </Button>
+            <StartBtn />
           </div>
         </div>
       </div>
       <BooksGridIcons />
-      <RandomBooksList />
+      <RandomBooksList initialBooks={books} fetchError={error} />
     </div>
   );
 };
