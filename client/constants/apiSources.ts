@@ -14,3 +14,5 @@ export const REGISTER_USER_URL = `${ALL_USERS_URL}/register`;
 export const LOGIN_USER_URL = `${ALL_USERS_URL}/login`;
 
 export const REFRESH_ACCESS_TOKEN_URL = `${ALL_USERS_URL}/refresh`;
+
+export const CHANGE_PASSWORD_URL = `${ALL_USERS_URL}/change-password`;
