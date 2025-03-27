@@ -2,3 +2,4 @@ csv/
 node_modules/
 .env
 logs.txt
+.DS_Store

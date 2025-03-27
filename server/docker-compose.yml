@@ -17,5 +17,23 @@ services:
     ports:
       - '8080:8080'
 
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - '6379:6379'
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    restart: always
+    ports:
+      - '5540:5540'
+
 volumes:
   books_pg_data:
+  redis_data:
