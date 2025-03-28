@@ -38,7 +38,7 @@ const SingleUser = ({
     }, setIsLoading);
   }, [id]);
 
-  if (isLoading) {
+  if (isLoading && !user) {
     return (
       <div className="gradient-page-bg">
         <Spinner className="mx-auto my-16" />

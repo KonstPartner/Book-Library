@@ -14,6 +14,8 @@ import {
 import User from '../models/User.ts';
 import { transformRating } from '../utils/transformModel.ts';
 import { findAllUserRatingsRequest } from '../services/ratingsServices.ts';
+import redis from '../config/redis.ts';
+import updateRedisCache from '../utils/updateRedisCache.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -33,7 +35,14 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const getUserById = async (req: Request, res: Response) => {
   const UserId = req.params.id;
+  const cacheKey = `user:${UserId}`;
+
   try {
+    const cachedUser = await redis.get(cacheKey);
+    if (cachedUser) {
+      return handleSuccessResponse(res, JSON.parse(cachedUser));
+    }
+
     const user = await findByPkUserRequest(UserId);
     if (!user) {
       handleErrorResponse({
@@ -43,6 +52,9 @@ const getUserById = async (req: Request, res: Response) => {
       });
       return;
     }
+
+    await redis.set(cacheKey, JSON.stringify(user), 'EX', 3600);
+
     handleSuccessResponse(res, user);
   } catch (error) {
     handleErrorResponse({
@@ -64,6 +76,13 @@ const getAllUserRatings = async (req: Request, res: Response) => {
     sortOrder,
     searchRatingsBookQuery,
   } = getRequestQueries(req);
+
+  const cacheKey = `user:${UserId}:ratings:${limit}:${offset}:${
+    sortRatingsBy || 'createdAt'
+  }:${sortRatingsUsersOrBooksBy || 'none'}:${sortOrder}:${
+    JSON.stringify(searchRatingsQueries) || 'none'
+  }:${JSON.stringify(searchRatingsBookQuery) || 'none'}`;
+
   try {
     const { count, rows: ratings } = await findAllUserRatingsRequest(
       UserId,
@@ -76,12 +95,19 @@ const getAllUserRatings = async (req: Request, res: Response) => {
       searchRatingsBookQuery
     );
 
+    if (count > 1000) {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return handleSuccessResponse(res, JSON.parse(cachedData));
+      }
+    }
+
     const modifiedRatings = ratings.map((rating) => transformRating(rating));
 
     const totalPages = Math.ceil(count / limit);
     const currentPage = offset / limit + 1;
 
-    handleSuccessResponse(res, {
+    const responseData = {
       data: modifiedRatings,
       metadata: {
         totalItems: count,
@@ -89,7 +115,13 @@ const getAllUserRatings = async (req: Request, res: Response) => {
         currentPage,
         perPage: limit,
       },
-    });
+    };
+
+    if (count > 1000) {
+      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', 3600);
+    }
+
+    handleSuccessResponse(res, responseData);
   } catch (error) {
     handleErrorResponse({
       res,
@@ -126,11 +158,20 @@ const deleteUserById = async (req: Request, res: Response) => {
 };
 
 const patchUserById = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  const cacheKey = `user:${userId}`;
+  
   try {
     const user = await updateUserRequest(req, {
-      id: req.params.id,
+      id: userId,
       ...req.body,
     });
+
+    const cachedUser = await redis.get(cacheKey);
+    if (cachedUser) {
+      await updateRedisCache(req, cachedUser, cacheKey);
+    }
+
     handleSuccessResponse(res, user);
   } catch (error) {
     handleErrorResponse({

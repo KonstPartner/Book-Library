@@ -14,8 +14,4 @@ redis.on('error', (err) => {
   console.error('Redis error:', err);
 });
 
-redis.on('connect', () => {
-  console.log('Redis reconnected');
-});
-
 export default redis;
