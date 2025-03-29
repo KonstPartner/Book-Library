@@ -112,11 +112,13 @@ const useSearchWithPagination = <
     setSearch(newSearch);
 
     const sortBy = searchParams.get('sortBy') || initialSort.sortBy;
-    const sortOrder =
-      (searchParams.get('sortOrder') as SortOrderType) ||
-      sortBy === 'reviewScore'
-      ? 'DESC'
-      : initialSort.sortOrder
+
+    let sortOrder = searchParams.get('sortOrder') as SortOrderType;
+
+    if (!sortOrder) {
+      sortOrder = sortBy === 'reviewScore' ? 'DESC' : initialSort.sortOrder;
+    }
+
     setSortOptions({ sortBy, sortOrder });
 
     const page = parseInt(searchParams.get('page') || '1', 10);

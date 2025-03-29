@@ -16,6 +16,7 @@ import { transformRating } from '../utils/transformModel.ts';
 import { findAllUserRatingsRequest } from '../services/ratingsServices.ts';
 import redis from '../config/redis.ts';
 import updateRedisCache from '../utils/updateRedisCache.ts';
+import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -78,10 +79,12 @@ const getAllUserRatings = async (req: Request, res: Response) => {
   } = getRequestQueries(req);
 
   const cacheKey = `user:${UserId}:ratings:${limit}:${offset}:${
-    sortRatingsBy || 'createdAt'
-  }:${sortRatingsUsersOrBooksBy || 'none'}:${sortOrder}:${
-    JSON.stringify(searchRatingsQueries) || 'none'
-  }:${JSON.stringify(searchRatingsBookQuery) || 'none'}`;
+    sortRatingsBy || 'none'
+  }:${
+    sortRatingsUsersOrBooksBy ? 'book' : 'none'
+  }:${sortOrder}:${simplifyWhereOptions(
+    searchRatingsQueries
+  )}:${simplifyWhereOptions(searchRatingsBookQuery, 'book')}`;
 
   try {
     const { count, rows: ratings } = await findAllUserRatingsRequest(

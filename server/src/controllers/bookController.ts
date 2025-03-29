@@ -18,31 +18,7 @@ import Book from '../models/Book.ts';
 import { findAllBookRatingsRequest } from '../services/ratingsServices.ts';
 import redis from '../config/redis.ts';
 import updateRedisCache from '../utils/updateRedisCache.ts';
-import { Op, WhereOptions } from 'sequelize';
-
-const simplifyWhere = (where: WhereOptions) =>
-  JSON.stringify(where, (key, value) =>
-    key.startsWith('[Op.') ? value : value
-  );
-
-const simplifyWhereOptions = (where: WhereOptions | undefined): string => {
-  if (!where) return '{}';
-  const simplified: Record<string, string> = {};
-
-  for (const [key, value] of Object.entries(where)) {
-    if (value && typeof value === 'object') {
-      if (Op.iLike in value) {
-        simplified[key] = value[Op.iLike] as string;
-      } else {
-        simplified[key] = String(value);
-      }
-    } else {
-      simplified[key] = String(value);
-    }
-  }
-
-  return JSON.stringify(simplified);
-};
+import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
@@ -59,7 +35,7 @@ const getAllBooks = async (req: Request, res: Response) => {
       sortBooksBy || 'title'
     }:${sortOrder}:${simplifyWhereOptions(
       searchBooksQueries
-    )}:${simplifyWhereOptions(searchBooksCategoryQuery)}`;
+    )}:${simplifyWhereOptions(searchBooksCategoryQuery, 'category')}`;
     const { count, rows: books } = await findAllBooksRequest(
       limit,
       offset,
@@ -151,10 +127,10 @@ const getAllBookRatings = async (req: Request, res: Response) => {
   } = getRequestQueries(req);
 
   const cacheKey = `book:${BookId}:ratings:${limit}:${offset}:${
-    sortRatingsBy || 'createdAt'
-  }:${sortRatingsUsersOrBooksBy || 'none'}:${sortOrder}:${JSON.stringify(
-    simplifyWhere(searchRatingsQueries || {})
-  )}:${JSON.stringify(simplifyWhere(searchRatingsUserQuery || {}))}`;
+    sortRatingsBy || 'none'
+  }:${sortRatingsUsersOrBooksBy ? 'user' : 'none'}:${sortOrder}:${simplifyWhereOptions(
+    searchRatingsQueries
+  )}:${simplifyWhereOptions(searchRatingsUserQuery, 'user')}`;
 
   try {
     const { count, rows: ratings } = await findAllBookRatingsRequest(
