@@ -16,6 +16,33 @@ import { transformBook, transformRating } from '../utils/transformModel.ts';
 import getRequestQueries from '../utils/getRequestQueries.ts';
 import Book from '../models/Book.ts';
 import { findAllBookRatingsRequest } from '../services/ratingsServices.ts';
+import redis from '../config/redis.ts';
+import updateRedisCache from '../utils/updateRedisCache.ts';
+import { Op, WhereOptions } from 'sequelize';
+
+const simplifyWhere = (where: WhereOptions) =>
+  JSON.stringify(where, (key, value) =>
+    key.startsWith('[Op.') ? value : value
+  );
+
+const simplifyWhereOptions = (where: WhereOptions | undefined): string => {
+  if (!where) return '{}';
+  const simplified: Record<string, string> = {};
+
+  for (const [key, value] of Object.entries(where)) {
+    if (value && typeof value === 'object') {
+      if (Op.iLike in value) {
+        simplified[key] = value[Op.iLike] as string;
+      } else {
+        simplified[key] = String(value);
+      }
+    } else {
+      simplified[key] = String(value);
+    }
+  }
+
+  return JSON.stringify(simplified);
+};
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
@@ -28,6 +55,11 @@ const getAllBooks = async (req: Request, res: Response) => {
       searchBooksCategoryQuery,
     } = getRequestQueries(req);
 
+    const cacheKey = `books:${limit}:${offset}:${
+      sortBooksBy || 'title'
+    }:${sortOrder}:${simplifyWhereOptions(
+      searchBooksQueries
+    )}:${simplifyWhereOptions(searchBooksCategoryQuery)}`;
     const { count, rows: books } = await findAllBooksRequest(
       limit,
       offset,
@@ -37,12 +69,19 @@ const getAllBooks = async (req: Request, res: Response) => {
       searchBooksCategoryQuery
     );
 
+    if (count > 1000) {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return handleSuccessResponse(res, JSON.parse(cachedData));
+      }
+    }
+
     const modifiedBooks = books.map((book: BookType) => transformBook(book));
 
     const totalPages = Math.ceil(count / limit);
     const currentPage = offset / limit + 1;
 
-    handleSuccessResponse(res, {
+    const responseData = {
       data: modifiedBooks,
       metadata: {
         totalItems: count,
@@ -50,7 +89,13 @@ const getAllBooks = async (req: Request, res: Response) => {
         currentPage,
         perPage: limit,
       },
-    });
+    };
+
+    if (count > 1000) {
+      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', 3600);
+    }
+
+    handleSuccessResponse(res, responseData);
   } catch (error) {
     handleErrorResponse({
       res,
@@ -62,7 +107,14 @@ const getAllBooks = async (req: Request, res: Response) => {
 
 const getBookById = async (req: Request, res: Response) => {
   const BookId = req.params.id;
+  const cacheKey = `book:${BookId}`;
+
   try {
+    const cachedBook = await redis.get(cacheKey);
+    if (cachedBook) {
+      return handleSuccessResponse(res, JSON.parse(cachedBook));
+    }
+
     const book: BookType | null = await findByPkBookRequest(BookId);
     if (!book) {
       handleErrorResponse({
@@ -73,6 +125,9 @@ const getBookById = async (req: Request, res: Response) => {
       return;
     }
     const modifiedBook = transformBook(book);
+
+    await redis.set(cacheKey, JSON.stringify(modifiedBook), 'EX', 3600);
+
     handleSuccessResponse(res, modifiedBook);
   } catch (error) {
     handleErrorResponse({
@@ -94,6 +149,13 @@ const getAllBookRatings = async (req: Request, res: Response) => {
     searchRatingsQueries,
     searchRatingsUserQuery,
   } = getRequestQueries(req);
+
+  const cacheKey = `book:${BookId}:ratings:${limit}:${offset}:${
+    sortRatingsBy || 'createdAt'
+  }:${sortRatingsUsersOrBooksBy || 'none'}:${sortOrder}:${JSON.stringify(
+    simplifyWhere(searchRatingsQueries || {})
+  )}:${JSON.stringify(simplifyWhere(searchRatingsUserQuery || {}))}`;
+
   try {
     const { count, rows: ratings } = await findAllBookRatingsRequest(
       BookId,
@@ -106,12 +168,19 @@ const getAllBookRatings = async (req: Request, res: Response) => {
       searchRatingsUserQuery
     );
 
+    if (count > 1000) {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return handleSuccessResponse(res, JSON.parse(cachedData));
+      }
+    }
+
     const modifiedRatings = ratings.map((rating) => transformRating(rating));
 
     const totalPages = Math.ceil(count / limit);
     const currentPage = offset / limit + 1;
 
-    handleSuccessResponse(res, {
+    const responseData = {
       data: modifiedRatings,
       metadata: {
         totalItems: count,
@@ -119,7 +188,13 @@ const getAllBookRatings = async (req: Request, res: Response) => {
         currentPage,
         perPage: limit,
       },
-    });
+    };
+
+    if (count > 1000) {
+      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', 3600);
+    }
+
+    handleSuccessResponse(res, responseData);
   } catch (error) {
     handleErrorResponse({
       res,
@@ -154,8 +229,20 @@ const postBook = async (req: Request, res: Response) => {
 };
 
 const deleteBookById = async (req: Request, res: Response) => {
+  const bookId = req.params.id;
+  const bookCacheKey = `book:${bookId}`;
+  const ratingsCachePattern = `book:${bookId}:ratings:*`;
+
   try {
     await destroyBookRequest(req, req.params.id);
+
+    await redis.del(bookCacheKey);
+
+    const ratingsKeys = await redis.keys(ratingsCachePattern);
+    if (ratingsKeys.length > 0) {
+      await redis.del(ratingsKeys);
+    }
+
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({
@@ -167,8 +254,20 @@ const deleteBookById = async (req: Request, res: Response) => {
 };
 
 const patchBookById = async (req: Request, res: Response) => {
+  const bookId = req.params.id;
+  const cacheKey = `book:${bookId}`;
+
   try {
-    const book = await updateBookRequest(req, { id: req.params.id, ...req.body });
+    const book = await updateBookRequest(req, {
+      id: req.params.id,
+      ...req.body,
+    });
+
+    const cachedBook = await redis.get(cacheKey);
+    if (cachedBook) {
+      await updateRedisCache(req, cachedBook, cacheKey);
+    }
+
     handleSuccessResponse(res, book);
   } catch (error) {
     handleErrorResponse({

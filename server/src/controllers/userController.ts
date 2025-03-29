@@ -145,14 +145,26 @@ const postUser = async (req: Request, res: Response) => {
 };
 
 const deleteUserById = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  const userCacheKey = `user:${userId}`;
+  const ratingsCachePattern = `user:${userId}:ratings:*`;
+
   try {
-    await destroyUserRequest(req, req.params.id);
+    await destroyUserRequest(req, userId);
+
+    await redis.del(userCacheKey);
+
+    const ratingsKeys = await redis.keys(ratingsCachePattern);
+    if (ratingsKeys.length > 0) {
+      await redis.del(ratingsKeys);
+    }
+
     handleSuccessResponse(res);
   } catch (error) {
     handleErrorResponse({
       res,
       error,
-      message: 'Failed to delete user ' + req.params.id,
+      message: 'Failed to delete user ' + userId,
     });
   }
 };
@@ -160,7 +172,7 @@ const deleteUserById = async (req: Request, res: Response) => {
 const patchUserById = async (req: Request, res: Response) => {
   const userId = req.params.id;
   const cacheKey = `user:${userId}`;
-  
+
   try {
     const user = await updateUserRequest(req, {
       id: userId,
