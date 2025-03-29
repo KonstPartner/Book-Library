@@ -3,8 +3,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { RefreshCcw } from 'lucide-react';
-import Button from '@/components/Button';
 import RatingInfo from '@/components/ratings/rating/RatingInfo';
 import Spinner from '@/components/Spinner';
 import { ALL_RATINGS_URL } from '@/constants/apiSources';
@@ -12,6 +10,7 @@ import RatingType from '@/types/RatingType';
 import fetchData from '@/utils/fetchData';
 import StoreProvider from '@/components/StoreProvider';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
+import RefreshBtn from '@/components/RefreshBtn';
 
 const SingleRating = ({
   initialRating,
@@ -26,10 +25,10 @@ const SingleRating = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-      if (fetchError) {
-        toast.error(fetchError);
-      }
-    }, [fetchError]);
+    if (fetchError) {
+      toast.error(fetchError);
+    }
+  }, [fetchError]);
 
   const fetchRating = useCallback(async () => {
     fetchDataWrapper(async () => {
@@ -56,16 +55,11 @@ const SingleRating = ({
 
   return (
     <div className="gradient-page-bg">
-      <Button
-        className="border-none shadow-none hover:underline text-gray-400 hover:text-gray-500 mr-0 ml-auto p-1"
-        disabled={isLoading}
-        onClick={() => {
-          setIsLoading(true);
-          fetchRating();
-        }}
-      >
-        <RefreshCcw />
-      </Button>
+      <RefreshBtn
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        callback={fetchRating}
+      />
       <StoreProvider>
         <RatingInfo rating={rating} />
       </StoreProvider>

@@ -58,7 +58,7 @@ const SearchBooksList = () => {
         containerClassName="flex flex-col text-center w-full mx-auto"
         sortByOptions={['title', 'publishedDate']}
       >
-        <BooksList books={data.data} />
+        <BooksList books={data.data} search={search}/>
       </SearchContainer>
     </div>
   );

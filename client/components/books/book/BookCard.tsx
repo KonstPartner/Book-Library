@@ -21,13 +21,14 @@ const BookCard = ({
     <RippleEffect image={image}>
       <Link href={`/books/${id}`}>
         <div className="relative z-10 flex flex-col items-center text-center p-4 h-full justify-between">
-          <div className="w-[160px] h-[200px] flex justify-center items-center overflow-hidden">
+          <div className="relative group w-[160px] h-[200px] overflow-hidden">
             <Image
               src={image}
-              width={160}
-              height={200}
               alt={`${title} Image`}
-              className="rounded-md object-cover"
+              fill
+              priority
+              sizes="160px"
+              className="rounded-md object-cover transition-all duration-300 group-hover:scale-105 group-hover:-rotate-1"
             />
           </div>
 
@@ -36,11 +37,7 @@ const BookCard = ({
               {search?.title.isExact ? (
                 title
               ) : (
-                <HighlightText
-                  text={title}
-                  searchText={search?.title.field}
-                  highlightClass="bg-yellow-300 dark:bg-yellow-500"
-                />
+                <HighlightText text={title} searchText={search?.title.field} />
               )}
             </h2>
             <p className="text-sm opacity-90 min-h-[20px]">
@@ -51,7 +48,6 @@ const BookCard = ({
                 <HighlightText
                   text={author}
                   searchText={search?.author.field}
-                  highlightClass="bg-yellow-300 dark:bg-yellow-500"
                 />
               )}
             </p>
@@ -61,14 +57,13 @@ const BookCard = ({
             {category && (
               <p className="text-orange-400 bg-gray-800/70 rounded-md px-2 py-1 text-xs font-medium mx-auto">
                 {search?.category.isExact ? (
-                category
-              ) : (
-                <HighlightText
-                  text={category}
-                  searchText={search?.category.field}
-                  highlightClass="bg-yellow-300 dark:bg-yellow-500"
-                />
-              )}
+                  category
+                ) : (
+                  <HighlightText
+                    text={category}
+                    searchText={search?.category.field}
+                  />
+                )}
               </p>
             )}
           </div>

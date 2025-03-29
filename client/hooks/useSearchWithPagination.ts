@@ -13,6 +13,7 @@ import {
 import getSearchQueries from '@/utils/getSearchQueries';
 import createSearchFromParams from '@/utils/createSearchFromParams';
 import { SortOptionsType, SortOrderType } from '@/types/SortOptionsType';
+import { toast } from 'react-toastify';
 
 type FetchResponseType<T> = {
   data: T[];
@@ -63,7 +64,7 @@ const useSearchWithPagination = <
           setData(response.data);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        toast.error(error instanceof Error ? error.message : 'Error fetching data');
       } finally {
         setIsLoading(false);
       }

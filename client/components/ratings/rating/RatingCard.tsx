@@ -61,7 +61,6 @@ const RatingCard = ({
                   <HighlightText
                     text={user}
                     searchText={search?.user?.field}
-                    highlightClass="bg-yellow-300 dark:bg-yellow-500"
                   />
                 )}
               </h3>
@@ -79,7 +78,6 @@ const RatingCard = ({
                   <HighlightText
                     text={book}
                     searchText={search?.book?.field}
-                    highlightClass="bg-yellow-300 dark:bg-yellow-500"
                   />
                 )}
               </p>
@@ -98,7 +96,6 @@ const RatingCard = ({
               <HighlightText
                 text={reviewSummary}
                 searchText={search?.reviewSummary?.field}
-                highlightClass="bg-yellow-300 dark:bg-yellow-500"
               />
             )}
           </p>

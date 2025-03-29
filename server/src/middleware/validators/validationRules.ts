@@ -56,7 +56,7 @@ const booksSearchQueriesRules = [
     .optional()
     .isString()
     .trim()
-    .matches(/^\d{4}(-\d{2})?(-\d{2})?$/)
+    .matches(/^\d{3,4}(-\d{2})?(-\d{2})?$/)
     .withMessage(
       'Published date must be in the format YYYY, YYYY-MM, or YYYY-MM-DD.'
     ),

@@ -36,13 +36,14 @@ const BookInfo = ({
     <div>
       <div className="max-w-3xl w-full mx-auto p-6 gradient-blur-container">
         <div className="flex flex-col gap-6 mb-7">
-          <div className="relative group w-fit mx-auto">
+          <div className="relative group w-[200px] h-[300px] mx-auto">
             <Image
               src={image}
-              width={200}
-              height={300}
               alt={`${title} Image`}
-              className="rounded-lg shadow-lg object-cover transition-all duration-300 group-hover:scale-110 group-hover:-rotate-2 relative"
+              fill
+              sizes="200px"
+              priority
+              className="rounded-lg shadow-lg object-cover transition-all duration-300 group-hover:scale-110 group-hover:-rotate-2"
             />
           </div>
 
