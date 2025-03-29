@@ -128,7 +128,9 @@ const getAllBookRatings = async (req: Request, res: Response) => {
 
   const cacheKey = `book:${BookId}:ratings:${limit}:${offset}:${
     sortRatingsBy || 'none'
-  }:${sortRatingsUsersOrBooksBy ? 'user' : 'none'}:${sortOrder}:${simplifyWhereOptions(
+  }:${
+    sortRatingsUsersOrBooksBy ? 'user' : 'none'
+  }:${sortOrder}:${simplifyWhereOptions(
     searchRatingsQueries
   )}:${simplifyWhereOptions(searchRatingsUserQuery, 'user')}`;
 

@@ -1,39 +1,22 @@
-import React, { useEffect, useState } from 'react';
+'use client';
+
+import React from 'react';
 import Link from 'next/link';
 import RatingsList from '@/components/ratings/RatingsList';
-import fetchData from '@/utils/fetchData';
-import { ALL_BOOKS_URL, ALL_USERS_URL } from '@/constants/apiSources';
-import Spinner from '../Spinner';
-import fetchDataWrapper from '@/utils/fetchDataWrapper';
+import RatingType from '@/types/RatingType';
 
 const RatingsPreview = ({
   id,
   ratingsCount,
   contextType,
+  ratings,
 }: {
   id: number | string;
   ratingsCount: number;
   contextType: 'book' | 'user';
+  ratings: RatingType[];
 }) => {
-  const [ratings, setRatings] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const isBook = contextType === 'book';
-
-  useEffect(() => {
-    const fetchRatings = async () => {
-      fetchDataWrapper(async () => {
-        const data = await fetchData(
-          `${isBook ? ALL_BOOKS_URL : ALL_USERS_URL}/${id}/ratings`
-        );
-        if (data?.data?.data) {
-          setRatings(data.data.data);
-        }
-      }, setIsLoading);
-    };
-
-    setIsLoading(true);
-    fetchRatings();
-  }, [id, isBook]);
 
   return (
     <div className="preview-container xs:p-6 md:p-8">
@@ -53,8 +36,8 @@ const RatingsPreview = ({
         )}
       </div>
 
-      {isLoading ? (
-        <Spinner className="mx-auto my-12 w-10 h-10 text-blue-500 animate-spin" />
+      {!ratings.length ? (
+        <p>No ratings found</p>
       ) : (
         <RatingsList contextType={contextType} ratings={ratings} />
       )}

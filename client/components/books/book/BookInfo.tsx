@@ -2,13 +2,20 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import RatingsPreview from '@/components/ratings/RatingsPreview';
 import BookType from '@/types/BookType';
+import RatingType from '@/types/RatingType';
 import getBookValues from '@/utils/getBookValues';
 import CreateRating from '@/components/create/CreateRating';
 import DataOptions from '@/components/dataOptions/DataOptions';
 import useAuth from '@/hooks/useAuth';
 import AuthModal from '@/components/auth/AuthModal';
 
-const BookInfo = ({ book }: { book: BookType }) => {
+const BookInfo = ({
+  book,
+  ratings,
+}: {
+  book: BookType;
+  ratings: RatingType[];
+}) => {
   const { user } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const {
@@ -88,6 +95,7 @@ const BookInfo = ({ book }: { book: BookType }) => {
               contextType="book"
               id={id}
               ratingsCount={ratingsCount}
+              ratings={ratings}
             />
             {(!user || user?.id !== userId) && (
               <CreateRating id={id} setIsAuthModalOpen={setIsAuthModalOpen} />
