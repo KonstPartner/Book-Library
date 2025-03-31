@@ -13,6 +13,7 @@ const BooksList = ({
   return (
     <div
       className="
+      animate-slide-in-from-right
         grid 
         grid-cols-1 
         sm:grid-cols-2
@@ -28,8 +29,13 @@ const BooksList = ({
         mx-auto
       "
     >
-      {books.map((book) => (
-        <BookCard key={book.id} book={book} search={search} />
+      {books.map((book, index) => (
+        <div
+          key={book.id}
+          style={{ animationDelay: `${index * 100}ms` }}
+        >
+          <BookCard book={book} search={search} />
+        </div>
       ))}
     </div>
   );

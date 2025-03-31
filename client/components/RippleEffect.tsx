@@ -57,7 +57,7 @@ const RippleEffect = ({
 
   return (
     <div
-      className="relative group rounded-xl overflow-hidden shadow-lg 
+      className="h-full relative group rounded-xl overflow-hidden shadow-lg 
         bg-gray-800/80 dark:bg-gray-900/80 transition-all duration-300"
       style={{
         backgroundImage: `url(${image})`,
