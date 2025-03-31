@@ -13,6 +13,7 @@ import {
 import Category from '../models/Category.ts';
 import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
 import redis from '../config/redis.ts';
+import { holdCacheTime } from '../config/config.ts';
 
 const getAllCategories = async (req: Request, res: Response) => {
   try {
@@ -32,7 +33,7 @@ const getAllCategories = async (req: Request, res: Response) => {
       searchQueryName
     );
 
-    await redis.set(cacheKey, JSON.stringify(categories), 'EX', 3600);
+    await redis.set(cacheKey, JSON.stringify(categories), 'EX', holdCacheTime.categories);
 
     handleSuccessResponse(res, categories);
   } catch (error) {

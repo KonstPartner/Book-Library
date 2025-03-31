@@ -57,13 +57,13 @@ const SearchScoreField = <
   );
 
   return (
-    <div className="score-field-container">
-      <p className="sm:text-xs text-gray-600 sm:text-gray-500 dark:text-gray-300 sm:dark:text-gray-400 font-medium text-sm whitespace-nowrap">
+    <div className="score-field-container flex flex-row gap-2 sm:gap-3">
+      <p className="text-sm text-gray-600 dark:text-gray-300 font-medium whitespace-nowrap pl-2">
         {getPrettyField(field)}:
       </p>
-      <div className="flex items-center gap-1 flex-1">
+      <div className="flex items-center gap-1 flex-1 min-w-0">
         <select
-          className="score-select sm:px-0"
+          className="w-16 sm:w-20 p-2 pr-6 text-sm sm:text-base bg-transparent border border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
           value={whole || ''}
           onChange={handleWholeChange}
         >
@@ -77,11 +77,11 @@ const SearchScoreField = <
             </option>
           ))}
         </select>
-        <span className="text-gray-500 dark:text-gray-400 text-xl sm:text-2xl">
+        <span className="text-gray-500 dark:text-gray-400 text-lg sm:text-xl">
           .
         </span>
         <select
-          className="score-select sm:px-0 disabled:opacity-50"
+          className="w-16 sm:w-20 p-2 pr-6 text-sm sm:text-base bg-transparent border border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
           value={decimal || ''}
           onChange={handleDecimalChange}
           disabled={!whole}

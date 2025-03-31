@@ -9,4 +9,10 @@ const authConfig = {
   refreshExpiresIn: '7d',
 };
 
-export { PORT, authConfig };
+const holdCacheTime = {
+  books: 3600,
+  users: 10800,
+  categories: 86400,
+}
+
+export { PORT, authConfig, holdCacheTime };

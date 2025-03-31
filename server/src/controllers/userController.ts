@@ -17,6 +17,7 @@ import { findAllUserRatingsRequest } from '../services/ratingsServices.ts';
 import redis from '../config/redis.ts';
 import updateRedisCache from '../utils/updateRedisCache.ts';
 import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
+import { holdCacheTime } from '../config/config.ts';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -54,7 +55,7 @@ const getUserById = async (req: Request, res: Response) => {
       return;
     }
 
-    await redis.set(cacheKey, JSON.stringify(user), 'EX', 3600);
+    await redis.set(cacheKey, JSON.stringify(user), 'EX', holdCacheTime.users);
 
     handleSuccessResponse(res, user);
   } catch (error) {
@@ -121,7 +122,7 @@ const getAllUserRatings = async (req: Request, res: Response) => {
     };
 
     if (count > 1000) {
-      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', 3600);
+      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', holdCacheTime.users);
     }
 
     handleSuccessResponse(res, responseData);

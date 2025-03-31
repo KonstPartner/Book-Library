@@ -26,7 +26,7 @@ const SortMenu = ({
     <div className="relative w-fit">
       <div className="sort-menu-container">
         <div className="flex items-center gap-2">
-          <p className="text-white text-sm md:text-base font-medium">Sort:</p>
+          <p className="text-white text-base font-medium">Sort:</p>
           <select
             value={sortOptions.sortBy}
             onChange={handleSortByChange}
@@ -36,7 +36,7 @@ const SortMenu = ({
               <option
                 key={option}
                 value={option}
-                className="bg-purple-700 text-white text-sm md:text-base"
+                className="bg-purple-700 text-white text-base"
               >
                 {getPrettyField(option)}
               </option>

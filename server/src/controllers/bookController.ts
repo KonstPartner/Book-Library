@@ -19,6 +19,7 @@ import { findAllBookRatingsRequest } from '../services/ratingsServices.ts';
 import redis from '../config/redis.ts';
 import updateRedisCache from '../utils/updateRedisCache.ts';
 import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
+import { holdCacheTime } from '../config/config.ts';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {
@@ -68,7 +69,7 @@ const getAllBooks = async (req: Request, res: Response) => {
     };
 
     if (count > 1000) {
-      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', 3600);
+      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', holdCacheTime.books);
     }
 
     handleSuccessResponse(res, responseData);
@@ -102,7 +103,7 @@ const getBookById = async (req: Request, res: Response) => {
     }
     const modifiedBook = transformBook(book);
 
-    await redis.set(cacheKey, JSON.stringify(modifiedBook), 'EX', 3600);
+    await redis.set(cacheKey, JSON.stringify(modifiedBook), 'EX', holdCacheTime.books);
 
     handleSuccessResponse(res, modifiedBook);
   } catch (error) {
@@ -169,7 +170,7 @@ const getAllBookRatings = async (req: Request, res: Response) => {
     };
 
     if (count > 1000) {
-      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', 3600);
+      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', holdCacheTime.books);
     }
 
     handleSuccessResponse(res, responseData);

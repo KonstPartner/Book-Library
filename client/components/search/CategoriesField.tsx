@@ -102,20 +102,20 @@ const CategoriesField = ({
   };
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-md">
-      <div className="relative flex flex-wrap items-center">
+    <div ref={wrapperRef} className="relative w-full">
+      <div className="relative flex  gap-1 items-center">
         <Input
           type="text"
           value={search.category.field || ''}
           onChange={handleInputChange}
           onFocus={() => setIsDropdownOpen(true)}
           placeholder="Select a category"
-          className="w-full p-3 pr-12 text-sm rounded-md shadow-sm overflow-x-auto whitespace-nowrap scrollbar-hide"
+          className="p-3 pr-12 text-sm rounded-md shadow-sm overflow-x-auto whitespace-nowrap scrollbar-hide"
         />
         {isDropdownOpen && (
           <Button
             onClick={handleSearchClick}
-            className="absolute right-0 p-3 text-indigo-500 bg-violet-300/50 dark:text-indigo-300 dark:bg-violet-600/50 hover:text-indigo-600 focus:outline-none"
+            className="p-3 text-indigo-500 bg-violet-300/50 dark:text-indigo-300 dark:bg-violet-600/50 hover:text-indigo-600 focus:outline-none"
             disabled={search.category.field === lastSearchQuery}
             noLoadingText
           >
