@@ -10,6 +10,7 @@ import {
   SearchFieldType,
 } from '@/types/SearchFieldsType';
 import getPrettyField from '@/utils/getPrettyField';
+import CategoriesField from './CategoriesField';
 
 interface SearchInputFieldsProps<
   T extends Record<keyof T, SearchFieldType> &
@@ -37,7 +38,7 @@ const SearchInputFields = <
         >
           <div className="flex-1 min-w-0">
             {inputField === 'publishedDate' ? (
-              <div className='lg:w-60 mx-auto'>
+              <div className="lg:w-60 mx-auto">
                 <SearchDataField setSearch={setSearch} search={search} />
               </div>
             ) : inputField === 'reviewScore' ? (
@@ -45,6 +46,11 @@ const SearchInputFields = <
                 setSearch={setSearch}
                 search={search}
                 field={inputField as keyof SearchRatingFieldsType}
+              />
+            ) : inputField === 'category' ? (
+              <CategoriesField
+                search={search as SearchBookFieldsType}
+                setSearch={setSearch as (search: SearchBookFieldsType) => void}
               />
             ) : (
               <Input

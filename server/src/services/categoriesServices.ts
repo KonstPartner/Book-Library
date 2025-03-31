@@ -10,7 +10,7 @@ const findAllCategoriesRequest = async (
   await Category.findAll({
     limit,
     offset,
-    order: [['id', 'ASC']],
+    order: [['name', 'ASC']],
     where: searchQueries,
   });
 
