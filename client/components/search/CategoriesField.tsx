@@ -10,6 +10,7 @@ import Category from '@/types/CategoryType';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import fetchDataWrapper from '@/utils/fetchDataWrapper';
+import { searchCategoriesLimit } from '@/constants/cardsLimit';
 
 const CategoriesField = ({
   search,
@@ -22,7 +23,8 @@ const CategoriesField = ({
   const [offset, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [lastSearchQuery, setLastSearchQuery] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const fetchCategories = async (
@@ -32,7 +34,7 @@ const CategoriesField = ({
   ) => {
     await fetchDataWrapper(async () => {
       const response = await fetchData(
-        `${GET_ALL_CATEGORIES}?offset=${newOffset}&name=${encodeURIComponent(
+        `${GET_ALL_CATEGORIES}?offset=${newOffset}&limit=${searchCategoriesLimit}&name=${encodeURIComponent(
           query
         )}`
       );
@@ -41,15 +43,11 @@ const CategoriesField = ({
         setCategories((prev) =>
           append ? [...prev, ...newCategories] : newCategories
         );
+
+        setHasMore(newCategories.length === searchCategoriesLimit && newCategories.length > 0);
       }
     }, setIsLoading);
   };
-
-  useEffect(() => {
-    if (isDropdownOpen) {
-      fetchCategories(0);
-    }
-  }, [isDropdownOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -67,6 +65,10 @@ const CategoriesField = ({
     };
   }, []);
 
+  useEffect(() => {
+    fetchCategories(0);
+  }, []);
+
   const handleCategorySelect = (category: Category) => {
     setSearch({
       ...search,
@@ -76,17 +78,27 @@ const CategoriesField = ({
   };
 
   const handleLoadMore = () => {
-    const newOffset = offset + 25;
+    const newOffset = offset + searchCategoriesLimit;
     setOffset(newOffset);
-    fetchCategories(newOffset, true, searchQuery);
+    fetchCategories(newOffset, true, lastSearchQuery || '');
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
     setSearch({
       ...search,
-      category: { field: e.target.value, isExact: false },
+      category: { field: newValue, isExact: false },
     });
-    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchClick = () => {
+    if (search.category.field === lastSearchQuery) {
+      return;
+    }
+
+    setOffset(0);
+    fetchCategories(0, false, search.category.field);
+    setLastSearchQuery(search.category.field);
   };
 
   return (
@@ -100,13 +112,12 @@ const CategoriesField = ({
           placeholder="Select a category"
           className="w-full p-3 pr-12 text-sm rounded-md shadow-sm overflow-x-auto whitespace-nowrap scrollbar-hide"
         />
-        {search.category.field && isDropdownOpen && (
+        {isDropdownOpen && (
           <Button
-            onClick={() => {
-              setOffset(0);
-              fetchCategories(0, false, searchQuery);
-            }}
+            onClick={handleSearchClick}
             className="absolute right-0 p-3 text-indigo-500 bg-violet-300/50 dark:text-indigo-300 dark:bg-violet-600/50 hover:text-indigo-600 focus:outline-none"
+            disabled={search.category.field === lastSearchQuery}
+            noLoadingText
           >
             <Search className="w-4 h-4" />
           </Button>
@@ -130,13 +141,15 @@ const CategoriesField = ({
                   {category.name}
                 </div>
               ))}
-              <Button
-                onClick={handleLoadMore}
-                disabled={isLoading}
-                className="flex justify-center w-full p-2 text-sm text-center text-indigo-500 dark:text-indigo-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/50 disabled:opacity-50"
-              >
-                More
-              </Button>
+              {hasMore && (
+                <Button
+                  onClick={handleLoadMore}
+                  disabled={isLoading}
+                  className="flex justify-center w-full p-2 text-sm text-center text-indigo-500 dark:text-indigo-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/50 disabled:opacity-50"
+                >
+                  More
+                </Button>
+              )}
             </>
           ) : (
             <div className="p-2 text-sm text-gray-500 dark:text-gray-400">
