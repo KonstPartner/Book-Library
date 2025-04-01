@@ -63,7 +63,7 @@ const SearchScoreField = <
       </p>
       <div className="flex items-center gap-1 flex-1 min-w-0">
         <select
-          className="w-16 sm:w-20 p-2 pr-6 text-sm sm:text-base bg-transparent border border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
+          className="w-16 sm:w-20 p-2 pr-6 text-sm sm:text-base bg-transparent border border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 dark:text-white"
           value={whole || ''}
           onChange={handleWholeChange}
         >
@@ -71,8 +71,7 @@ const SearchScoreField = <
             <option
               key={num}
               value={num}
-              className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
-            >
+               >
               {num === '' ? '-' : num}
             </option>
           ))}
@@ -81,7 +80,7 @@ const SearchScoreField = <
           .
         </span>
         <select
-          className="w-16 sm:w-20 p-2 pr-6 text-sm sm:text-base bg-transparent border border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
+          className="w-16 sm:w-20 p-2 pr-6 text-sm sm:text-base bg-transparent border border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 dark:text-white"
           value={decimal || ''}
           onChange={handleDecimalChange}
           disabled={!whole}
@@ -90,7 +89,6 @@ const SearchScoreField = <
             <option
               key={num}
               value={num}
-              className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
             >
               {num === '' ? '-' : num}
             </option>

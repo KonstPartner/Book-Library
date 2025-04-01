@@ -28,7 +28,7 @@ const MainScreen = async () => {
       <div className="flex flex-col max-w-5xl md:w-[90%] mx-auto relative">
         <div className="flex justify-end">
           <div className="w-full gradient-blur-container p-8 md:py-20 text-center animate-slide-in-from-right">
-            <h1 className="text-3xl xs:text-4xl sm:text-5xl main-tiptle">
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl main-title">
               Welcome to the Book Library
             </h1>
             <EncouragePhrases />

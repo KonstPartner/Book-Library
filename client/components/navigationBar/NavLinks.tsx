@@ -15,7 +15,7 @@ const NavLinks = ({
   const pathname = usePathname();
 
   return (
-    <div className="hidden sm:flex items-center space-x-4">
+    <div className="hidden lg:flex items-center space-x-4">
       {links.map(({ href, label }) => {
         const isActive = pathname === href;
         return (

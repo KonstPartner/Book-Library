@@ -33,7 +33,10 @@ const SingleRating = ({
   const fetchRating = useCallback(async () => {
     fetchDataWrapper(async () => {
       const data = await fetchData(`${ALL_RATINGS_URL}/${id}`);
-      if (data?.data) setRating(data.data);
+      if (data?.data) {
+        setRating(data.data);
+        toast.success('Rating refreshed successfully');
+      }
     }, setIsLoading);
   }, [id]);
 
