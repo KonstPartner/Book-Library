@@ -39,10 +39,10 @@ const Navbar = () => {
       <div className="md:container mx-auto flex items-center justify-between px-4 py-3 md:px-6 sm:py-4">
         <Link href="/" className="flex items-center gap-2 group">
           <BookOpenText
-            className="text-gray-100 dark:text-indigo-200 transition-transform duration-300 group-hover:rotate-12"
+            className="text-gray-100 dark:text-indigo-400 transition-transform duration-300 group-hover:rotate-12"
             size={34}
           />
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-100 dark:text-indigo-200 bg-gradient-to-r from-gray-100 to-blue-200 dark:from-indigo-200 dark:to-teal-300 bg-clip-text text-transparent transition-all duration-300 group-hover:scale-105">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-100 bg-gradient-to-r from-gray-100 to-blue-200 dark:from-indigo-400 dark:to-teal-300 bg-clip-text text-transparent transition-all duration-300 group-hover:scale-105">
             Book Library App
           </h1>
         </Link>
@@ -50,6 +50,7 @@ const Navbar = () => {
           <div className="hidden sm:block">
             <ToggleTheme theme={theme} setTheme={setTheme} />
           </div>
+          <span className="hidden sm:block w-px h-8 bg-white/40 backdrop-blur-sm rounded-full mx-5" />
           <NavLinks links={NAV_LINKS} />
           <NavMenu links={NAV_LINKS} theme={theme} setTheme={setTheme} />
         </div>

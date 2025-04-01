@@ -32,18 +32,21 @@ const SearchDataField = <
       placeholder: 'YYYY',
       value: year,
       maxLength: 4,
+      title: 'Published year',
     },
     {
       type: 'month' as const,
       placeholder: 'MM',
       value: month,
       maxLength: 2,
+      title: 'Published month',
     },
     {
       type: 'day' as const,
       placeholder: 'DD',
       value: day,
       maxLength: 2,
+      title: 'Published day',
     },
   ];
 
@@ -80,7 +83,7 @@ const SearchDataField = <
   return (
     <div className="flex items-center gap-1 justify-center">
       {dateFields.map(
-        ({ type, placeholder, value, maxLength }, index) => (
+        ({ type, placeholder, value, maxLength, title }, index) => (
           <div key={type} className="flex items-center">
             <Input
               className={`w-10 !px-0 text-center text-sm sm:text-base bg-transparent border-white/20`}
@@ -89,6 +92,7 @@ const SearchDataField = <
               value={value}
               onChange={(e) => handleDateChange(type, e.target.value)}
               maxLength={maxLength}
+              title={title}
             />
             {index < dateFields.length - 1 && (
               <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base ml-1">

@@ -167,6 +167,10 @@ body {
   animation: slide-in-from-right 1s ease-out forwards;
 }
 
+.main-background {
+  @apply bg-gradient-to-tl from-indigo-300 via-gray-200 to-teal-300 dark:from-indigo-950 dark:via-gray-900 dark:to-teal-950;
+}
+
 .gradient-button {
   @apply mt-2 mx-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md;
 }
@@ -188,7 +192,7 @@ body {
 }
 
 .main-title {
-  @apply font-extrabold bg-gradient-to-r from-indigo-500 via-gray-400 to-teal-500 dark:from-indigo-600 dark:via-fuchsia-200 dark:to-teal-500 bg-clip-text text-transparent py-2;
+  @apply font-extrabold bg-gradient-to-r from-indigo-700 via-slate-300 to-teal-500 dark:from-indigo-600 dark:via-fuchsia-500 dark:to-teal-500 bg-clip-text text-transparent py-2;
 }
 
 .gradient-page-bg {

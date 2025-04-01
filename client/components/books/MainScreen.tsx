@@ -24,7 +24,7 @@ const MainScreen = async () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tl from-indigo-300 via-gray-200 to-teal-300 dark:from-indigo-950 dark:via-gray-900 dark:to-teal-950 p-6 overflow-hidden relative">
+    <div className="main-background min-h-screen p-6 overflow-hidden relative">
       <div className="flex flex-col max-w-5xl md:w-[90%] mx-auto relative">
         <div className="flex justify-end">
           <div className="w-full gradient-blur-container p-8 md:py-20 text-center animate-slide-in-from-right">
