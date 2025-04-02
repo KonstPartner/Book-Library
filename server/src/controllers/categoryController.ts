@@ -11,17 +11,30 @@ import {
   findByPkCategoryRequest,
 } from '../services/categoriesServices.ts';
 import Category from '../models/Category.ts';
+import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
+import redis from '../config/redis.ts';
+import { holdCacheTime } from '../config/config.ts';
 
 const getAllCategories = async (req: Request, res: Response) => {
   try {
     const { limit, offset, searchQueryName } = getRequestQueries(req, {
-      defaultLimit: 25,
+      defaultLimit: 50,
     });
+    const cacheKey = `categories:${limit}:${offset}:${simplifyWhereOptions(searchQueryName, 'category')}`;
+
+    const cachedData = await redis.get(cacheKey);
+    if (cachedData) {
+      return handleSuccessResponse(res, JSON.parse(cachedData));
+    }
+
     const categories = await findAllCategoriesRequest(
       limit,
       offset,
       searchQueryName
     );
+
+    await redis.set(cacheKey, JSON.stringify(categories), 'EX', holdCacheTime.categories);
+
     handleSuccessResponse(res, categories);
   } catch (error) {
     handleErrorResponse({

@@ -1,4 +1,5 @@
 import { WhereOptions } from 'sequelize';
+import { Request } from 'express';
 import sequelize from '../config/database.ts';
 import Book from '../models/Book.ts';
 import Category from '../models/Category.ts';
@@ -10,13 +11,15 @@ import {
 const findAllBooksRequest = async (
   limit: number,
   offset: number,
+  sortBooksBy: string | undefined,
+  sortOrder: string,
   searchQueries: WhereOptions<BookAttributes> | undefined,
   searchCategoryQuery: WhereOptions<CategoryAttributes> | undefined
 ) =>
-  await Book.findAll({
+  await Book.findAndCountAll({
     limit,
     offset,
-    order: [['id', 'ASC']],
+    order: [[sortBooksBy || 'title', sortOrder]],
     where: searchQueries,
     include: [
       {
@@ -69,14 +72,12 @@ const findRandomBooksRequest = async (limit: number, offset: number) =>
   });
 
 const createBookRequest = async (
+  req: Request,
   data: BookAttributes & { category: string | null }
 ) => {
   const existinBook = await Book.findOne({ where: { title: data.title } });
   if (existinBook) {
-    throw {
-      code: 400,
-      message: 'Book already exists.',
-    };
+    throw { code: 400, message: 'Book already exists.' };
   }
 
   const transaction = await sequelize.transaction();
@@ -99,6 +100,7 @@ const createBookRequest = async (
         publishedDate: data.publishedDate || null,
         infoLink: data.infoLink || null,
         categoryId: categoryRecord ? categoryRecord.id : null,
+        userId: (req as any).user.id,
       },
       { transaction }
     );
@@ -111,26 +113,46 @@ const createBookRequest = async (
   }
 };
 
-const destroyBookRequest = async (BookId: string) => {
-  const book = await Book.findByPk(BookId);
+const destroyBookRequest = async (req: Request, bookId: string) => {
+  const book = await Book.findByPk(bookId);
   if (!book) {
-    throw { code: 404, message: `Error: No such book with id ${BookId}` };
+    throw { code: 404, message: `Error: No such book with id ${bookId}` };
   }
-  return await Book.destroy({ where: { id: BookId } });
+
+  if (book.userId !== (req as any).user.id) {
+    throw { code: 403, message: 'You can only delete your own books.' };
+  }
+
+  return await Book.destroy({ where: { id: bookId } });
 };
 
 const updateBookRequest = async (
+  req: Request,
   data: Partial<BookAttributes> & { category?: string }
 ) => {
   const { id, category, ...updates } = data;
 
+  const book = await Book.findByPk(id);
+  if (!book) {
+    throw { code: 404, message: `Error: No such book with id ${id}` };
+  }
+
+  if (book.userId !== (req as any).user.id) {
+    throw { code: 403, message: 'You can only update your own books.' };
+  }
+
+  if (updates.title) {
+    const existinTitle = await Book.findOne({
+      where: { title: updates.title },
+    });
+
+    if (existinTitle) {
+      throw { code: 400, message: 'Title already used in another book.' };
+    }
+  }
+
   const transaction = await sequelize.transaction();
   try {
-    const book = await Book.findByPk(id, { transaction });
-    if (!book) {
-      throw { code: 404, message: `Error: No such book with id ${id}` };
-    }
-
     Object.assign(book, updates);
 
     if (category) {

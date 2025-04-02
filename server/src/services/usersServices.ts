@@ -1,8 +1,10 @@
 import { WhereOptions } from 'sequelize';
+import { ulid } from 'ulid';
 import sequelize from '../config/database.ts';
 import User from '../models/User.ts';
 import { UserAttributes } from '../models/modelsInterfaces.ts';
-import { ulid } from 'ulid';
+import { existingUser } from './servicesUtils.ts';
+import { Request } from 'express';
 
 const findAllUsersRequest = async (
   limit: number,
@@ -31,16 +33,6 @@ const findByPkUserRequest = async (UserId: string) =>
     },
   });
 
-const existingUser = async (name: string) => {
-  const existingUser = await User.findOne({ where: { name } });
-  if (existingUser) {
-    throw {
-      code: 400,
-      message: 'User already exists.',
-    };
-  }
-};
-
 const createUserRequest = async (data: UserAttributes) => {
   await existingUser(data.name);
 
@@ -52,26 +44,39 @@ const createUserRequest = async (data: UserAttributes) => {
   return await findByPkUserRequest(String(newUser.id));
 };
 
-const destroyUserRequest = async (UserId: string) => {
-  const user = await User.findByPk(UserId);
+const destroyUserRequest = async (req: Request, userId: string) => {
+  const user = await User.findByPk(userId);
   if (!user) {
-    throw { code: 404, message: `Error: No such user with id ${UserId}` };
+    throw { code: 404, message: `Error: No such user with id ${userId}` };
   }
-  return await User.destroy({ where: { id: UserId } });
+
+  if (user.id !== (req as any).user.id) {
+    throw { code: 403, message: 'You can only delete your own account.' };
+  }
+
+  return await User.destroy({ where: { id: userId } });
 };
 
-const updateUserRequest = async (data: Partial<UserAttributes>) => {
+const updateUserRequest = async (
+  req: Request,
+  data: Partial<UserAttributes>
+) => {
   const { id, ...updates } = data;
-
-  await existingUser(data.name as string);
 
   const user = await User.findByPk(id);
   if (!user) {
     throw { code: 404, message: `Error: No such user with id ${id}` };
   }
 
-  Object.assign(user, updates);
+  if (user.id !== (req as any).user.id) {
+    throw { code: 403, message: 'You can only update your own account.' };
+  }
 
+  if (updates.name && updates.name !== user.name) {
+    await existingUser(updates.name);
+  }
+
+  Object.assign(user, updates);
   await user.save();
   return user;
 };

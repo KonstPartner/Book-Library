@@ -11,11 +11,12 @@ import { findByPkUserRequest } from './usersServices.ts';
 import User from '../models/User.ts';
 import Book from '../models/Book.ts';
 import { WhereOptions } from 'sequelize';
+import { Request } from 'express';
 
 const findAllRatingsRequest = async (
   limit: number,
   offset: number,
-  searchQueries: WhereOptions<RatingAttributes> | undefined,
+  searchQueries: WhereOptions<RatingAttributes> | undefined
 ) =>
   await Rating.findAll({
     limit,
@@ -27,7 +28,6 @@ const findAllRatingsRequest = async (
 
 const findByPkRatingRequest = async (RatingId: string) =>
   await Rating.findByPk(RatingId, {
-    attributes: { exclude: ['bookId', 'userId'] },
     include: [
       {
         model: Book,
@@ -43,28 +43,33 @@ const findByPkRatingRequest = async (RatingId: string) =>
   });
 
 const createRatingRequest = async (
-  data: RatingAttributes & { category: string | null }
+  req: Request,
+  data: Omit<RatingAttributes, 'userId'> & { category?: string }
 ) => {
-  const existinRating = await Rating.findOne({ where: { bookId: data.bookId, userId: data.userId } });
+  const userId = (req as any).user.id;
+
+  const existinRating = await Rating.findOne({
+    where: { bookId: data.bookId, userId },
+  });
   if (existinRating) {
     throw {
       code: 400,
-      message: 'User already has rating for this book.',
+      message: 'You already have a rating for this book.',
     };
   }
 
   const transaction = await sequelize.transaction();
   try {
     const book = await findByPkBookRequest(String(data.bookId));
-    const user = await findByPkUserRequest(String(data.userId));
-    if (!book) throw new Error('Cannot find book');
-    if (!user) throw new Error('Cannot find user');
+    const user = await findByPkUserRequest(String(userId));
+    if (!book) throw { code: 404, message: 'Cannot find book' };
+    if (!user) throw { code: 404, message: 'Cannot find user' };
 
     const newRating = await Rating.create(
       {
         id: ulid(),
         bookId: data.bookId,
-        userId: data.userId,
+        userId,
         reviewHelpfulness: data.reviewHelpfulness || null,
         reviewScore: data.reviewScore || null,
         reviewSummary: data.reviewSummary || null,
@@ -85,15 +90,21 @@ const findAllBookRatingsRequest = async (
   BookId: string,
   limit: number,
   offset: number,
+  sortRatingsBy: string | undefined,
+  sortRatingsUsersOrBooksBy: string | undefined,
+  sortOrder: string,
   searchQueries: WhereOptions<RatingAttributes> | undefined,
   searchUserQuery: WhereOptions<UserAttributes> | undefined
 ) =>
-  await Rating.findAll({
+  await Rating.findAndCountAll({
     where: { ...{ ...searchQueries, bookId: BookId } },
     limit,
     offset,
-    order: [['id', 'ASC']],
-    attributes: { exclude: ['bookId', 'userId'] },
+    ...(sortRatingsUsersOrBooksBy === 'name'
+      ? { order: [[{ model: User, as: 'user' }, 'name', sortOrder]] }
+      : {
+          order: [[sortRatingsBy || 'reviewScore', sortOrder]],
+        }),
     include: [
       {
         model: Book,
@@ -113,14 +124,21 @@ const findAllUserRatingsRequest = async (
   UserId: string,
   limit: number,
   offset: number,
+  sortRatingsBy: string | undefined,
+  sortRatingsUsersOrBooksBy: string | undefined,
+  sortOrder: string,
   searchQueries: WhereOptions<RatingAttributes> | undefined,
   searchBookQuery: WhereOptions<BookAttributes> | undefined
 ) =>
-  await Rating.findAll({
+  await Rating.findAndCountAll({
     where: { ...{ ...searchQueries, userId: UserId } },
     limit,
     offset,
-    attributes: { exclude: ['bookId', 'userId'] },
+    ...(sortRatingsUsersOrBooksBy === 'title'
+      ? { order: [[{ model: Book, as: 'book' }, 'title', sortOrder]] }
+      : {
+          order: [[sortRatingsBy || 'reviewScore', sortOrder]],
+        }),
     include: [
       {
         model: Book,
@@ -136,15 +154,21 @@ const findAllUserRatingsRequest = async (
     ],
   });
 
-const destroyRatingRequest = async (RatingId: string) => {
-  const rating = await Rating.findByPk(RatingId);
+const destroyRatingRequest = async (req: Request, ratingId: string) => {
+  const rating = await Rating.findByPk(ratingId);
   if (!rating) {
-    throw { code: 404, message: `Error: No such rating with id ${RatingId}` };
+    throw { code: 404, message: `Error: No such rating with id ${ratingId}` };
   }
-  return await Rating.destroy({ where: { id: RatingId } });
+
+  if (rating.userId !== (req as any).user.id) {
+    throw { code: 403, message: 'You can only delete your own ratings.' };
+  }
+
+  return await Rating.destroy({ where: { id: ratingId } });
 };
 
 const updateRatingRequest = async (
+  req: Request,
   data: Partial<RatingAttributes>
 ) => {
   const { id, ...updates } = data;
@@ -154,9 +178,13 @@ const updateRatingRequest = async (
     throw { code: 404, message: `Error: No such rating with id ${id}` };
   }
 
-  Object.assign(rating, updates);
+  if (rating.userId !== (req as any).user.id) {
+    throw { code: 403, message: 'You can only update your own ratings.' };
+  }
 
+  Object.assign(rating, updates);
   await rating.save();
+
   return rating;
 };
 

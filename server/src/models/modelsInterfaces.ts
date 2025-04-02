@@ -8,6 +8,7 @@ interface BookAttributes {
   publishedDate: string | null;
   infoLink: string | null;
   categoryId: number | null;
+  userId: string | null;
 }
 
 interface CategoryAttributes {
@@ -30,4 +31,10 @@ interface UserAttributes {
   name: string;
 }
 
-export { BookAttributes, CategoryAttributes, RatingAttributes, UserAttributes };
+interface RegisteredUserAttributes {
+  id: string;
+  users_id: string;
+  password: string;
+}
+
+export { BookAttributes, CategoryAttributes, RatingAttributes, UserAttributes, RegisteredUserAttributes };
