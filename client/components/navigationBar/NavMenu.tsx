@@ -5,16 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AlignJustify } from 'lucide-react';
 import ToggleTheme from './ToggleTheme';
+import NavLinksType from '@/types/NavLinksType';
 
 const NavMenu = ({
   links,
   theme,
   setTheme,
 }: {
-  links: {
-    href: string;
-    label: string;
-  }[];
+  links: NavLinksType[];
   theme: 'light' | 'dark' | 'system';
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
 }) => {
@@ -41,7 +39,8 @@ const NavMenu = ({
           <div className="sm:hidden mx-auto">
             <ToggleTheme theme={theme} setTheme={setTheme} />
           </div>
-          {links.map(({ href, label }) => {
+          <span className="block sm:hidden mx-auto my-1 w-[95%] h-1 bg-white/40 backdrop-blur-sm rounded-full" />
+          {links.map(({ href, label, icon }) => {
             const isActive = pathname === href;
             return (
               <Link
@@ -54,7 +53,10 @@ const NavMenu = ({
                 }`}
                 onClick={() => setIsOpen(false)}
               >
-                {label}
+                <div className="flex gap-3 items-center">
+                  {icon}
+                  {label}
+                </div>
               </Link>
             );
           })}

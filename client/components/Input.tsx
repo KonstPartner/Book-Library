@@ -31,7 +31,7 @@ const Input = ({
       <input
         type={inputType}
         className={twMerge(
-          'input-field',
+          'w-full px-4 py-3 bg-white/10 dark:bg-gray-800/10 border border-white/20 rounded-lg backdrop-blur-sm focus:border-transparent text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-300 shadow-sm hover:shadow-md text-sm sm:text-base',
           initialType === 'password' ? 'pr-10' : '',
           className
         )}

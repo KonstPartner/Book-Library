@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { BookOpenText } from 'lucide-react';
+import { BookMarked, BookOpenText, BookPlus, SquareUserRound, Tent } from 'lucide-react';
 import Link from 'next/link';
 import NavMenu from './NavMenu';
 import NavLinks from './NavLinks';
@@ -9,10 +9,10 @@ import ToggleTheme from './ToggleTheme';
 import ThemeType from '@/types/ThemeType';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Main' },
-  { href: '/books', label: 'Books' },
-  { href: '/books/create', label: 'Create' },
-  { href: '/users/profile', label: 'Profile' },
+  { href: '/', label: 'Main', icon: <Tent /> },
+  { href: '/books', label: 'Books', icon: <BookMarked />},
+  { href: '/books/create', label: 'Create', icon: <BookPlus /> },
+  { href: '/users/profile', label: 'Profile', icon: <SquareUserRound /> },
 ];
 
 const Navbar = () => {

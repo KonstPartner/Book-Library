@@ -1,22 +1,16 @@
 'use client';
 
+import NavLinksType from '@/types/NavLinksType';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-const NavLinks = ({
-  links,
-}: {
-  links: {
-    href: string;
-    label: string;
-  }[];
-}) => {
+const NavLinks = ({ links }: { links: NavLinksType[] }) => {
   const pathname = usePathname();
 
   return (
     <div className="hidden lg:flex items-center space-x-4">
-      {links.map(({ href, label }) => {
+      {links.map(({ href, label, icon }) => {
         const isActive = pathname === href;
         return (
           <Link
@@ -28,7 +22,10 @@ const NavLinks = ({
                 : 'hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500'
             }`}
           >
-            {label}
+            <div className="flex gap-3 items-center">
+              {icon}
+              {label}
+            </div>
           </Link>
         );
       })}
