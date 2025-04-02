@@ -1,10 +1,10 @@
-# API Installation Guide
+# API Installation Guide (DEV mode)
 
 ## Prerequisites
 Before proceeding, ensure you have the following installed:
-- [Node.js](https://nodejs.org/)
+- [Node.js](https://nodejs.org/) (Latest LTS version recommended)
+- [Git](https://git-scm.com/downloads) (for cloning the repository)
 - [Docker](https://www.docker.com/)
-- [Git](https://git-scm.com/downloads)
 
 ## Installation Steps
 
@@ -21,13 +21,18 @@ cd Book-Library/server
 ```
 
 ### 3. Import database data
-1. Download the database backup file [server_books_pg_data.tar.gz](https://drive.google.com/file/d/1MUENNWBGdlRk_leHYaBkwMWc-xZjlDj-/view?usp=sharing)
+1. Download the database backup file [server_books_pg_data.tar.gz](https://drive.google.com/file/d/1Aa2KlWFEvUvak4vr3EIkq3EdGoqV_09D/view?usp=sharing)
 
-1. Open **Docker**, go to the **Volumes** tab, and click **Create**.
+1.  Start container to trigger creation of database volume:
+```sh
+docker compose up -d
 
-1. Enter the volume name as `server_books_pg_data` and create it.
+docker compose stop
+```
 
-1. Open the newly created **server_books_pg_data** volume and click **Import**.
+1. Open **Docker Desktop**, go to the **Volumes** tab, and click on the newly created **server_books_pg_data** volume.
+
+1. In the **server_books_pg_data** volume click **Import**.
 
 1. In the **Location -> Local file** field, select the downloaded database file **server_books_pg_data.tar.gz**.
 
@@ -42,7 +47,11 @@ POSTGRES_USER=admin
 POSTGRES_PASSWORD=admin_password
 POSTGRES_DB=db
 
-PORT=3000
+REDIS_PORT=6379
+REDIS_PASSWORD=redis_password
+
+PORT=4000
+JWT_SECRET=588e747c703e4305eb33f7839df8fb1406eef28088a3a034921b9ebc7dba3c1e
 ```
 
 ### 5. Install project dependencies
@@ -53,7 +62,7 @@ npm install
 
 ## Running the Application
 
-### 1.  Start Postgres DB and Adminer
+### 1.  Start Postgres DB, Adminer, Redis and Redis Insight
 Start the container:
 ```sh
 docker compose up -d
@@ -62,20 +71,20 @@ docker compose up -d
 ### 2. Start the API service
 Finally, start the API server:
 ```sh
-npm start
+npm run dev
 ```
 
 ### 3. Verify the setup
 Once the server is running, you can verify the installation by checking:
 - API logs for any errors
 - The running Docker container with `docker ps`
-- The API response at the expected endpoint (e.g., `http://localhost:3000`)
+- The API response at the expected endpoint (e.g., `http://localhost:4000`)
 
 Your API should now be up and running! 🚀
 
 ## Stop the Application
 
-### 1.  Stop Postgres DB and Adminer
+### 1.  Stop Postgres DB, Adminer, Redis and Redis Insight
 Stop and delete the container:
 ```sh
 docker compose down
