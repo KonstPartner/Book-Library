@@ -1,5 +1,8 @@
+'use client';
+
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { toast } from 'react-toastify';
 import fetchData from '@/utils/fetchData';
 import updateSearchParams from '@/utils/updateSearchParams';
 import createSearchQueryString from '@/utils/createSearchQueryString';
@@ -13,7 +16,6 @@ import {
 import getSearchQueries from '@/utils/getSearchQueries';
 import createSearchFromParams from '@/utils/createSearchFromParams';
 import { SortOptionsType, SortOrderType } from '@/types/SortOptionsType';
-import { toast } from 'react-toastify';
 
 type FetchResponseType<T> = {
   data: T[];

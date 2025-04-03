@@ -1,7 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { BookMarked, BookOpenText, BookPlus, SquareUserRound, Tent } from 'lucide-react';
+import {
+  BookMarked,
+  BookOpenText,
+  BookPlus,
+  SquareUserRound,
+  Tent,
+} from 'lucide-react';
 import Link from 'next/link';
 import NavMenu from './NavMenu';
 import NavLinks from './NavLinks';
@@ -10,18 +16,34 @@ import ThemeType from '@/types/ThemeType';
 
 const NAV_LINKS = [
   { href: '/', label: 'Main', icon: <Tent /> },
-  { href: '/books', label: 'Books', icon: <BookMarked />},
+  { href: '/books', label: 'Books', icon: <BookMarked /> },
   { href: '/books/create', label: 'Create', icon: <BookPlus /> },
   { href: '/users/profile', label: 'Profile', icon: <SquareUserRound /> },
 ];
 
 const Navbar = () => {
-  const [theme, setTheme] = useState<ThemeType>(() => {
+  const [theme, setTheme] = useState<ThemeType>('system');
+
+  useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as ThemeType;
-    return savedTheme && ['light', 'dark', 'system'].includes(savedTheme)
-      ? savedTheme
-      : 'system';
-  });
+    const initialTheme =
+      savedTheme && ['light', 'dark', 'system'].includes(savedTheme)
+        ? savedTheme
+        : 'system';
+    setTheme(initialTheme);
+
+    const systemPrefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+    if (initialTheme === 'system') {
+      document.documentElement.classList.toggle('dark', systemPrefersDark);
+    } else {
+      document.documentElement.classList.toggle(
+        'dark',
+        initialTheme === 'dark'
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const systemPrefersDark = window.matchMedia(

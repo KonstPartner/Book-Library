@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { ChevronUp, Eraser } from 'lucide-react';
 import Button from '../Button';
