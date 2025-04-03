@@ -58,10 +58,7 @@ const RatingCard = ({
                 {search?.user?.isExact ? (
                   user
                 ) : (
-                  <HighlightText
-                    text={user}
-                    searchText={search?.user?.field}
-                  />
+                  <HighlightText text={user} searchText={search?.user?.field} />
                 )}
               </h3>
             </Link>
@@ -75,10 +72,7 @@ const RatingCard = ({
                 {search?.book?.isExact ? (
                   book
                 ) : (
-                  <HighlightText
-                    text={book}
-                    searchText={search?.book?.field}
-                  />
+                  <HighlightText text={book} searchText={search?.book?.field} />
                 )}
               </p>
             </Link>

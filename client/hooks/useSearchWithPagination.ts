@@ -66,7 +66,9 @@ const useSearchWithPagination = <
           setData(response.data);
         }
       } catch (error) {
-        toast.error(error instanceof Error ? error.message : 'Error fetching data');
+        toast.error(
+          error instanceof Error ? error.message : 'Error fetching data'
+        );
       } finally {
         setIsLoading(false);
       }

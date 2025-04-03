@@ -17,9 +17,12 @@ describe('fetchData', () => {
 
     const result = await fetchData('https://api.example.com/data');
     expect(result).toEqual(mockResponse);
-    expect(fetch).toHaveBeenCalledWith('https://api.example.com/data', expect.objectContaining({
-      method: 'GET',
-    }));
+    expect(fetch).toHaveBeenCalledWith(
+      'https://api.example.com/data',
+      expect.objectContaining({
+        method: 'GET',
+      })
+    );
   });
 
   it('should throw an error if the response has an error message', async () => {
@@ -31,7 +34,9 @@ describe('fetchData', () => {
       json: async () => mockErrorResponse,
     });
 
-    await expect(fetchData('https://api.example.com/data')).rejects.toThrow('Some error occurred');
+    await expect(fetchData('https://api.example.com/data')).rejects.toThrow(
+      'Some error occurred'
+    );
   });
 
   it('should throw an error if the response has an invalid errors array', async () => {
@@ -43,21 +48,23 @@ describe('fetchData', () => {
       json: async () => mockErrorResponse,
     });
 
-    await expect(fetchData('https://api.example.com/data')).rejects.toThrow('Unexpected error occurred');
+    await expect(fetchData('https://api.example.com/data')).rejects.toThrow(
+      'Unexpected error occurred'
+    );
   });
 
   it('should throw an error if there is a field error', async () => {
     const mockErrorResponse = {
-      errors: [
-        { type: 'field', msg: 'Field error occurred' } as ErrorType,
-      ],
+      errors: [{ type: 'field', msg: 'Field error occurred' } as ErrorType],
     };
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
       json: async () => mockErrorResponse,
     });
 
-    await expect(fetchData('https://api.example.com/data')).rejects.toThrow('Field error occurred');
+    await expect(fetchData('https://api.example.com/data')).rejects.toThrow(
+      'Field error occurred'
+    );
   });
 
   it('should return true when the response status is 204', async () => {

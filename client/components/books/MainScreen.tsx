@@ -13,7 +13,9 @@ const MainScreen = async () => {
   let error: string | null = null;
 
   try {
-    const response = await fetchData(`${RANDOM_BOOKS_URL}?limit=${randomBooksCardsLimit}`);
+    const response = await fetchData(
+      `${RANDOM_BOOKS_URL}?limit=${randomBooksCardsLimit}`
+    );
     books = response?.data ?? null;
 
     if (books === null) {

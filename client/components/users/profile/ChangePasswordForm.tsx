@@ -30,12 +30,12 @@ const ChangePasswordForm = () => {
     };
 
     try {
-          validateData({password: formData.oldPassword});
-          validateData({password: formData.newPassword});
-        } catch (error) {
-          toast.error(error instanceof Error ? error.message : String(error));
-          return;
-        }
+      validateData({ password: formData.oldPassword });
+      validateData({ password: formData.newPassword });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error));
+      return;
+    }
 
     await fetchDataWrapper(async () => {
       await fetchData(CHANGE_PASSWORD_URL, {

@@ -1,5 +1,5 @@
-import BookType from "@/types/BookType";
-import RatingType from "@/types/RatingType";
+import BookType from '@/types/BookType';
+import RatingType from '@/types/RatingType';
 
 const bookInputFields = [
   'title',
@@ -12,11 +12,7 @@ const bookInputFields = [
   'category',
 ] as const;
 
-const ratingInputFields = [
-  'reviewScore',
-  'reviewSummary',
-  'reviewText',
-];
+const ratingInputFields = ['reviewScore', 'reviewSummary', 'reviewText'];
 
 const bookDataFields: Partial<BookType> = {
   title: '',
@@ -27,12 +23,12 @@ const bookDataFields: Partial<BookType> = {
   publishedDate: '',
   infoLink: '',
   category: '',
-}
+};
 
 const ratingDataFields: Partial<RatingType> = {
   reviewScore: '',
   reviewSummary: '',
   reviewText: '',
-}
+};
 
 export { bookInputFields, ratingInputFields, bookDataFields, ratingDataFields };

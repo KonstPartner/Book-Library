@@ -44,7 +44,10 @@ const CategoriesField = ({
           append ? [...prev, ...newCategories] : newCategories
         );
 
-        setHasMore(newCategories.length === searchCategoriesLimit && newCategories.length > 0);
+        setHasMore(
+          newCategories.length === searchCategoriesLimit &&
+            newCategories.length > 0
+        );
       }
     }, setIsLoading);
   };

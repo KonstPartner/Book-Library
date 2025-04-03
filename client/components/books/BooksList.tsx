@@ -30,10 +30,7 @@ const BooksList = ({
       "
     >
       {books.map((book, index) => (
-        <div
-          key={book.id}
-          style={{ animationDelay: `${index * 100}ms` }}
-        >
+        <div key={book.id} style={{ animationDelay: `${index * 100}ms` }}>
           <BookCard book={book} search={search} />
         </div>
       ))}

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { MouseEvent, ReactNode, useState } from 'react';
 import { StaticImageData } from 'next/image';
