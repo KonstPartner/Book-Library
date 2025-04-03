@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { authConfig } from '../config/config.ts';
+import { authConfig } from '../config/config.js';
 
 const authMiddleware = (
   req: Request,

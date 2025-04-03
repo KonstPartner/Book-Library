@@ -1,11 +1,11 @@
 import { ulid } from 'ulid';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.ts';
-import { existingUser } from './servicesUtils.ts';
-import RegisteredUser from '../models/RegisteredUser.ts';
-import { authConfig } from '../config/config.ts';
-import generateJWT from '../utils/generateJWT.ts';
+import User from '../models/User.js';
+import { existingUser } from './servicesUtils.js';
+import RegisteredUser from '../models/RegisteredUser.js';
+import { authConfig } from '../config/config.js';
+import generateJWT from '../utils/generateJWT.js';
 
 const authError = { code: 401, message: 'Invalid name or password.' };
 

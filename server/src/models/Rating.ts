@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../config/database.ts';
-import User from './User.ts';
-import { RatingAttributes } from './modelsInterfaces.ts';
+import sequelize from '../config/database.js';
+import User from './User.js';
+import { RatingAttributes } from './modelsInterfaces.js';
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 interface RatingCreationAttributes extends Optional<RatingAttributes, 'id'> {}

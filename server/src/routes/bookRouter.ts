@@ -7,8 +7,8 @@ import {
   postBook,
   deleteBookById,
   patchBookById,
-} from '../controllers/bookController.ts';
-import validationErrorHandler from '../middleware/validationErrorHandler.ts';
+} from '../controllers/bookController.js';
+import validationErrorHandler from '../middleware/validationErrorHandler.js';
 import {
   validateGetAllBooks,
   validateGetAllRatings,
@@ -16,8 +16,8 @@ import {
   validateLimit,
   validatePatchBook,
   validatePostBook,
-} from '../middleware/validators/validators.ts';
-import authMiddleware from '../middleware/authMiddleware.ts';
+} from '../middleware/validators/validators.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
-import Book from './models/Book.ts';
-import Rating from './models/Rating.ts';
+import Book from './models/Book.js';
+import Rating from './models/Rating.js';
 
 type RatingType = Rating & {
   reviewHelpfulness: string | null;

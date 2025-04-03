@@ -1,19 +1,19 @@
 import express from 'express';
-import validationErrorHandler from '../middleware/validationErrorHandler.ts';
+import validationErrorHandler from '../middleware/validationErrorHandler.js';
 import {
   deleteRatingById,
   getAllRatings,
   getRatingById,
   patchRatingById,
   postRating,
-} from '../controllers/ratingController.ts';
+} from '../controllers/ratingController.js';
 import {
   validateGetAllRatings,
   validateIdString,
   validatePatchRating,
   validatePostRating,
-} from '../middleware/validators/validators.ts';
-import authMiddleware from '../middleware/authMiddleware.ts';
+} from '../middleware/validators/validators.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 

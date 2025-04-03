@@ -1,23 +1,23 @@
 import { Request, Response } from 'express';
-import getRequestQueries from '../utils/getRequestQueries.ts';
+import getRequestQueries from '../utils/getRequestQueries.js';
 import {
   handleErrorResponse,
   handleSuccessResponse,
-} from '../utils/handleResponse.ts';
+} from '../utils/handleResponse.js';
 import {
   createUserRequest,
   destroyUserRequest,
   findAllUsersRequest,
   findByPkUserRequest,
   updateUserRequest,
-} from '../services/usersServices.ts';
-import User from '../models/User.ts';
-import { transformRating } from '../utils/transformModel.ts';
-import { findAllUserRatingsRequest } from '../services/ratingsServices.ts';
-import redis from '../config/redis.ts';
-import updateRedisCache from '../utils/updateRedisCache.ts';
-import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
-import { holdCacheTime } from '../config/config.ts';
+} from '../services/usersServices.js';
+import User from '../models/User.js';
+import { transformRating } from '../utils/transformModel.js';
+import { findAllUserRatingsRequest } from '../services/ratingsServices.js';
+import redis from '../config/redis.js';
+import updateRedisCache from '../utils/updateRedisCache.js';
+import simplifyWhereOptions from '../utils/simplifyWhereOptions.js';
+import { holdCacheTime } from '../config/config.js';
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {

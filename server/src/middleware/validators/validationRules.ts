@@ -3,7 +3,7 @@ import {
   createStringValidation,
   createIntParamValidation,
   createIntQueryValidation,
-} from '../../utils/validationHelpers.ts';
+} from '../../utils/validationHelpers.js';
 
 const limitRule = [createIntQueryValidation('limit', 1, 50)];
 const offsetRule = [createIntQueryValidation('offset', 0)];

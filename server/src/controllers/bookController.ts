@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BookType } from '../types.ts';
+import { BookType } from '../types.js';
 import {
   createBookRequest,
   destroyBookRequest,
@@ -7,19 +7,19 @@ import {
   findByPkBookRequest,
   findRandomBooksRequest,
   updateBookRequest,
-} from '../services/booksServices.ts';
+} from '../services/booksServices.js';
 import {
   handleErrorResponse,
   handleSuccessResponse,
-} from '../utils/handleResponse.ts';
-import { transformBook, transformRating } from '../utils/transformModel.ts';
-import getRequestQueries from '../utils/getRequestQueries.ts';
-import Book from '../models/Book.ts';
-import { findAllBookRatingsRequest } from '../services/ratingsServices.ts';
-import redis from '../config/redis.ts';
-import updateRedisCache from '../utils/updateRedisCache.ts';
-import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
-import { holdCacheTime } from '../config/config.ts';
+} from '../utils/handleResponse.js';
+import { transformBook, transformRating } from '../utils/transformModel.js';
+import getRequestQueries from '../utils/getRequestQueries.js';
+import Book from '../models/Book.js';
+import { findAllBookRatingsRequest } from '../services/ratingsServices.js';
+import redis from '../config/redis.js';
+import updateRedisCache from '../utils/updateRedisCache.js';
+import simplifyWhereOptions from '../utils/simplifyWhereOptions.js';
+import { holdCacheTime } from '../config/config.js';
 
 const getAllBooks = async (req: Request, res: Response) => {
   try {

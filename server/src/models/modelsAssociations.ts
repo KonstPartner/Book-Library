@@ -1,8 +1,8 @@
-import Category from './Category.ts';
-import Book from './Book.ts';
-import Rating from './Rating.ts';
-import User from './User.ts';
-import RegisteredUser from './RegisteredUser.ts';
+import Category from './Category.js';
+import Book from './Book.js';
+import Rating from './Rating.js';
+import User from './User.js';
+import RegisteredUser from './RegisteredUser.js';
 
 Category.hasMany(Book, {
   foreignKey: 'categoryId',

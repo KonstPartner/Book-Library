@@ -1,6 +1,6 @@
 import { WhereOptions } from 'sequelize';
-import Category from '../models/Category.ts';
-import { CategoryAttributes } from '../models/modelsInterfaces.ts';
+import Category from '../models/Category.js';
+import { CategoryAttributes } from '../models/modelsInterfaces.js';
 
 const findAllCategoriesRequest = async (
   limit: number,

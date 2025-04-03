@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../config/database.ts';
-import { CategoryAttributes } from './modelsInterfaces.ts';
+import sequelize from '../config/database.js';
+import { CategoryAttributes } from './modelsInterfaces.js';
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 interface CategoryCreationAttributes

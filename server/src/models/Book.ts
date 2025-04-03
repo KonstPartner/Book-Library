@@ -1,6 +1,6 @@
 import { Model, DataTypes, Optional } from 'sequelize';
-import sequelize from '../config/database.ts';
-import { BookAttributes } from './modelsInterfaces.ts';
+import sequelize from '../config/database.js';
+import { BookAttributes } from './modelsInterfaces.js';
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 interface BookCreationAttributes extends Optional<BookAttributes, 'id'> {}

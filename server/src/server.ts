@@ -1,8 +1,8 @@
-import app from './app.ts';
-import { PORT } from './config/config.ts';
-import sequelize from './config/database.ts';
-import setupAssociations from './models/modelsAssociations.ts';
-import redis from './config/redis.ts';
+import app from './app.js';
+import { PORT } from './config/config.js';
+import sequelize from './config/database.js';
+import setupAssociations from './models/modelsAssociations.js';
+import redis from './config/redis.js';
 
 const startServer = async () => {
   try {

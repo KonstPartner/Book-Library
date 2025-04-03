@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "dev": "nodemon ./src/server.ts",
     "lint": "eslint . --ext .js,.ts",
     "lint-fix": "eslint --fix",
