@@ -37,4 +37,10 @@ interface RegisteredUserAttributes {
   password: string;
 }
 
-export { BookAttributes, CategoryAttributes, RatingAttributes, UserAttributes, RegisteredUserAttributes };
+export {
+  BookAttributes,
+  CategoryAttributes,
+  RatingAttributes,
+  UserAttributes,
+  RegisteredUserAttributes,
+};

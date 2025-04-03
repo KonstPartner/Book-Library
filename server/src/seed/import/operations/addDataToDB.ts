@@ -40,14 +40,14 @@ export const addBookAndCategory = async (row: any) => {
 export const addUser = async (row: any) => {
   const id = ulid();
 
-  let cleanProfileName = validateUser(row['profileName'])
+  let cleanProfileName = validateUser(row['profileName']);
 
   if (!row['User_id'] || !cleanProfileName) {
     cleanProfileName = 'Unknown User';
   }
 
   if (!checkRatingRow(row)) return;
-  
+
   return await User.findOrCreate({
     where: {
       name: cleanProfileName,
@@ -62,7 +62,7 @@ export const addUser = async (row: any) => {
 export const addRating = async (row: any) => {
   const id = ulid();
 
-  let cleanProfileName = validateUser(row['profileName'])
+  let cleanProfileName = validateUser(row['profileName']);
 
   if (!row['User_id'] || !cleanProfileName) {
     cleanProfileName = 'Unknown User';

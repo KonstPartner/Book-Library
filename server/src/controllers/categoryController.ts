@@ -20,7 +20,10 @@ const getAllCategories = async (req: Request, res: Response) => {
     const { limit, offset, searchQueryName } = getRequestQueries(req, {
       defaultLimit: 50,
     });
-    const cacheKey = `categories:${limit}:${offset}:${simplifyWhereOptions(searchQueryName, 'category')}`;
+    const cacheKey = `categories:${limit}:${offset}:${simplifyWhereOptions(
+      searchQueryName,
+      'category'
+    )}`;
 
     const cachedData = await redis.get(cacheKey);
     if (cachedData) {
@@ -33,7 +36,12 @@ const getAllCategories = async (req: Request, res: Response) => {
       searchQueryName
     );
 
-    await redis.set(cacheKey, JSON.stringify(categories), 'EX', holdCacheTime.categories);
+    await redis.set(
+      cacheKey,
+      JSON.stringify(categories),
+      'EX',
+      holdCacheTime.categories
+    );
 
     handleSuccessResponse(res, categories);
   } catch (error) {

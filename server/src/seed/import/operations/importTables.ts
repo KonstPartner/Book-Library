@@ -1,4 +1,7 @@
-import { BOOKS_CSV_PATH, RATINGS_CSV_PATH } from '../../../seed/import/config.ts';
+import {
+  BOOKS_CSV_PATH,
+  RATINGS_CSV_PATH,
+} from '../../../seed/import/config.ts';
 import { addBookAndCategory, addRating, addUser } from './addDataToDB.ts';
 import importData from './importData.ts';
 

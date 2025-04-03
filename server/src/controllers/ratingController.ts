@@ -59,7 +59,10 @@ const getRatingById = async (req: Request, res: Response) => {
 
 const postRating = async (req: Request, res: Response) => {
   try {
-    const newRating: Rating = (await createRatingRequest(req, req.body)) as Rating;
+    const newRating: Rating = (await createRatingRequest(
+      req,
+      req.body
+    )) as Rating;
     handleSuccessResponse(res, transformRating(newRating));
   } catch (error) {
     handleErrorResponse({

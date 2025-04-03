@@ -2,7 +2,10 @@ import { Op, WhereOptions } from 'sequelize';
 
 type extraFieldType = 'category' | 'book' | 'user' | 'none';
 
-const simplifyWhereOptions = (where: WhereOptions | undefined, extraField: extraFieldType = 'none'): string => {
+const simplifyWhereOptions = (
+  where: WhereOptions | undefined,
+  extraField: extraFieldType = 'none'
+): string => {
   if (!where) return '{}';
   const simplified: Record<string, string> = {};
 

@@ -18,7 +18,9 @@ const findByPkCategoryRequest = async (CategoryId: string) =>
   await Category.findByPk(CategoryId);
 
 const createCategoryRequest = async (data: CategoryAttributes) => {
-  const existinCategory = await Category.findOne({ where: { name: data.name } });
+  const existinCategory = await Category.findOne({
+    where: { name: data.name },
+  });
   if (existinCategory) {
     throw {
       code: 400,

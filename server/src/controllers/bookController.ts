@@ -69,7 +69,12 @@ const getAllBooks = async (req: Request, res: Response) => {
     };
 
     if (count > 1000) {
-      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', holdCacheTime.books);
+      await redis.set(
+        cacheKey,
+        JSON.stringify(responseData),
+        'EX',
+        holdCacheTime.books
+      );
     }
 
     handleSuccessResponse(res, responseData);
@@ -103,7 +108,12 @@ const getBookById = async (req: Request, res: Response) => {
     }
     const modifiedBook = transformBook(book);
 
-    await redis.set(cacheKey, JSON.stringify(modifiedBook), 'EX', holdCacheTime.books);
+    await redis.set(
+      cacheKey,
+      JSON.stringify(modifiedBook),
+      'EX',
+      holdCacheTime.books
+    );
 
     handleSuccessResponse(res, modifiedBook);
   } catch (error) {
@@ -170,7 +180,12 @@ const getAllBookRatings = async (req: Request, res: Response) => {
     };
 
     if (count > 1000) {
-      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', holdCacheTime.books);
+      await redis.set(
+        cacheKey,
+        JSON.stringify(responseData),
+        'EX',
+        holdCacheTime.books
+      );
     }
 
     handleSuccessResponse(res, responseData);

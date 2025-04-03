@@ -3,7 +3,8 @@ import sequelize from '../config/database.ts';
 import { CategoryAttributes } from './modelsInterfaces.ts';
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-interface CategoryCreationAttributes extends Optional<CategoryAttributes, 'id'> {}
+interface CategoryCreationAttributes
+  extends Optional<CategoryAttributes, 'id'> {}
 
 class Category
   extends Model<CategoryAttributes, CategoryCreationAttributes>

@@ -122,7 +122,12 @@ const getAllUserRatings = async (req: Request, res: Response) => {
     };
 
     if (count > 1000) {
-      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', holdCacheTime.users);
+      await redis.set(
+        cacheKey,
+        JSON.stringify(responseData),
+        'EX',
+        holdCacheTime.users
+      );
     }
 
     handleSuccessResponse(res, responseData);
