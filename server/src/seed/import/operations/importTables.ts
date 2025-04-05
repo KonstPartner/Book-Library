@@ -1,6 +1,9 @@
-import { BOOKS_CSV_PATH, RATINGS_CSV_PATH } from '../../../seed/import/config.ts';
-import { addBookAndCategory, addRating, addUser } from './addDataToDB.ts';
-import importData from './importData.ts';
+import {
+  BOOKS_CSV_PATH,
+  RATINGS_CSV_PATH,
+} from '../../../seed/import/config.js';
+import { addBookAndCategory, addRating, addUser } from './addDataToDB.js';
+import importData from './importData.js';
 
 export const importBookAndCategories = async () => {
   importData(addBookAndCategory, BOOKS_CSV_PATH, 'BooksAndCategories');

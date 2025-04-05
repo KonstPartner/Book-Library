@@ -68,10 +68,7 @@ const SearchScoreField = <
           onChange={handleWholeChange}
         >
           {wholeOptions.map((num) => (
-            <option
-              key={num}
-              value={num}
-               >
+            <option key={num} value={num}>
               {num === '' ? '-' : num}
             </option>
           ))}
@@ -86,10 +83,7 @@ const SearchScoreField = <
           disabled={!whole}
         >
           {decimalOptions.map((num) => (
-            <option
-              key={num}
-              value={num}
-            >
+            <option key={num} value={num}>
               {num === '' ? '-' : num}
             </option>
           ))}

@@ -30,12 +30,12 @@ const ChangePasswordForm = () => {
     };
 
     try {
-          validateData({password: formData.oldPassword});
-          validateData({password: formData.newPassword});
-        } catch (error) {
-          toast.error(error instanceof Error ? error.message : String(error));
-          return;
-        }
+      validateData({ password: formData.oldPassword });
+      validateData({ password: formData.newPassword });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error));
+      return;
+    }
 
     await fetchDataWrapper(async () => {
       await fetchData(CHANGE_PASSWORD_URL, {
@@ -54,7 +54,7 @@ const ChangePasswordForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 p-4">
+    <div className="flex items-center justify-center  dark:from-gray-900 dark:to-gray-800 p-4">
       <div className="w-full max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
         <h3 className="text-xl sm:text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-6 text-center">
           Change Password

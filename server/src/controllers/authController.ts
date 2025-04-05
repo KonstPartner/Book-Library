@@ -2,13 +2,13 @@ import { Request, Response } from 'express';
 import {
   handleSuccessResponse,
   handleErrorResponse,
-} from '../utils/handleResponse.ts';
+} from '../utils/handleResponse.js';
 import {
   changePasswordRequest,
   createRegisteredUserRequest,
   loginUserRequest,
   refreshTokenRequest,
-} from '../services/authServices.ts';
+} from '../services/authServices.js';
 
 const registerUser = async (req: Request, res: Response) => {
   try {

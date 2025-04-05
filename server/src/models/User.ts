@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../config/database.ts';
-import { UserAttributes } from './modelsInterfaces.ts';
+import sequelize from '../config/database.js';
+import { UserAttributes } from './modelsInterfaces.js';
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}

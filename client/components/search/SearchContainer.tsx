@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect } from 'react';
 import Spinner from '@/components/Spinner';
 import PaginationBar from '@/components/PaginationBar';

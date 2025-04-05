@@ -16,7 +16,7 @@ import {
   ratingIdRule,
   ratingsSearchQueriesRules,
   refreshTokenRule,
-} from './validationRules.ts';
+} from './validationRules.js';
 
 const validateLimit = limitRule;
 const validateLimitAndOffset = [...limitRule, ...offsetRule];

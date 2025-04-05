@@ -1,9 +1,9 @@
 'use client';
 
-import NavLinksType from '@/types/NavLinksType';
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import NavLinksType from '@/types/NavLinksType';
 
 const NavLinks = ({ links }: { links: NavLinksType[] }) => {
   const pathname = usePathname();

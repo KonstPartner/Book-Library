@@ -86,7 +86,7 @@ const SearchDataField = <
         ({ type, placeholder, value, maxLength, title }, index) => (
           <div key={type} className="flex items-center">
             <Input
-              className={`w-10 !px-0 text-center text-sm sm:text-base bg-transparent border-white/20`}
+              className={`w-14 px-0 text-center text-sm sm:text-base bg-transparent border-white/20`}
               type="text"
               placeholder={placeholder}
               value={value}

@@ -1,15 +1,15 @@
 import { ulid } from 'ulid';
-import sequelize from '../config/database.ts';
+import sequelize from '../config/database.js';
 import {
   BookAttributes,
   RatingAttributes,
   UserAttributes,
-} from '../models/modelsInterfaces.ts';
-import Rating from '../models/Rating.ts';
-import { findByPkBookRequest } from './booksServices.ts';
-import { findByPkUserRequest } from './usersServices.ts';
-import User from '../models/User.ts';
-import Book from '../models/Book.ts';
+} from '../models/modelsInterfaces.js';
+import Rating from '../models/Rating.js';
+import { findByPkBookRequest } from './booksServices.js';
+import { findByPkUserRequest } from './usersServices.js';
+import User from '../models/User.js';
+import Book from '../models/Book.js';
 import { WhereOptions } from 'sequelize';
 import { Request } from 'express';
 

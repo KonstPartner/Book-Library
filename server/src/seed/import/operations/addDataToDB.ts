@@ -1,12 +1,12 @@
 import { ulid } from 'ulid';
-import Book from '../../../models/Book.ts';
-import Category from '../../../models/Category.ts';
-import Rating from '../../../models/Rating.ts';
-import User from '../../../models/User.ts';
-import { checkBooksAndCategiries, checkRatingRow } from '../utils/checkRow.ts';
-import cutBracketsAndQuotes from '../utils/cutBracketsAndQuotes.ts';
-import validateRow from '../utils/validateRow.ts';
-import validateUser from '../utils/validateUser.ts';
+import Book from '../../../models/Book.js';
+import Category from '../../../models/Category.js';
+import Rating from '../../../models/Rating.js';
+import User from '../../../models/User.js';
+import { checkBooksAndCategiries, checkRatingRow } from '../utils/checkRow.js';
+import cutBracketsAndQuotes from '../utils/cutBracketsAndQuotes.js';
+import validateRow from '../utils/validateRow.js';
+import validateUser from '../utils/validateUser.js';
 
 export const addBookAndCategory = async (row: any) => {
   row.infoLink = row.infoLink.split('=').slice(0, 2).join('=');
@@ -40,14 +40,14 @@ export const addBookAndCategory = async (row: any) => {
 export const addUser = async (row: any) => {
   const id = ulid();
 
-  let cleanProfileName = validateUser(row['profileName'])
+  let cleanProfileName = validateUser(row['profileName']);
 
   if (!row['User_id'] || !cleanProfileName) {
     cleanProfileName = 'Unknown User';
   }
 
   if (!checkRatingRow(row)) return;
-  
+
   return await User.findOrCreate({
     where: {
       name: cleanProfileName,
@@ -62,7 +62,7 @@ export const addUser = async (row: any) => {
 export const addRating = async (row: any) => {
   const id = ulid();
 
-  let cleanProfileName = validateUser(row['profileName'])
+  let cleanProfileName = validateUser(row['profileName']);
 
   if (!row['User_id'] || !cleanProfileName) {
     cleanProfileName = 'Unknown User';

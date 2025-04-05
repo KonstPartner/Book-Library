@@ -1,5 +1,5 @@
 import express from 'express';
-import validationErrorHandler from '../middleware/validationErrorHandler.ts';
+import validationErrorHandler from '../middleware/validationErrorHandler.js';
 import {
   deleteUserById,
   getAllUserRatings,
@@ -7,7 +7,7 @@ import {
   getUserById,
   patchUserById,
   postUser,
-} from '../controllers/userController.ts';
+} from '../controllers/userController.js';
 import {
   validateAuthUser,
   validateChangePassword,
@@ -17,15 +17,15 @@ import {
   validatePatchUser,
   validatePostUser,
   validateRefreshToken,
-} from '../middleware/validators/validators.ts';
+} from '../middleware/validators/validators.js';
 import {
   changePassword,
   getProfile,
   loginUser,
   refreshToken,
   registerUser,
-} from '../controllers/authController.ts';
-import authMiddleware from '../middleware/authMiddleware.ts';
+} from '../controllers/authController.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 

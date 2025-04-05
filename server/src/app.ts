@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import bookRouter from './routes/bookRouter.ts';
-import categoryRouter from './routes/categoryRouter.ts';
-import userRouter from './routes/userRouter.ts';
-import ratingRouter from './routes/ratingRouter.ts';
+import bookRouter from './routes/bookRouter.js';
+import categoryRouter from './routes/categoryRouter.js';
+import userRouter from './routes/userRouter.js';
+import ratingRouter from './routes/ratingRouter.js';
 
 const app = express();
 

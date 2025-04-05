@@ -11,7 +11,7 @@ const DataOptions = ({
   contextType: ContextType;
 }) => {
   return (
-    <div className="my-2 flex justify-end gap-3">
+    <div className="my-2 flex justify-end gap-3 dark:text-gray-300">
       <UpdateDataOptions id={id} contextType={contextType} />
       <DeleteDataOptions id={id} contextType={contextType} />
     </div>

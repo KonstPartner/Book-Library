@@ -1,16 +1,16 @@
 import express from 'express';
-import validationErrorHandler from '../middleware/validationErrorHandler.ts';
+import validationErrorHandler from '../middleware/validationErrorHandler.js';
 import {
   deleteCategoryById,
   getAllCategories,
   getCategoryById,
   postCategory,
-} from '../controllers/categoryController.ts';
+} from '../controllers/categoryController.js';
 import {
   validateIdInt,
   validateLimitAndOffset,
   validatePostCategory,
-} from '../middleware/validators/validators.ts';
+} from '../middleware/validators/validators.js';
 
 const router = express.Router();
 

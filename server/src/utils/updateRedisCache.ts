@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import redis from '../config/redis.ts';
+import redis from '../config/redis.js';
 
 const updateRedisCache = async (
   req: Request,

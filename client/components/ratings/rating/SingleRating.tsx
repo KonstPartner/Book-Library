@@ -58,14 +58,16 @@ const SingleRating = ({
 
   return (
     <div className="gradient-page-bg">
-      <RefreshBtn
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        callback={fetchRating}
-      />
-      <StoreProvider>
-        <RatingInfo rating={rating} />
-      </StoreProvider>
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RefreshBtn
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          callback={fetchRating}
+        />
+        <StoreProvider>
+          <RatingInfo rating={rating} />
+        </StoreProvider>
+      </div>
     </div>
   );
 };

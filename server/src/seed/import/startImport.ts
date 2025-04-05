@@ -1,10 +1,10 @@
-import sequelize from '../../config/database.ts';
+import sequelize from '../../config/database.js';
 import {
   importBookAndCategories,
   importRatings,
   importUsers,
-} from './operations/importTables.ts';
-import './logs/logger.ts';
+} from './operations/importTables.js';
+import './logs/logger.js';
 
 export default async (table: 'books' | 'users' | 'ratings') => {
   switch (table) {

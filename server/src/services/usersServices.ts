@@ -1,9 +1,9 @@
 import { WhereOptions } from 'sequelize';
 import { ulid } from 'ulid';
-import sequelize from '../config/database.ts';
-import User from '../models/User.ts';
-import { UserAttributes } from '../models/modelsInterfaces.ts';
-import { existingUser } from './servicesUtils.ts';
+import sequelize from '../config/database.js';
+import User from '../models/User.js';
+import { UserAttributes } from '../models/modelsInterfaces.js';
+import { existingUser } from './servicesUtils.js';
 import { Request } from 'express';
 
 const findAllUsersRequest = async (

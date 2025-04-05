@@ -25,15 +25,22 @@ describe('isValidData', () => {
     const result = isValidData('book', book, true);
 
     expect(result).toBe(false);
-    expect(toast.warn).toHaveBeenCalledWith('Fields must be at least 2 chars long');
+    expect(toast.warn).toHaveBeenCalledWith(
+      'Fields must be at least 2 chars long'
+    );
   });
 
   it('should return false and show warning if image URL is invalid', () => {
-    const book = { title: 'Valid Book', image: 'https://invalid-domain.com/image.jpg' };
+    const book = {
+      title: 'Valid Book',
+      image: 'https://invalid-domain.com/image.jpg',
+    };
     const result = isValidData('book', book, true);
 
     expect(result).toBe(false);
-    expect(toast.warn).toHaveBeenCalledWith('Image URL is invalid. Valid domains: coverart.oclc.org and books.google.com');
+    expect(toast.warn).toHaveBeenCalledWith(
+      'Image URL is invalid. Valid domains: coverart.oclc.org and books.google.com'
+    );
   });
 
   it('should return false and show warning if info link is invalid', () => {
@@ -45,7 +52,13 @@ describe('isValidData', () => {
   });
 
   it('should return true if book data is valid', () => {
-    const book = { title: 'Valid Book', author: 'Author Name', publishedDate: '2021-05-21', image: 'https://books.google.com/image.jpg', infoLink: 'https://validlink.com' };
+    const book = {
+      title: 'Valid Book',
+      author: 'Author Name',
+      publishedDate: '2021-05-21',
+      image: 'https://books.google.com/image.jpg',
+      infoLink: 'https://validlink.com',
+    };
     const result = isValidData('book', book, true);
 
     expect(result).toBe(true);

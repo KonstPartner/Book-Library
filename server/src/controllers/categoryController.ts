@@ -1,26 +1,29 @@
 import { Request, Response } from 'express';
-import getRequestQueries from '../utils/getRequestQueries.ts';
+import getRequestQueries from '../utils/getRequestQueries.js';
 import {
   handleErrorResponse,
   handleSuccessResponse,
-} from '../utils/handleResponse.ts';
+} from '../utils/handleResponse.js';
 import {
   createCategoryRequest,
   destroyCategoryRequest,
   findAllCategoriesRequest,
   findByPkCategoryRequest,
-} from '../services/categoriesServices.ts';
-import Category from '../models/Category.ts';
-import simplifyWhereOptions from '../utils/simplifyWhereOptions.ts';
-import redis from '../config/redis.ts';
-import { holdCacheTime } from '../config/config.ts';
+} from '../services/categoriesServices.js';
+import Category from '../models/Category.js';
+import simplifyWhereOptions from '../utils/simplifyWhereOptions.js';
+import redis from '../config/redis.js';
+import { holdCacheTime } from '../config/config.js';
 
 const getAllCategories = async (req: Request, res: Response) => {
   try {
     const { limit, offset, searchQueryName } = getRequestQueries(req, {
       defaultLimit: 50,
     });
-    const cacheKey = `categories:${limit}:${offset}:${simplifyWhereOptions(searchQueryName, 'category')}`;
+    const cacheKey = `categories:${limit}:${offset}:${simplifyWhereOptions(
+      searchQueryName,
+      'category'
+    )}`;
 
     const cachedData = await redis.get(cacheKey);
     if (cachedData) {
@@ -33,7 +36,12 @@ const getAllCategories = async (req: Request, res: Response) => {
       searchQueryName
     );
 
-    await redis.set(cacheKey, JSON.stringify(categories), 'EX', holdCacheTime.categories);
+    await redis.set(
+      cacheKey,
+      JSON.stringify(categories),
+      'EX',
+      holdCacheTime.categories
+    );
 
     handleSuccessResponse(res, categories);
   } catch (error) {

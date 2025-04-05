@@ -22,7 +22,7 @@ const BooksList = ({
         p-5 
         max-h-[calc(5*minmax(0,1fr))] 
         overflow-y-auto
-        w-[70%]
+        w-[90%]
         sm:w-[85%]
         md:w-[70%]
         lg:w-[80%]
@@ -30,10 +30,7 @@ const BooksList = ({
       "
     >
       {books.map((book, index) => (
-        <div
-          key={book.id}
-          style={{ animationDelay: `${index * 100}ms` }}
-        >
+        <div key={book.id} style={{ animationDelay: `${index * 100}ms` }}>
           <BookCard book={book} search={search} />
         </div>
       ))}

@@ -1,4 +1,4 @@
-import { BookType, RatingType } from '../types.ts';
+import { BookType, RatingType } from '../types.js';
 
 const transformBook = (book: BookType) => ({
   ...book.toJSON(),

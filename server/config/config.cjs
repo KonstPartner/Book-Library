@@ -5,7 +5,7 @@ module.exports = {
     database: process.env.POSTGRES_DB,
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
-    host: 'localhost',
+    host: process.env.POSTGRES_HOST || 'localhost',
     port: 5432,
     dialect: 'postgres',
     logging: false,

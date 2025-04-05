@@ -1,8 +1,8 @@
 import React from 'react';
-import SearchRatingsList from '@/components/ratings/SearchRatingsList';
+import SearchRatingsScreen from '@/components/ratings/SearchRatingsScreen';
 
 const RatingsPage = () => {
-  return <SearchRatingsList contextType="book" />;
+  return <SearchRatingsScreen contextType="book" />;
 };
 
 export default RatingsPage;

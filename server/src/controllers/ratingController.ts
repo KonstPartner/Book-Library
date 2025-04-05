@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
-import Rating from '../models/Rating.ts';
+import Rating from '../models/Rating.js';
 import {
   handleErrorResponse,
   handleSuccessResponse,
-} from '../utils/handleResponse.ts';
-import { transformRating } from '../utils/transformModel.ts';
+} from '../utils/handleResponse.js';
+import { transformRating } from '../utils/transformModel.js';
 import {
   createRatingRequest,
   destroyRatingRequest,
   findAllRatingsRequest,
   findByPkRatingRequest,
   updateRatingRequest,
-} from '../services/ratingsServices.ts';
-import { RatingType } from '../types.ts';
-import getRequestQueries from '../utils/getRequestQueries.ts';
+} from '../services/ratingsServices.js';
+import { RatingType } from '../types.js';
+import getRequestQueries from '../utils/getRequestQueries.js';
 
 const getAllRatings = async (req: Request, res: Response) => {
   try {
@@ -59,7 +59,10 @@ const getRatingById = async (req: Request, res: Response) => {
 
 const postRating = async (req: Request, res: Response) => {
   try {
-    const newRating: Rating = (await createRatingRequest(req, req.body)) as Rating;
+    const newRating: Rating = (await createRatingRequest(
+      req,
+      req.body
+    )) as Rating;
     handleSuccessResponse(res, transformRating(newRating));
   } catch (error) {
     handleErrorResponse({

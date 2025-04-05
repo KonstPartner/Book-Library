@@ -1,12 +1,12 @@
 import { WhereOptions } from 'sequelize';
 import { Request } from 'express';
-import sequelize from '../config/database.ts';
-import Book from '../models/Book.ts';
-import Category from '../models/Category.ts';
+import sequelize from '../config/database.js';
+import Book from '../models/Book.js';
+import Category from '../models/Category.js';
 import {
   BookAttributes,
   CategoryAttributes,
-} from '../models/modelsInterfaces.ts';
+} from '../models/modelsInterfaces.js';
 
 const findAllBooksRequest = async (
   limit: number,
