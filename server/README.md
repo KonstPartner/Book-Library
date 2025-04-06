@@ -22,18 +22,36 @@ cd Book-Library
 ```
 
 ### 3. Import database data (if not already done)
+
+#### Environment Configuration for root Project (if not already done)
+1. Create a `.env` file in the `Book-Library` folder *(or replace it if it already exists)*.
+
+2. Fill the `.env` file based on `.env.sample` in the `Book-Library` folder or use the default values:
+```env
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin_password
+POSTGRES_DB=db
+
+REDIS_PASSWORD=redis_password
+
+PORT=4000
+JWT_SECRET=588e747c703e4305eb33f7839df8fb1406eef28088a3a034921b9ebc7dba3c1e
+```
+
+#
+
 1. Download the database backup file [book-library_pg_data.tar.gz](https://drive.google.com/file/d/1E0hW3a8vFNCz5_L1WRdxfFKWxFfLUo3m/view?usp=sharing).
 
-1. Start root project containers to trigger creation of database volume:
+2. Start root project containers to trigger creation of database volume:
 ```sh
 docker compose up -d --build
 
 docker compose down
 ```
 
-1. Open **Docker Desktop**, go to the **Volumes** tab, locate the newly created **book-library_pg_data** volume and click on it.
-2. Click **Import** and select the downloaded database file **book-library_pg_data.tar.gz**.
-3. Click **Import** and wait for the process to **complete**.
+3. Open **Docker Desktop**, go to the **Volumes** tab, locate the newly created **book-library_pg_data** volume and click on it.
+4. Click **Import** and select the downloaded database file **book-library_pg_data.tar.gz**.
+5. Click **Import** and wait for the process to **complete**.
 
 ### 4. Navigate to the server folder
 Enter the `server` folder:
@@ -41,7 +59,7 @@ Enter the `server` folder:
 cd ./server
 ```
 
-### 5. Environment Configuration
+### 5. Environment Configuration for API dev
 1. Create a `.env` file in the `server` folder *(or replace it if it already exists)*.
 
 2. Fill the `.env` file based on `.env.sample` in the `server` folder or use the default values:
