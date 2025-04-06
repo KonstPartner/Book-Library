@@ -1,6 +1,6 @@
 # 📚📖📙 Book Library App 📒🗞️📕
 
-## <span>🦥 Welcome to Book Library, a ⚡️</span><span><img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white" alt="Redis" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Redux-764ABC?style=flat-square&logo=redux&logoColor=white" alt="Redux" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="TailwindCSS" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Sequelize-52B0E7?style=flat-square&logo=sequelize&logoColor=white" alt="Sequelize" style="display: inline-block; margin: 0 4px;" /></span> and <span><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" style="display: inline-block; margin: 0 4px;" /></span><span>⚡️ app.</span>
+## <span>🦥 Welcome to Book Library, a ⚡️</span><span><img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white" alt="Redis" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Redux-764ABC?style=flat-square&logo=redux&logoColor=white" alt="Redux" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="TailwindCSS" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Sequelize-52B0E7?style=flat-square&logo=sequelize&logoColor=white" alt="Sequelize" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Git" style="display: inline-block; margin: 0 4px;" /></span>, <span><img src="https://img.shields.io/badge/Jest-C21325?style=flat-square&logo=jest&logoColor=white" alt="Jest" style="display: inline-block; margin: 0 4px;" /></span> and <span><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" style="display: inline-block; margin: 0 4px;" /></span><span>⚡️ app.</span>
 
 This is a stylish and modern platform for searching, filtering, creating books, and leaving reviews. Whether you're an avid reader or just starting your literary journey, this app has all the tools you need to explore and interact with your favorite books.
 
@@ -261,14 +261,12 @@ You can send HTTP requests to the following endpoints:
 #### 📖 Single Book
 
 - `GET /book/:id` – Retrieve a book by ID
-- `POST /book/:id` – Add data to a specific book
 - `DELETE /book/:id` – Delete a book
 - `PATCH /book/:id` – Update book details
 
 #### ⭐ Book Ratings
 
 - `GET /book/:id/ratings` – Retrieve ratings for a book
-- `POST /book/:id/ratings` – Add a rating to a book
 
 #### 🔀 Random Books
 
@@ -282,7 +280,6 @@ You can send HTTP requests to the following endpoints:
 #### 📂 Single Category
 
 - `GET /categories/:id` – Retrieve a category by ID
-- `POST /categories/:id` – Add data to a category
 - `DELETE /categories/:id` – Delete a category
 - `PATCH /categories/:id` – Update category details
 
@@ -294,7 +291,6 @@ You can send HTTP requests to the following endpoints:
 #### ⭐ Single Rating
 
 - `GET /ratings/:id` – Retrieve a rating by ID
-- `POST /ratings/:id` – Add data to a rating
 - `DELETE /ratings/:id` – Delete a rating
 - `PATCH /ratings/:id` – Update rating details
 
@@ -306,14 +302,12 @@ You can send HTTP requests to the following endpoints:
 #### 👤 Single User
 
 - `GET /users/:id` – Retrieve a user by ID
-- `POST /users/:id` – Add data to a user
 - `DELETE /users/:id` – Delete a user
 - `PATCH /users/:id` – Update user details
 
 #### ⭐ User Ratings
 
 - `GET /users/:id/ratings` – Retrieve ratings given by a user
-- `POST /users/:id/ratings` – Add a rating as a user
 
 #### 🔐 Authentication
 
@@ -384,10 +378,10 @@ Below is the project structure with a brief explanation of each file and folder:
 ```
 server/
 ├── migrations/                         # Database migration files
-│   ├── 20250315110805-add-user-id-to-books.cjs  # Migration: Adds user_id to books table
+│   ├── 20250315110805-add-user-id-to-books.cjs
 │
-├── config/                             # Configuration files
-│   ├── config.cjs                      # Main project settings
+├── config/                             # Migrations configuration files
+│   ├── config.cjs                      # Project settings for migrations
 │
 ├── src/                                # Source code
 │   ├── app.ts                          # Express application initialization
