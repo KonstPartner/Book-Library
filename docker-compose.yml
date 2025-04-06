@@ -43,6 +43,18 @@ services:
       - postgres
       - redis
 
+  adminer:
+    image: adminer:4
+    restart: always
+    ports:
+      - '8080:8080'
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    restart: always
+    ports:
+      - '5540:5540'
+
 volumes:
   pg_data:
   redis_data:

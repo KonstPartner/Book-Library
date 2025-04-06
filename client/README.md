@@ -47,7 +47,7 @@ The application should now be accessible at `http://localhost:3000`.
 
 ## Stop the Application
 
-### To stop the app, press:
+### To stop the app, in the terminal you started client press:
 
 ```sh
 Ctrl + C
