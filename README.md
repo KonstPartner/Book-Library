@@ -60,7 +60,7 @@ Go to the project directory:
 cd Book-Library/
 ```
 
-#### 3. Environment Configuration
+#### 3. Environment Configuration for Backend
 
 1. Create a `.env` file in the root of the `Book-Library` folder _(or replace it if it already exists)_.
 2. Fill the `.env` file based on `.env.sample` in the `Book-Library` folder or use the default values:
@@ -113,33 +113,46 @@ After importing the database, restart the containers:
 docker compose up -d
 ```
 
-#### 7. Build the Client Application
+#### 7. Navigate to the Client Folder
 
-Navigate to the `client` folder, install dependencies, and build the production frontend:
+Go to the client directory:
+
+```sh
+cd ./client
+```
+
+#### 8. Environment Variables for Frontend
+
+1. Create a `.env.local` file in the root of the `client` folder _(or replace it if it already exists)_.
+1. Fill it with the required environment variables based on `.env.local.sample` or use the default values:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
+```
+
+#### 9. Build the Client Application
+
+1. Install dependencies, and build the production frontend:
 
 ```bash
-cd ./client
-
 npm install
 
 npm run build
 ```
 
-#### 8. Start the Client Application
-
-1. Optionally, reinstall only production dependencies _(to reduce the size of node_modules for production runtime)_:
+2. Optionally, reinstall only production dependencies _(to reduce the size of node_modules for production runtime)_:
 
 ```bash
 npm install --omit=dev
 ```
 
-2. Start the frontend:
+#### 10. Start the Client Application
+
+Start the frontend:
 
 ```bash
 npm start
 ```
-
-#
 
 This will start the **Book Library Web Application** and serve it on `http://localhost:3000`.
 

@@ -22,7 +22,7 @@ cd Book-Library/client
 npm install
 ```
 
-## Environment Variables
+## Environment Variables (if not already done)
 
 1. Create a `.env.local` file in the root of the `client` folder _(or replace it if it already exists)_.
 1. Fill it with the required environment variables based on `.env.local.sample` or use the default values:
