@@ -95,7 +95,7 @@ const CreateRating = ({
                 name={field}
                 value={formData[field as keyof RatingType] as string}
                 onChange={handleChange}
-                placeholder="Your review"
+                placeholder="Your Review"
                 className="form-textarea"
               />
             ) : field === 'reviewScore' ? (
@@ -111,7 +111,7 @@ const CreateRating = ({
                 name={field}
                 value={formData[field as keyof RatingType] as string}
                 onChange={handleChange}
-                placeholder={field === 'user' ? 'User Name' : field}
+                placeholder={field === 'reviewSummary' ? 'Review Summary' : field}
                 className="form-input"
               />
             )}
