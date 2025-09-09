@@ -56,7 +56,7 @@ const SearchDataField = <
 
     if (
       cleanedValue &&
-      (Number(cleanedValue) > limits[type] || Number(cleanedValue) < 1)
+      (Number(cleanedValue) > limits[type] || Number(cleanedValue) < 0)
     ) {
       return;
     }
@@ -82,6 +82,7 @@ const SearchDataField = <
 
   return (
     <div className="flex items-center gap-1 justify-center">
+      <p className="text-gray-500 mr-3 sm:hidden lg:block">Published Date</p>
       {dateFields.map(
         ({ type, placeholder, value, maxLength, title }, index) => (
           <div key={type} className="flex items-center">

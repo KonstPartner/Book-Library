@@ -39,7 +39,7 @@ const RandomBooksList = ({
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 mb-[100vh]">
       <Button
         className="random-books-button"
         disabled={isLoading}
@@ -50,7 +50,7 @@ const RandomBooksList = ({
       </Button>
 
       {isLoading ? (
-        <Spinner className="mx-auto mt-16 mb-[100vh] w-12 h-12 text-teal-500 animate-spin" />
+        <Spinner className="mx-auto mt-16 w-12 h-12 text-teal-500 animate-spin" />
       ) : (
         <BooksList books={books} />
       )}
