@@ -28,7 +28,7 @@ const AuthModal = ({
           <X className="w-5 h-5" />
         </Button>
 
-        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-200 mb-6">
+        <h2 className="mt-3 text-2xl font-bold text-center text-gray-800 dark:text-gray-200 mb-6">
           Please, {isLoginForm ? 'log in' : 'sign up'} to continue
         </h2>
 

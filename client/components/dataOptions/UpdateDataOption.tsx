@@ -50,7 +50,7 @@ const UpdateDataOptions = ({
     <div className="my-2 flex justify-end">
       <Button
         onClick={() => setIsModalOpen(true)}
-        className="bg-gray-50 dark:text-white dark:bg-transparent border-2 border-white hover:bg-yellow-300 dark:hover:bg-yellow-300 hover:text-white hover:border-transparent py-1"
+        className="text-gray-400 bg-gray-50 dark:text-white dark:bg-transparent border-2 border-white hover:bg-yellow-300 dark:hover:bg-yellow-300 hover:text-white hover:border-transparent py-1"
       >
         Edit
       </Button>

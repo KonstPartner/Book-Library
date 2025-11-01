@@ -20,7 +20,7 @@ const DeleteDataOptions = ({
     <div className="my-2 flex justify-end">
       <Button
         onClick={() => setIsModalOpen(true)}
-        className="bg-gray-50 dark:bg-transparent dark:text-white border-2 border-white hover:bg-red-600 dark:hover:bg-red-600 hover:text-white hover:border-transparent py-1"
+        className="text-gray-400 bg-gray-50 dark:bg-transparent dark:text-white border-2 border-white hover:bg-red-600 dark:hover:bg-red-600 hover:text-white hover:border-transparent py-1"
       >
         Delete
       </Button>
@@ -34,7 +34,7 @@ const DeleteDataOptions = ({
         confirmClassName="bg-red-600 hover:bg-red-700 text-white"
         isLoading={isLoading}
       >
-        <p className="mb-4 text-lg">
+        <p className="mb-4 text-lg text-gray-400">
           Are you sure you want to delete this {contextType}?
         </p>
       </Modal>
