@@ -37,7 +37,7 @@ const RatingsPreview = ({
       </div>
 
       {!ratings.length ? (
-        <p>No reviews found</p>
+        <p className='text-gray-400'>No reviews found</p>
       ) : (
         <RatingsList contextType={contextType} ratings={ratings} />
       )}

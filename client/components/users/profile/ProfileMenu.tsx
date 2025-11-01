@@ -4,7 +4,7 @@ import ChangePasswordForm from './ChangePasswordForm';
 
 const ProfileMenu = () => {
   return (
-    <div className="flex flex-col gap-3 mx-auto mt-10 w-2/3">
+    <div className="flex flex-col gap-3 mx-auto mt-10 sm:w-2/3">
       <ChangePasswordForm />
       <LogoutBtn />
     </div>

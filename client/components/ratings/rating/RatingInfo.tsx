@@ -51,7 +51,7 @@ const RatingInfo = ({ rating }: { rating: RatingType }) => {
                 </div>
               </div>
             </div>
-            <p className="text-sm xs:text-md text-gray-500 dark:text-gray-400 bg-white/20 dark:bg-gray-900/20 backdrop-blur-md px-3 py-1 rounded-lg shadow-sm border border-white/30 dark:border-gray-700/30">
+            <p className="text-sm xs:text-md mt-3 text-gray-500 dark:text-gray-400 bg-white/20 dark:bg-gray-900/20 backdrop-blur-md px-3 py-1 rounded-lg shadow-sm border border-white/30 dark:border-gray-700/30">
               Helpfulness: {reviewHelpfulness}
             </p>
           </div>
