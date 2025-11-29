@@ -81,28 +81,30 @@ const SearchDataField = <
   };
 
   return (
-    <div className="flex items-center gap-1 justify-center">
-      <p className="text-gray-500 mr-3 sm:hidden lg:block">Published Date</p>
-      {dateFields.map(
-        ({ type, placeholder, value, maxLength, title }, index) => (
-          <div key={type} className="flex items-center">
-            <Input
-              className={`w-14 px-0 text-center text-sm sm:text-base bg-transparent border-white/20`}
-              type="text"
-              placeholder={placeholder}
-              value={value}
-              onChange={(e) => handleDateChange(type, e.target.value)}
-              maxLength={maxLength}
-              title={title}
-            />
-            {index < dateFields.length - 1 && (
-              <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base ml-1">
-                -
-              </span>
-            )}
-          </div>
-        )
-      )}
+    <div className="flex flex-col lg:flex-row items-center gap-1 justify-center">
+      <p className="text-gray-500 mr-3">Published Date</p>
+      <div className='flex gap-1'>
+        {dateFields.map(
+          ({ type, placeholder, value, maxLength, title }, index) => (
+            <div key={type} className="flex items-center">
+              <Input
+                className={`w-14 px-0 text-center text-sm sm:text-base bg-transparent border-white/20`}
+                type="text"
+                placeholder={placeholder}
+                value={value}
+                onChange={(e) => handleDateChange(type, e.target.value)}
+                maxLength={maxLength}
+                title={title}
+              />
+              {index < dateFields.length - 1 && (
+                <span className="text-gray-500 dark:text-gray-400 text-sm sm:text-base ml-1">
+                  -
+                </span>
+              )}
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 };

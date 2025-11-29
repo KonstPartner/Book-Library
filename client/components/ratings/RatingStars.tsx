@@ -8,7 +8,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
   for (let i = 0; i < fullStars; i++) {
-    stars.push(<FaStar key={`full-${i}`} size={25} color="orange" />);
+    stars.push(<FaStar key={`full-${i}`} size={17} color="orange" />);
   }
 
   if (hasHalfStar) {
@@ -16,7 +16,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
       <FaRegStarHalfStroke
         key="half"
         name="star-half-sharp"
-        size={25}
+        size={17}
         color="orange"
       />
     );
@@ -27,7 +27,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
       <FaRegStar
         key={`empty-${i}`}
         name="star-outline"
-        size={25}
+        size={17}
         color="orange"
       />
     );
