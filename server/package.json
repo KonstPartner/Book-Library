@@ -45,6 +45,7 @@
   },
   "type": "module",
   "overrides": {
-    "qs": "6.16.0"
+    "qs": "6.16.0",
+    "brace-expansion@1": "1.1.18"
   }
 }
