@@ -18,6 +18,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Book Library',
   description: 'App for book storage and user reviews',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({

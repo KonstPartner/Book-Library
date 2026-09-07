@@ -11,6 +11,8 @@ const authConfig = {
 
 const holdCacheTime = {
   books: 3600,
+  queries: 300,
+  randomBooks: 300,
   users: 10800,
   categories: 86400,
 };

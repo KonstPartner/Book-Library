@@ -14,7 +14,10 @@ const MainScreen = async () => {
 
   try {
     const response = await fetchData(
-      `${RANDOM_BOOKS_URL}?limit=${randomBooksCardsLimit}`
+      `${RANDOM_BOOKS_URL}?limit=${randomBooksCardsLimit}`,
+      {
+        next: { revalidate: 300 },
+      }
     );
     books = response?.data ?? null;
 

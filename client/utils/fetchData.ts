@@ -1,9 +1,10 @@
 import ErrorType from '@/types/ErrorType';
 
-type FetchParamsType = {
-  method?: string;
-  headers?: HeadersInit;
-  body?: BodyInit | null;
+type FetchParamsType = RequestInit & {
+  next?: {
+    revalidate?: number;
+    tags?: string[];
+  };
 };
 
 const fetchErrors = async (res: Response) => {

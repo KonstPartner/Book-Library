@@ -26,7 +26,6 @@ const BookCard = ({
               src={image}
               alt={`${title} Image`}
               fill
-              priority
               sizes="160px"
               className="rounded-md object-cover transition-all duration-300 group-hover:scale-105 group-hover:-rotate-1"
             />
