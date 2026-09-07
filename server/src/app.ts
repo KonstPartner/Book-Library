@@ -4,10 +4,13 @@ import bookRouter from './routes/bookRouter.js';
 import categoryRouter from './routes/categoryRouter.js';
 import userRouter from './routes/userRouter.js';
 import ratingRouter from './routes/ratingRouter.js';
+import rateLimiter from './middleware/rateLimiter.js';
 
 const app = express();
 
 app.use(cors());
+
+app.use(rateLimiter);
 
 app.use(express.json());
 

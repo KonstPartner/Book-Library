@@ -12,13 +12,20 @@ const BookPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   let ratings: RatingType[] = [];
 
   try {
-    const bookResponse = await fetchData(`${ALL_BOOKS_URL}/${id}`);
+    const bookResponse = await fetchData(`${ALL_BOOKS_URL}/${id}`, {
+      next: { revalidate: 300 },
+    });
     book = bookResponse?.data || null;
 
     if (!book) {
       error = `No book found with id ${id}`;
     } else {
-      const ratingsResponse = await fetchData(`${ALL_BOOKS_URL}/${id}/ratings`);
+      const ratingsResponse = await fetchData(
+        `${ALL_BOOKS_URL}/${id}/ratings`,
+        {
+          next: { revalidate: 300 },
+        }
+      );
       ratings = ratingsResponse?.data?.data || [];
     }
   } catch (err) {

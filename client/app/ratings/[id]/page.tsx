@@ -11,7 +11,9 @@ const RatingPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   let error: string | null = null;
 
   try {
-    const response = await fetchData(`${ALL_RATINGS_URL}/${id}`);
+    const response = await fetchData(`${ALL_RATINGS_URL}/${id}`, {
+      next: { revalidate: 300 },
+    });
     rating = response?.data || null;
 
     if (!rating) {

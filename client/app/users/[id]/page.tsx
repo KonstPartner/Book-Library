@@ -13,13 +13,20 @@ const UserPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   let ratings: RatingType[] = [];
 
   try {
-    const userResponse = await fetchData(`${ALL_USERS_URL}/${id}`);
+    const userResponse = await fetchData(`${ALL_USERS_URL}/${id}`, {
+      next: { revalidate: 300 },
+    });
     user = userResponse?.data || null;
 
     if (!user) {
       error = `No user found with id ${id}`;
     } else {
-      const ratingsResponse = await fetchData(`${ALL_USERS_URL}/${id}/ratings`);
+      const ratingsResponse = await fetchData(
+        `${ALL_USERS_URL}/${id}/ratings`,
+        {
+          next: { revalidate: 300 },
+        }
+      );
       ratings = ratingsResponse?.data?.data || [];
     }
   } catch (err) {
