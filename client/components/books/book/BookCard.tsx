@@ -19,7 +19,7 @@ const BookCard = ({
 
   return (
     <RippleEffect image={image}>
-      <Link href={`/books/${id}`}>
+      <Link href={`/books/${id}`} prefetch={false}>
         <div className="relative z-10 flex flex-col items-center text-center p-4 h-full justify-between">
           <div className="relative group w-[160px] h-[200px] overflow-hidden">
             <Image
